@@ -492,6 +492,126 @@
             background: rgba(0, 102, 255, 0.04);
         }
 
+        /* ---------- Upload Area ---------- */
+        .upload-area {
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.02);
+            position: relative;
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: var(--color-brand-blue);
+            background: rgba(0, 102, 255, 0.04);
+        }
+
+        .upload-area .upload-icon {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        .upload-area .upload-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .upload-area .upload-text strong {
+            color: var(--color-brand-blue);
+        }
+
+        .upload-area .upload-hint {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 11px;
+        }
+
+        .upload-area input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .upload-preview {
+            display: none;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 12px;
+        }
+
+        .upload-preview img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .upload-preview .remove-preview {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .upload-preview .remove-preview:hover {
+            background: #ff5050;
+        }
+
+        .upload-or {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .upload-or::before,
+        .upload-or::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .upload-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 2px;
+            overflow: hidden;
+            margin-top: 8px;
+            display: none;
+        }
+
+        .upload-progress .progress-bar {
+            height: 100%;
+            background: var(--color-brand-blue);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
         /* ---------- Modal ---------- */
         .modal-overlay {
             position: fixed;
@@ -803,8 +923,22 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Imagem (URL)</label>
-                        <input type="url" id="vImg" required placeholder="https://..." />
+                        <label>Imagem do Veículo</label>
+                        <div class="upload-area" id="uploadArea">
+                            <input type="file" id="vFile" accept="image/jpeg,image/png,image/webp,image/gif" />
+                            <div class="upload-icon">📷</div>
+                            <div class="upload-text"><strong>Clique para enviar</strong> ou arraste a imagem</div>
+                            <div class="upload-hint">JPG, PNG, WebP ou GIF (máx. 5MB)</div>
+                        </div>
+                        <div class="upload-preview" id="uploadPreview">
+                            <img id="previewImg" src="" alt="Preview" />
+                            <button type="button" class="remove-preview" id="removePreview">✕</button>
+                        </div>
+                        <div class="upload-progress" id="uploadProgress">
+                            <div class="progress-bar" id="progressBar"></div>
+                        </div>
+                        <div class="upload-or">ou</div>
+                        <input type="url" id="vImg" placeholder="Cole a URL da imagem aqui..." />
                     </div>
                 </div>
 

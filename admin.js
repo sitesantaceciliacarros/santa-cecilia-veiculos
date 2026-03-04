@@ -103,6 +103,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     modal.classList.remove('active');
     vehicleForm.reset();
     document.getElementById('vId').value = '';
+    // Reset upload state
+    selectedFile = null;
+    uploadPreview.style.display = 'none';
+    uploadArea.style.display = '';
+    document.getElementById('uploadProgress').style.display = 'none';
+    document.getElementById('progressBar').style.width = '0%';
   }
 
   btnAdd.addEventListener('click', () => {
@@ -111,6 +117,99 @@ document.addEventListener('DOMContentLoaded', async () => {
   btnClose.addEventListener('click', closeModal);
   btnCancel.addEventListener('click', closeModal);
 
+  // 5b. File Upload Logic
+  const uploadArea = document.getElementById('uploadArea');
+  const uploadPreview = document.getElementById('uploadPreview');
+  const previewImg = document.getElementById('previewImg');
+  const removePreviewBtn = document.getElementById('removePreview');
+  const fileInput = document.getElementById('vFile');
+  let selectedFile = null;
+
+  // Handle file selection
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) handleFileSelected(file);
+  });
+
+  // Drag and drop
+  uploadArea.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    uploadArea.classList.add('dragover');
+  });
+  uploadArea.addEventListener('dragleave', () => {
+    uploadArea.classList.remove('dragover');
+  });
+  uploadArea.addEventListener('drop', (e) => {
+    e.preventDefault();
+    uploadArea.classList.remove('dragover');
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      handleFileSelected(file);
+    }
+  });
+
+  function handleFileSelected(file) {
+    if (file.size > 5 * 1024 * 1024) {
+      alert('A imagem deve ter no máximo 5MB.');
+      return;
+    }
+    selectedFile = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      previewImg.src = e.target.result;
+      uploadPreview.style.display = 'block';
+      uploadArea.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removePreviewBtn.addEventListener('click', () => {
+    selectedFile = null;
+    fileInput.value = '';
+    previewImg.src = '';
+    uploadPreview.style.display = 'none';
+    uploadArea.style.display = '';
+  });
+
+  async function uploadImageToStorage(file) {
+    const progressEl = document.getElementById('uploadProgress');
+    const progressBar = document.getElementById('progressBar');
+    progressEl.style.display = 'block';
+    progressBar.style.width = '30%';
+
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
+    const filePath = `vehicles/${fileName}`;
+
+    progressBar.style.width = '60%';
+
+    const { data, error } = await supabase.storage
+      .from('vehicle-images')
+      .upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false,
+      });
+
+    if (error) {
+      progressEl.style.display = 'none';
+      throw new Error('Erro ao enviar imagem: ' + error.message);
+    }
+
+    progressBar.style.width = '90%';
+
+    const { data: publicData } = supabase.storage
+      .from('vehicle-images')
+      .getPublicUrl(filePath);
+
+    progressBar.style.width = '100%';
+    
+    setTimeout(() => {
+      progressEl.style.display = 'none';
+    }, 500);
+
+    return publicData.publicUrl;
+  }
+
   // 6. Create / Update
   vehicleForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -118,36 +217,52 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnSave.innerText = 'Salvando...';
     btnSave.disabled = true;
 
-    const vId = document.getElementById('vId').value;
-    const payload = {
-      name: document.getElementById('vName').value,
-      trim: document.getElementById('vTrim').value,
-      img: document.getElementById('vImg').value,
-      price: parseFloat(document.getElementById('vPrice').value),
-      installment: document.getElementById('vInstallment').value,
-      year: parseInt(document.getElementById('vYear').value, 10),
-      km: parseInt(document.getElementById('vKm').value, 10),
-      fuel: document.getElementById('vFuel').value,
-      trans: document.getElementById('vTrans').value,
-      type: document.getElementById('vType').value,
-      badge: document.getElementById('vBadge').value,
-      tag: document.getElementById('vTag').value,
-    };
+    try {
+      // Determine image URL: upload file or use URL field
+      let imgUrl = document.getElementById('vImg').value;
+      
+      if (selectedFile) {
+        imgUrl = await uploadImageToStorage(selectedFile);
+      }
 
-    let result;
-    if (vId) {
-      // Update
-      result = await supabase.from('vehicles').update(payload).eq('id', vId);
-    } else {
-      // Insert
-      result = await supabase.from('vehicles').insert([payload]);
-    }
+      if (!imgUrl) {
+        alert('Por favor, envie uma imagem ou cole uma URL.');
+        btnSave.innerText = 'Salvar Veículo';
+        btnSave.disabled = false;
+        return;
+      }
 
-    if (result.error) {
-      alert("Erro ao salvar: " + result.error.message);
-    } else {
-      closeModal();
-      await loadVehicles();
+      const vId = document.getElementById('vId').value;
+      const payload = {
+        name: document.getElementById('vName').value,
+        trim: document.getElementById('vTrim').value,
+        img: imgUrl,
+        price: parseFloat(document.getElementById('vPrice').value),
+        installment: document.getElementById('vInstallment').value,
+        year: parseInt(document.getElementById('vYear').value, 10),
+        km: parseInt(document.getElementById('vKm').value, 10),
+        fuel: document.getElementById('vFuel').value,
+        trans: document.getElementById('vTrans').value,
+        type: document.getElementById('vType').value,
+        badge: document.getElementById('vBadge').value,
+        tag: document.getElementById('vTag').value,
+      };
+
+      let result;
+      if (vId) {
+        result = await supabase.from('vehicles').update(payload).eq('id', vId);
+      } else {
+        result = await supabase.from('vehicles').insert([payload]);
+      }
+
+      if (result.error) {
+        alert("Erro ao salvar: " + result.error.message);
+      } else {
+        closeModal();
+        await loadVehicles();
+      }
+    } catch (err) {
+      alert(err.message);
     }
 
     btnSave.innerText = 'Salvar Veículo';
