@@ -925,15 +925,14 @@
                     <div class="form-group">
                         <label>Imagem do Veículo</label>
                         <div class="upload-area" id="uploadArea">
-                            <input type="file" id="vFile" accept="image/jpeg,image/png,image/webp,image/gif" />
+                            <input type="file" id="vFile" accept="image/jpeg,image/png,image/webp,image/gif" multiple />
                             <div class="upload-icon">📷</div>
-                            <div class="upload-text"><strong>Clique para enviar</strong> ou arraste a imagem</div>
-                            <div class="upload-hint">JPG, PNG, WebP ou GIF (máx. 5MB)</div>
+                            <div class="upload-text"><strong>Clique para enviar</strong> ou arraste as fotos</div>
+                            <div class="upload-hint">Selecione várias fotos (JPG, PNG, WebP ou GIF)</div>
                         </div>
-                        <div class="upload-preview" id="uploadPreview">
-                            <img id="previewImg" src="" alt="Preview" />
-                            <button type="button" class="remove-preview" id="removePreview">✕</button>
-                        </div>
+                        
+                        <!-- Miniaturas da Galeria -->
+                        <div id="uploadGalleryPreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin-top: 16px;"></div>
                         <div class="upload-progress" id="uploadProgress">
                             <div class="progress-bar" id="progressBar"></div>
                         </div>

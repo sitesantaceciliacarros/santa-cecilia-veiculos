@@ -103,12 +103,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     modal.classList.remove('active');
     vehicleForm.reset();
     document.getElementById('vId').value = '';
-    // Reset upload state
-    selectedFile = null;
-    uploadPreview.style.display = 'none';
-    uploadArea.style.display = '';
-    document.getElementById('uploadProgress').style.display = 'none';
     document.getElementById('progressBar').style.width = '0%';
+    // Reset gallery
+    selectedFiles = [];
+    existingImages = [];
+    renderGalleryPreview();
   }
 
   btnAdd.addEventListener('click', () => {
@@ -117,18 +116,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   btnClose.addEventListener('click', closeModal);
   btnCancel.addEventListener('click', closeModal);
 
-  // 5b. File Upload Logic
   const uploadArea = document.getElementById('uploadArea');
-  const uploadPreview = document.getElementById('uploadPreview');
-  const previewImg = document.getElementById('previewImg');
-  const removePreviewBtn = document.getElementById('removePreview');
+  const uploadGalleryPreview = document.getElementById('uploadGalleryPreview');
   const fileInput = document.getElementById('vFile');
-  let selectedFile = null;
+  let selectedFiles = [];
+  let existingImages = [];
 
   // Handle file selection
   fileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) handleFileSelected(file);
+    const files = Array.from(e.target.files);
+    if (files.length > 0) handleFilesSelected(files);
   });
 
   // Drag and drop
@@ -142,34 +139,56 @@ document.addEventListener('DOMContentLoaded', async () => {
   uploadArea.addEventListener('drop', (e) => {
     e.preventDefault();
     uploadArea.classList.remove('dragover');
-    const file = e.dataTransfer.files[0];
-    if (file && file.type.startsWith('image/')) {
-      handleFileSelected(file);
-    }
+    const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+    if (files.length > 0) handleFilesSelected(files);
   });
 
-  function handleFileSelected(file) {
-    if (file.size > 5 * 1024 * 1024) {
-      alert('A imagem deve ter no máximo 5MB.');
-      return;
-    }
-    selectedFile = file;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      previewImg.src = e.target.result;
-      uploadPreview.style.display = 'block';
-      uploadArea.style.display = 'none';
-    };
-    reader.readAsDataURL(file);
+  function handleFilesSelected(files) {
+    const validFiles = files.filter(file => {
+      if (file.size > 5 * 1024 * 1024) {
+        alert(`A imagem ${file.name} excede o limite de 5MB.`);
+        return false;
+      }
+      return true;
+    });
+
+    selectedFiles = [...selectedFiles, ...validFiles];
+    renderGalleryPreview();
   }
 
-  removePreviewBtn.addEventListener('click', () => {
-    selectedFile = null;
-    fileInput.value = '';
-    previewImg.src = '';
-    uploadPreview.style.display = 'none';
-    uploadArea.style.display = '';
-  });
+  function renderGalleryPreview() {
+    let html = '';
+    
+    // Render existing images
+    html += existingImages.map((url, index) => `
+      <div style="position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 2px solid var(--color-brand-blue);">
+        <img src="${url}" style="width:100%; height:100%; object-fit:cover;" />
+        <button type="button" onclick="removeExistingFile(${index})" style="position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; background: #ff5050; color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;">&times;</button>
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: var(--color-brand-blue); color: #fff; font-size: 8px; text-align: center; padding: 2px;">EXISTENTE</div>
+      </div>
+    `).join('');
+
+    // Render new files
+    html += selectedFiles.map((file, index) => `
+      <div style="position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+        <img src="${URL.createObjectURL(file)}" style="width:100%; height:100%; object-fit:cover;" />
+        <button type="button" onclick="removeFile(${index})" style="position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;">&times;</button>
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: #00c853; color: #fff; font-size: 8px; text-align: center; padding: 2px;">NOVA</div>
+      </div>
+    `).join('');
+
+    uploadGalleryPreview.innerHTML = html;
+  }
+
+  window.removeFile = function(index) {
+    selectedFiles.splice(index, 1);
+    renderGalleryPreview();
+  };
+
+  window.removeExistingFile = function(index) {
+    existingImages.splice(index, 1);
+    renderGalleryPreview();
+  };
 
   async function uploadImageToStorage(file) {
     const progressEl = document.getElementById('uploadProgress');
@@ -218,15 +237,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnSave.disabled = true;
 
     try {
-      // Determine image URL: upload file or use URL field
-      let imgUrl = document.getElementById('vImg').value;
-      
-      if (selectedFile) {
-        imgUrl = await uploadImageToStorage(selectedFile);
+      let imagesArray = [...existingImages];
+
+      // Upload new files
+      if (selectedFiles.length > 0) {
+        for (const file of selectedFiles) {
+          const url = await uploadImageToStorage(file);
+          imagesArray.push(url);
+        }
       }
 
-      if (!imgUrl) {
-        alert('Por favor, envie uma imagem ou cole uma URL.');
+      // Fallback to URL field if no files added and imagesArray is empty
+      const urlInput = document.getElementById('vImg').value.trim();
+      if (urlInput && imagesArray.indexOf(urlInput) === -1) {
+        imagesArray.unshift(urlInput); // Add URL input as first image
+      }
+
+      if (imagesArray.length === 0) {
+        alert('Por favor, envie pelo menos uma imagem.');
         btnSave.innerText = 'Salvar Veículo';
         btnSave.disabled = false;
         return;
@@ -236,7 +264,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const payload = {
         name: document.getElementById('vName').value,
         trim: document.getElementById('vTrim').value,
-        img: imgUrl,
+        img: imagesArray[0],
+        images: imagesArray,
         price: parseFloat(document.getElementById('vPrice').value),
         installment: document.getElementById('vInstallment').value,
         year: parseInt(document.getElementById('vYear').value, 10),
@@ -287,6 +316,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('vType').value = v.type;
     document.getElementById('vBadge').value = v.badge || '';
     document.getElementById('vTag').value = v.tag || '';
+
+    // Load existing images into gallery
+    existingImages = v.images || (v.img ? [v.img] : []);
+    renderGalleryPreview();
 
     openModal("Editar Veículo");
   };

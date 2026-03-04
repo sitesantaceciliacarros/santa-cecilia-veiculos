@@ -67,7 +67,17 @@
     <!-- VEHICLE DETAILS MAIN -->
     <main class="vd-main">
       <div class="vd-gallery">
-        <img id="detailImage" src="" alt="VeÃ­culo">
+        <div class="carousel-container">
+          <div class="carousel-track" id="carouselTrack">
+            <!-- Images will be injected here -->
+            <div class="carousel-slide skeleton"></div>
+          </div>
+          <button class="carousel-nav prev" id="prevBtn" aria-label="Anterior">❮</button>
+          <button class="carousel-nav next" id="nextBtn" aria-label="Próximo">❯</button>
+          <div class="carousel-counter">
+            <span id="currentIdx">1</span> / <span id="totalIdx">1</span>
+          </div>
+        </div>
       </div>
       <div class="vd-container">
         <!-- LEFT COLUMN -->

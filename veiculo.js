@@ -36,11 +36,56 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function renderVehicleDetails(v) {
-    // Populate Image
-    const imgEl = document.getElementById('detailImage');
-    if (imgEl && v.img) {
-      imgEl.src = v.img;
-      imgEl.alt = v.name;
+    // Populate Carousel
+    const track = document.getElementById('carouselTrack');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const currentIdxEl = document.getElementById('currentIdx');
+    const totalIdxEl = document.getElementById('totalIdx');
+    
+    // Images array logic
+    const images = (v.images && v.images.length > 0) ? v.images : (v.img ? [v.img] : []);
+    
+    if (track && images.length > 0) {
+      track.innerHTML = images.map(imgUrl => `
+        <div class="carousel-slide">
+          <img src="${imgUrl}" alt="${v.name}" loading="lazy">
+        </div>
+      `).join('');
+      
+      totalIdxEl.textContent = images.length;
+      
+      let currentIndex = 0;
+      
+      const updateCarousel = () => {
+        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        currentIdxEl.textContent = currentIndex + 1;
+        
+        // Disable buttons if at ends (optional, or make it loop)
+        // prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
+        // nextBtn.style.opacity = currentIndex === images.length - 1 ? '0.5' : '1';
+      };
+
+      prevBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+        updateCarousel();
+      });
+
+      nextBtn.addEventListener('click', () => {
+        currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+        updateCarousel();
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') prevBtn.click();
+        if (e.key === 'ArrowRight') nextBtn.click();
+      });
+
+      // Initial state
+      updateCarousel();
+    } else if (track) {
+      track.innerHTML = '<div class="carousel-slide"><span>Sem imagem disponível</span></div>';
     }
 
     // Texts
