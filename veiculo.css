@@ -10,41 +10,53 @@
 }
 
 /* --- Gallery Hero --- */
-/* --- Gallery Carousel --- */
+/* --- Gallery Carousel (Panorama Style) --- */
 .vd-gallery {
     width: 100%;
-    background: #000;
-    margin-bottom: 40px;
+    background: #111;
+    margin-bottom: 0; /* Remove margin to let card overlap transition better */
     user-select: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .carousel-container {
     position: relative;
-    max-width: 1200px;
+    width: 100%;
+    height: 600px;
     margin: 0 auto;
-    height: 500px;
-    overflow: hidden;
+    overflow: visible; /* Allow seeing neighbors */
 }
 
 .carousel-track {
     display: flex;
     height: 100%;
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
+    gap: 10px;
+    padding: 0 15%; /* Horizontal padding to center the active slide */
 }
 
 .carousel-slide {
-    flex: 0 0 100%;
+    flex: 0 0 70%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #111;
+    background: #000;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.carousel-slide:not(.active) {
+    opacity: 0.4;
+    transform: scale(0.95);
 }
 
 .carousel-slide img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* Nav Buttons */
@@ -52,41 +64,124 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
-    font-size: 20px;
+    font-size: 24px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
-    z-index: 10;
+    transition: all 0.3s;
+    z-index: 20;
 }
 
 .carousel-nav:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
-.carousel-nav.prev { left: 20px; }
-.carousel-nav.next { right: 20px; }
+.carousel-nav.prev { left: 40px; }
+.carousel-nav.next { right: 40px; }
 
 /* Counter */
 .carousel-counter {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.6);
+    top: 30px;
+    right: 40px;
+    background: rgba(0, 0, 0, 0.5);
     color: white;
-    padding: 6px 14px;
-    border-radius: 20px;
+    padding: 6px 16px;
+    border-radius: 30px;
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.5px;
+    z-index: 15;
+}
+
+/* Overlay Card */
+.vd-overlay-card {
+    position: absolute;
+    bottom: -30px; /* Overlap into the container below */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 1200px;
+    z-index: 30;
+}
+
+.vd-overlay-card .vd-header {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vd-overlay-card .vd-title {
+    font-size: 36px;
+    margin-bottom: 4px;
+}
+
+.vd-overlay-card .vd-trim {
+    margin-bottom: 0;
+}
+
+/* Badge and Favorite */
+.vd-badge-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.vd-badge {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.vd-badge.offer {
+    background: #f42c4a;
+    color: #fff;
+}
+
+.vd-favorite-btn {
+    background: none;
+    border: 2px solid #e4e4ea;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.vd-favorite-btn:hover {
+    border-color: #f42c4a;
+    background: rgba(244, 44, 74, 0.05);
+}
+
+.vd-favorite-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: #6b6b80;
+    stroke-width: 2;
+}
+
+.vd-favorite-btn.active svg {
+    fill: #f42c4a;
+    stroke: #f42c4a;
 }
 
 /* Skeleton/Loading */

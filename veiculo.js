@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const images = (v.images && v.images.length > 0) ? v.images : (v.img ? [v.img] : []);
     
     if (track && images.length > 0) {
-      track.innerHTML = images.map(imgUrl => `
-        <div class="carousel-slide">
+      track.innerHTML = images.map((imgUrl, idx) => `
+        <div class="carousel-slide ${idx === 0 ? 'active' : ''}">
           <img src="${imgUrl}" alt="${v.name}" loading="lazy">
         </div>
       `).join('');
@@ -56,14 +56,36 @@ document.addEventListener('DOMContentLoaded', () => {
       totalIdxEl.textContent = images.length;
       
       let currentIndex = 0;
+      const slides = track.querySelectorAll('.carousel-slide');
       
       const updateCarousel = () => {
-        track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        // Calculation for Panorama centering:
+        // Slides are 70%, Gap is 10px. 
+        // We moved by percentage of slide width? 
+        // Better: use direct transform based on slide index.
+        const slideWidth = slides[0].offsetWidth;
+        const gap = 10;
+        const offset = currentIndex * (slideWidth + gap);
+        
+        track.style.transform = `translateX(-${offset}px)`;
         currentIdxEl.textContent = currentIndex + 1;
         
-        // Disable buttons if at ends (optional, or make it loop)
-        // prevBtn.style.opacity = currentIndex === 0 ? '0.5' : '1';
-        // nextBtn.style.opacity = currentIndex === images.length - 1 ? '0.5' : '1';
+        // Update active class for focus effect
+        slides.forEach((s, idx) => {
+          if (idx === currentIndex) s.classList.add('active');
+          else s.classList.remove('active');
+        });
+
+        // Hide buttons if only 1 image
+        if (images.length <= 1) {
+          prevBtn.style.display = 'none';
+          nextBtn.style.display = 'none';
+          document.querySelector('.carousel-counter').style.display = 'none';
+        } else {
+          prevBtn.style.display = 'flex';
+          nextBtn.style.display = 'flex';
+          document.querySelector('.carousel-counter').style.display = 'block';
+        }
       };
 
       prevBtn.addEventListener('click', () => {
@@ -76,6 +98,9 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCarousel();
       });
 
+      // Window resize adjustment
+      window.addEventListener('resize', updateCarousel);
+
       // Keyboard navigation
       document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') prevBtn.click();
@@ -83,20 +108,40 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       // Initial state
-      updateCarousel();
+      setTimeout(updateCarousel, 100); // Small delay to ensuring offsetWidth is ready
     } else if (track) {
-      track.innerHTML = '<div class="carousel-slide"><span>Sem imagem disponível</span></div>';
+      track.innerHTML = '<div class="carousel-slide active"><span>Sem imagem disponível</span></div>';
     }
 
-    // Texts
+    // Header Info (Overlay Card)
     document.title = `${v.name} - Santa Cecília Veículos`;
     document.getElementById('detailName').textContent = v.name;
     document.getElementById('detailTrim').textContent = v.trim || 'Versão não informada';
-    document.getElementById('detailYear').textContent = v.year;
     
+    // Badge
+    const badgeEl = document.getElementById('detailBadge');
+    if (v.tag) {
+      badgeEl.textContent = v.tag;
+      badgeEl.style.display = 'block';
+      if (v.badge) {
+         // Map database badge colors if needed, but defaults to 'offer' (red)
+      }
+    } else {
+      badgeEl.style.display = 'none';
+    }
+
+    // Favorite Button Toggle
+    const favBtn = document.querySelector('.vd-favorite-btn');
+    if (favBtn) {
+      favBtn.addEventListener('click', () => {
+        favBtn.classList.toggle('active');
+      });
+    }
+
+    // Specs
+    document.getElementById('detailYear').textContent = v.year;
     const kmText = v.km === 0 ? '0 km' : (v.km || 0).toLocaleString('pt-BR') + ' km';
     document.getElementById('detailKm').textContent = kmText;
-    
     document.getElementById('detailFuel').textContent = v.fuel || '-';
     document.getElementById('detailTrans').textContent = v.trans || '-';
     document.getElementById('detailType').textContent = v.type || '-';
@@ -114,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const wppBtn = document.querySelector('.vd-btn-whatsapp');
     if (wppBtn) {
         wppBtn.addEventListener('click', () => {
-             const phoneNumber = '5511999999999'; // Example number, replace with actual
+             const phoneNumber = '5511999999999'; // Replace with actual shop number
              const message = `Olá! Gostaria de mais informações sobre o veículo ${v.name} (${v.year}), listado por R$ ${(v.price || 0).toLocaleString('pt-BR')}. Vi no site.`;
              const waLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
              window.open(waLink, '_blank');
