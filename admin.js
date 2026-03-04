@@ -187,4 +187,140 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   };
 
+  // ========================================
+  // SECTIONS CRUD
+  // ========================================
+
+  const sectionsGrid = document.getElementById('sectionsGrid');
+  let sectionsList = [];
+
+  async function loadSections() {
+    sectionsGrid.innerHTML = '<div class="section-empty"><div class="empty-icon">📝</div><h3>Carregando seções...</h3></div>';
+    const { data: sections, error } = await supabase.from('sections').select('*').order('created_at', { ascending: false });
+
+    if (error) {
+      console.error(error);
+      sectionsGrid.innerHTML = '<div class="section-empty"><div class="empty-icon">⚠️</div><h3 style="color:#ff5050;">Erro ao carregar seções</h3><p>' + error.message + '</p></div>';
+      return;
+    }
+
+    sectionsList = sections;
+
+    if (sectionsList.length === 0) {
+      sectionsGrid.innerHTML = '<div class="section-empty"><div class="empty-icon">📝</div><h3>Nenhuma seção cadastrada</h3><p style="color: rgba(255,255,255,0.3);">Clique em "+ Nova Seção" para começar!</p></div>';
+      return;
+    }
+
+    sectionsGrid.innerHTML = sectionsList.map(s => `
+      <div class="section-card">
+        <div class="section-card-header">
+          <h3>${s.name}</h3>
+          <span class="status-badge ${s.is_active ? 'active' : 'inactive'}">${s.is_active ? 'Ativo' : 'Inativo'}</span>
+        </div>
+        <div class="section-card-content">${s.content || '<em>Sem conteúdo</em>'}</div>
+        <div class="section-card-footer">
+          <label class="toggle-switch">
+            <input type="checkbox" ${s.is_active ? 'checked' : ''} onchange="toggleSection(${s.id}, this.checked)" />
+            <span class="toggle-slider"></span>
+          </label>
+          <div class="action-links">
+            <a onclick="editSection(${s.id})">Editar</a>
+            <a class="delete" onclick="deleteSection(${s.id})">Excluir</a>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  await loadSections();
+
+  // Section Modal Logic
+  const sectionModal = document.getElementById('modalSection');
+  const btnAddSection = document.getElementById('btnAddSection');
+  const btnCloseSectionModal = document.getElementById('btnCloseSectionModal');
+  const btnCancelSectionModal = document.getElementById('btnCancelSectionModal');
+  const sectionForm = document.getElementById('sectionForm');
+
+  function openSectionModal(title = "Adicionar Seção") {
+    document.getElementById('sectionModalTitle').innerText = title;
+    sectionModal.classList.add('active');
+  }
+
+  function closeSectionModal() {
+    sectionModal.classList.remove('active');
+    sectionForm.reset();
+    document.getElementById('sId').value = '';
+    document.getElementById('sActive').checked = true;
+  }
+
+  btnAddSection.addEventListener('click', () => {
+    openSectionModal("Nova Seção");
+  });
+  btnCloseSectionModal.addEventListener('click', closeSectionModal);
+  btnCancelSectionModal.addEventListener('click', closeSectionModal);
+
+  // Section Create / Update
+  sectionForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btnSave = document.getElementById('btnSaveSection');
+    btnSave.innerText = 'Salvando...';
+    btnSave.disabled = true;
+
+    const sId = document.getElementById('sId').value;
+    const payload = {
+      name: document.getElementById('sName').value,
+      content: document.getElementById('sContent').value,
+      is_active: document.getElementById('sActive').checked,
+    };
+
+    let result;
+    if (sId) {
+      result = await supabase.from('sections').update(payload).eq('id', sId);
+    } else {
+      result = await supabase.from('sections').insert([payload]);
+    }
+
+    if (result.error) {
+      alert("Erro ao salvar: " + result.error.message);
+    } else {
+      closeSectionModal();
+      await loadSections();
+    }
+
+    btnSave.innerText = 'Salvar Seção';
+    btnSave.disabled = false;
+  });
+
+  // Global section functions
+  window.editSection = function(id) {
+    const s = sectionsList.find(x => x.id === id);
+    if (!s) return;
+
+    document.getElementById('sId').value = s.id;
+    document.getElementById('sName').value = s.name;
+    document.getElementById('sContent').value = s.content || '';
+    document.getElementById('sActive').checked = s.is_active;
+
+    openSectionModal("Editar Seção");
+  };
+
+  window.deleteSection = async function(id) {
+    if (confirm("Tem certeza que deseja excluir esta seção? Esta ação não pode ser desfeita.")) {
+      const { error } = await supabase.from('sections').delete().eq('id', id);
+      if (error) {
+        alert("Erro ao excluir: " + error.message);
+      } else {
+        await loadSections();
+      }
+    }
+  };
+
+  window.toggleSection = async function(id, isActive) {
+    const { error } = await supabase.from('sections').update({ is_active: isActive }).eq('id', id);
+    if (error) {
+      alert("Erro ao atualizar: " + error.message);
+      await loadSections(); // revert visual
+    }
+  };
+
 });

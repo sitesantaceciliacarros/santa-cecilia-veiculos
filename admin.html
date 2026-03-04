@@ -337,33 +337,159 @@
             display: block;
         }
 
-        /* ---------- Sections Tab Placeholder ---------- */
-        .placeholder-card {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-            border: 1px dashed rgba(255, 255, 255, 0.1);
-            padding: 40px;
-            border-radius: 12px;
-            text-align: center;
+        /* ---------- Sections Cards ---------- */
+        .sections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
         }
 
-        .placeholder-card .placeholder-icon {
+        .section-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.015) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .section-card:hover {
+            border-color: rgba(0, 102, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(0, 102, 255, 0.06);
+        }
+
+        .section-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .section-card-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+        }
+
+        .section-card-content {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            max-height: 60px;
+            overflow: hidden;
+        }
+
+        .section-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background: #fff;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background: var(--color-brand-blue);
+        }
+
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(20px);
+        }
+
+        .status-badge {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .status-badge.active {
+            background: rgba(0, 200, 83, 0.15);
+            color: #00c853;
+        }
+
+        .status-badge.inactive {
+            background: rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .section-empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255, 255, 255, 0.3);
+        }
+
+        .section-empty .empty-icon {
             font-size: 48px;
             margin-bottom: 16px;
         }
 
-        .placeholder-card h3 {
-            font-size: 18px;
-            font-weight: 700;
+        .section-empty h3 {
             color: #fff;
-            margin-bottom: 12px;
+            font-size: 18px;
+            margin-bottom: 8px;
         }
 
-        .placeholder-card p {
-            color: rgba(255, 255, 255, 0.4);
-            line-height: 1.7;
-            max-width: 500px;
-            margin: 0 auto;
+        .form-group textarea {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 14px;
+            border-radius: 8px;
+            color: #fff;
             font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--color-brand-blue);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.15);
+            background: rgba(0, 102, 255, 0.04);
         }
 
         /* ---------- Modal ---------- */
@@ -637,24 +763,19 @@
         <!-- SEÇÕES TAB -->
         <div id="tab-sessoes" class="tab-content">
             <div class="admin-header">
-                <h1>Seções <span>Customizadas</span></h1>
-                <button class="btn-admin btn-secondary" disabled title="Funcionalidade em desenvolvimento">
+                <h1>Seções do <span>Site</span></h1>
+                <button class="btn-admin" id="btnAddSection">
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
                     </svg>
-                    Em breve
+                    Nova Seção
                 </button>
             </div>
-            <div class="placeholder-card">
-                <div class="placeholder-icon">🚀</div>
-                <h3>Funcionalidade em Desenvolvimento</h3>
-                <p>
-                    Em breve, você poderá adicionar e gerenciar seções dinâmicas do site
-                    diretamente por aqui (Hero, Ofertas, Banners, Footer...).
-                    <br><br>
-                    Enquanto isso, use a aba <strong>Meus Veículos</strong> para cadastrar,
-                    editar e excluir seus veículos livremente!
-                </p>
+            <div class="sections-grid" id="sectionsGrid">
+                <div class="section-empty">
+                    <div class="empty-icon">📝</div>
+                    <h3>Carregando seções...</h3>
+                </div>
             </div>
         </div>
     </main>
@@ -761,6 +882,50 @@
                     <button type="button" class="btn-admin btn-secondary" id="btnCancelModal">Cancelar</button>
                     <button type="submit" class="btn-admin" id="btnSaveVehicle">
                         Salvar Veículo
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL SEÇÃO -->
+    <div class="modal-overlay" id="modalSection">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="sectionModalTitle">Adicionar Seção</h2>
+                <button class="close-modal" id="btnCloseSectionModal">✕</button>
+            </div>
+            <form id="sectionForm">
+                <input type="hidden" id="sId" />
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nome da Seção</label>
+                        <input type="text" id="sName" required placeholder="Ex: Banner Hero, Ofertas da Semana..." />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Conteúdo</label>
+                        <textarea id="sContent" required placeholder="Texto, HTML ou informações da seção..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group" style="flex: 0 0 auto;">
+                        <label>Ativo no Site</label>
+                        <label class="toggle-switch" style="margin-top: 4px;">
+                            <input type="checkbox" id="sActive" checked />
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-admin btn-secondary" id="btnCancelSectionModal">Cancelar</button>
+                    <button type="submit" class="btn-admin" id="btnSaveSection">
+                        Salvar Seção
                     </button>
                 </div>
             </form>
