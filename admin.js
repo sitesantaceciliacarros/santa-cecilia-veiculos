@@ -31,19 +31,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   let vehiclesList = [];
 
   async function loadVehicles() {
-    vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Carregando...</td></tr>';
+    vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">Carregando...</td></tr>';
     const { data: vehicles, error } = await supabase.from('vehicles').select('*').order('id', { ascending: false });
     
     if (error) {
       console.error(error);
-      vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#ff4d4d;">Erro ao carregar veículos. Verifique as permissões (RLS) no Supabase.</td></tr>';
+      vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#ff4d4d; padding: 40px;">Erro ao carregar veículos. Verifique as permissões (RLS) no Supabase.</td></tr>';
+      updateStats([]);
       return;
     }
     
     vehiclesList = vehicles;
+    updateStats(vehiclesList);
 
     if (vehiclesList.length === 0) {
-      vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted);">Nenhum veículo encontrado.</td></tr>';
+      vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">Nenhum veículo encontrado. Clique em "+ Novo Veículo" para começar!</td></tr>';
       return;
     }
 
@@ -51,8 +53,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       <tr>
         <td><img src="${v.img}" alt="${v.name}"/></td>
         <td>
-          <strong style="display:block; font-size:16px;">${v.name}</strong>
-          <span style="color:var(--text-muted); font-size:14px;">${v.trim}</span>
+          <strong>${v.name}</strong>
+          <span>${v.trim}</span>
         </td>
         <td>${v.year}</td>
         <td>R$ ${v.price.toLocaleString('pt-BR')}</td>
@@ -64,6 +66,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         </td>
       </tr>
     `).join('');
+  }
+
+  function updateStats(list) {
+    const statTotal = document.getElementById('statTotal');
+    const statAvgPrice = document.getElementById('statAvgPrice');
+    const statLastAdded = document.getElementById('statLastAdded');
+
+    statTotal.textContent = list.length;
+
+    if (list.length > 0) {
+      const avg = list.reduce((sum, v) => sum + (v.price || 0), 0) / list.length;
+      statAvgPrice.textContent = 'R$ ' + Math.round(avg).toLocaleString('pt-BR');
+      statLastAdded.textContent = list[0].name || '—';
+    } else {
+      statAvgPrice.textContent = '—';
+      statLastAdded.textContent = '—';
+    }
   }
 
   await loadVehicles();
