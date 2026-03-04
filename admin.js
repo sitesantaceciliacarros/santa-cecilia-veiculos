@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtcXVjbmhhbnJnanhmZW5qemF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNDAyMjIsImV4cCI6MjA4NzcxNjIyMn0.TmykuoD93fGNaHslx7Pubf8ZnYyBvb3VB28rrdiu5WU';
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // 1. Auth Check - Redirect if not logged in
-  const { data: { session } } = await supabase.auth.getSession();
-  if (!session) {
-    window.location.href = 'admin-login.html';
-    return;
-  }
+  // 1. Auth Check - Redirect if not logged in (REMOVIDO PARA DEMONSTRAÇÃO)
+  // const { data: { session } } = await supabase.auth.getSession();
+  // if (!session) {
+  //   window.location.href = 'admin-login.html';
+  //   return;
+  // }
 
   // 2. Tabs Navigation
   document.querySelectorAll('nav.admin-nav a[data-target]').forEach(link => {
