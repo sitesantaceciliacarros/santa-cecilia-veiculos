@@ -1,5 +1,5 @@
 /* ========================================
-   VEHICLE DETAILS PAGE — Premium Design
+   VEHICLE DETAILS PAGE — WebMotors Style
    ======================================== */
 
 .vd-main {
@@ -250,13 +250,13 @@
 }
 
 .vd-title {
-    font-family: 'Syne', sans-serif;
     font-size: 32px;
     font-weight: 700;
     margin-bottom: 8px;
-    color: #111;
+    color: #2e2e3a;
     line-height: 1.2;
-    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
 }
 
 .vd-trim {
@@ -345,12 +345,10 @@
 }
 
 .vd-price-value {
-    font-family: 'Syne', sans-serif;
     font-size: 40px;
-    font-weight: 800;
-    color: #111;
+    font-weight: 700;
+    color: #2e2e3a;
     margin-bottom: 8px;
-    letter-spacing: -0.02em;
 }
 
 .vd-installment {
@@ -394,70 +392,39 @@
     border-radius: 8px;
     border: none;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s ease;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-    position: relative;
-    overflow: hidden;
-}
-
-.vd-btn::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.2);
-    transform: translate(-50%, -50%);
-    transition: width 0.5s ease, height 0.5s ease;
-}
-
-.vd-btn:hover::before {
-    width: 400px;
-    height: 400px;
 }
 
 .vd-btn-primary {
-    background: var(--color-brand-blue);
+    background: #2e2e3a;
     color: #fff;
-    box-shadow: 0 4px 14px rgba(0, 102, 255, 0.3);
 }
 
 .vd-btn-primary:hover {
-    background: #005ce6;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 102, 255, 0.4);
+    background: #1a1a2e;
+    opacity: 0.9;
 }
 
 .vd-btn-whatsapp {
     background: #25d366;
     color: #fff;
     margin-top: 12px;
-    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
 }
 
 .vd-btn-whatsapp:hover {
     background: #20bd5a;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+    opacity: 0.9;
 }
 
 .vd-btn-whatsapp svg {
     width: 20px;
     height: 20px;
     fill: currentColor;
-    position: relative;
-    z-index: 1;
-}
-
-.vd-btn span {
-    position: relative;
-    z-index: 1;
 }
