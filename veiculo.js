@@ -17,6 +17,36 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchVehicleData(vId);
 
   async function fetchVehicleData(id) {
+    // ---- Mock/Demo Mode for BMW iX Simulation ----
+    if (id === 'bmw-ix') {
+      const mockVehicle = {
+        id: 'bmw-ix',
+        name: "BMW iX",
+        trim: "ELÉTRICO XDRIVE50 SPORT",
+        price: 889990,
+        year: 2024,
+        km: 0,
+        fuel: "Elétrico",
+        trans: "Automática",
+        type: "SUV",
+        img: "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13052135373.jpg?s=fill&w=1200",
+        images: [
+            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13052135373.jpg?s=fill&w=1200",
+            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13073021913.jpg?s=fill&w=1200",
+            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13092349320.jpg?s=fill&w=1200",
+            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13112321871.jpg?s=fill&w=1200",
+            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13132297988.jpg?s=fill&w=1200",
+            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13152364736.jpg?s=fill&w=1200",
+            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13172394410.jpg?s=fill&w=1200",
+            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13192330878.jpg?s=fill&w=1200"
+        ],
+        tag: "OFERTA",
+        badge: "Oferta Destaque"
+      };
+      renderVehicleDetails(mockVehicle);
+      return;
+    }
+
     try {
       const { data, error } = await _supabase
         .from('vehicles')
@@ -43,9 +73,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentIdxEl = document.getElementById('currentIdx');
     const totalIdxEl = document.getElementById('totalIdx');
     
-    // Images array logic
-    const images = (v.images && v.images.length > 0) ? v.images : (v.img ? [v.img] : []);
+    // Images array logic - Support both array and comma-separated string in 'img'
+    let images = [];
+    if (v.images && Array.isArray(v.images) && v.images.length > 0) {
+      images = v.images;
+    } else if (v.img) {
+      // Split by comma in case we're using the bypass strategy
+      images = v.img.includes(',') ? v.img.split(',').map(s => s.trim()) : [v.img];
+    }
     
+    // Feature for Simulation/QA: If ID is 'bmw-ix', use hardcoded images
+    if (vId === 'bmw-ix') {
+      images = [
+        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13052135373.jpg?s=fill&w=1200",
+        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13073021913.jpg?s=fill&w=1200",
+        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13092349320.jpg?s=fill&w=1200",
+        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13112321871.jpg?s=fill&w=1200",
+        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13132297988.jpg?s=fill&w=1200"
+      ];
+      v.name = "BMW iX";
+      v.trim = "ELÉTRICO XDRIVE50 SPORT";
+      v.price = 889990;
+      v.year = 2024;
+      v.km = 0;
+      v.fuel = "Elétrico";
+      v.trans = "Automática";
+      v.type = "SUV SUV";
+    }
+
     if (track && images.length > 0) {
       track.innerHTML = images.map((imgUrl, idx) => `
         <div class="carousel-slide ${idx === 0 ? 'active' : ''}">

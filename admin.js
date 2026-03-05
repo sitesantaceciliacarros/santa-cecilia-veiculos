@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const payload = {
         name: document.getElementById('vName').value,
         trim: document.getElementById('vTrim').value,
-        img: imagesArray[0],
+        img: imagesArray.join(','), // Bypass: save all images separated by comma in the 'img' field
         images: imagesArray,
         price: parseFloat(document.getElementById('vPrice').value),
         installment: document.getElementById('vInstallment').value,
