@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const vId = params.get('id');
 
   if (!vId) {
-    document.querySelector('.vd-container').innerHTML = '<div style="color:#fff; padding:40px; text-align:center;"><h3>Veículo não encontrado ou ID inválido.</h3><a href="/" class="vd-btn vd-btn-primary" style="display:inline-block; margin-top:20px; width:auto; text-decoration:none;">Voltar para o Início</a></div>';
+    window.location.href = '/';
     return;
   }
 
@@ -35,207 +35,79 @@ document.addEventListener('DOMContentLoaded', () => {
             "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13073021913.jpg?s=fill&w=1920&h=1440&q=100",
             "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13092349320.jpg?s=fill&w=1920&h=1440&q=100",
             "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13112321871.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13132297988.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13152364736.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13172394410.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13192330878.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13212358711.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13232336890.jpg?s=fill&w=1920&h=1440&q=100"
+            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13132297988.jpg?s=fill&w=1920&h=1440&q=100"
         ],
         tag: "OFERTA",
-        badge: "Oferta Destaque"
+        badge: "Oferta Destaque",
+        installment: "R$ 12.990"
       };
       renderVehicleDetails(mockVehicle);
       return;
     }
 
     try {
-      const { data, error } = await _supabase
-        .from('vehicles')
-        .select('*')
-        .eq('id', id)
-        .single();
-        
-      if (error || !data) {
-        throw new Error('Vehicle not found');
-      }
-
+      const { data, error } = await _supabase.from('vehicles').select('*').eq('id', id).single();
+      if (error || !data) throw new Error('Veículo não encontrado');
       renderVehicleDetails(data);
     } catch (err) {
       console.error(err);
-      document.querySelector('.vd-container').innerHTML = '<div style="color:#fff; padding:40px; text-align:center;"><h3>Erro ao carregar o veículo. Ele pode ter sido removido.</h3><a href="/" class="vd-btn vd-btn-primary" style="display:inline-block; margin-top:20px; width:auto; text-decoration:none;">Voltar para o Início</a></div>';
+      document.querySelector('.vd-container').innerHTML = '<h2>Veículo não encontrado.</h2>';
     }
   }
 
   function renderVehicleDetails(v) {
-    // Populate Carousel
-    const track = document.getElementById('carouselTrack');
-    const prevBtn = document.getElementById('prevBtn');
-    const nextBtn = document.getElementById('nextBtn');
-    const currentIdxEl = document.getElementById('currentIdx');
-    const totalIdxEl = document.getElementById('totalIdx');
-    
-    // Images array logic - Support both array and comma-separated string in 'img'
-    let images = [];
-    if (v.images && Array.isArray(v.images) && v.images.length > 0) {
-      images = v.images;
-    } else if (v.img) {
-      // Split by comma in case we're using the bypass strategy
-      images = v.img.includes(',') ? v.img.split(',').map(s => s.trim()) : [v.img];
-    }
-    
-    // Feature for Simulation/QA: If ID is 'bmw-ix', use hardcoded images
-    if (vId === 'bmw-ix') {
-      images = [
-        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13052135373.jpg?s=fill&w=1200",
-        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13073021913.jpg?s=fill&w=1200",
-        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13092349320.jpg?s=fill&w=1200",
-        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13112321871.jpg?s=fill&w=1200",
-        "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13132297988.jpg?s=fill&w=1200"
-      ];
-      v.name = "BMW iX";
-      v.trim = "ELÉTRICO XDRIVE50 SPORT";
-      v.price = 889990;
-      v.year = 2024;
-      v.km = 0;
-      v.fuel = "Elétrico";
-      v.trans = "Automática";
-      v.type = "SUV SUV";
-    }
-
-    if (track && images.length > 0) {
-      track.innerHTML = images.map((imgUrl, idx) => `
-        <div class="carousel-slide ${idx === 0 ? 'active' : ''}">
-          <img src="${imgUrl}" alt="${v.name}" loading="lazy">
-        </div>
-      `).join('');
-      
-      totalIdxEl.textContent = images.length;
-      
-      let currentIndex = 0;
-      const slides = track.querySelectorAll('.carousel-slide');
-      
-      const updateCarousel = () => {
-        // Calculation for Panorama centering:
-        // Slides are 70%, Gap is 10px. 
-        // We moved by percentage of slide width? 
-        // Better: use direct transform based on slide index.
-        const slideWidth = slides[0].offsetWidth;
-        const gap = 10;
-        const offset = currentIndex * (slideWidth + gap);
-        
-        track.style.transform = `translateX(-${offset}px)`;
-        currentIdxEl.textContent = currentIndex + 1;
-        
-        // Update active class for focus effect
-        slides.forEach((s, idx) => {
-          if (idx === currentIndex) s.classList.add('active');
-          else s.classList.remove('active');
-        });
-
-        // Hide buttons if only 1 image
-        if (images.length <= 1) {
-          prevBtn.style.display = 'none';
-          nextBtn.style.display = 'none';
-          document.querySelector('.carousel-counter').style.display = 'none';
-        } else {
-          prevBtn.style.display = 'flex';
-          nextBtn.style.display = 'flex';
-          document.querySelector('.carousel-counter').style.display = 'block';
-        }
-      };
-
-      prevBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
-        updateCarousel();
-      });
-
-      nextBtn.addEventListener('click', () => {
-        currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
-        updateCarousel();
-      });
-
-      // Window resize adjustment
-      window.addEventListener('resize', updateCarousel);
-
-      // Keyboard navigation
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') prevBtn.click();
-        if (e.key === 'ArrowRight') nextBtn.click();
-      });
-
-      // Initial state
-      setTimeout(updateCarousel, 100); // Small delay to ensuring offsetWidth is ready
-    } else if (track) {
-      track.innerHTML = '<div class="carousel-slide active"><span>Sem imagem disponível</span></div>';
-    }
-
-    // Header Info (Overlay Card)
+    // Fill Text
+    document.getElementById('vName').textContent = v.name;
+    document.getElementById('vTrim').textContent = v.trim;
+    document.getElementById('vYear').textContent = v.year;
+    document.getElementById('vKm').textContent = v.km === 0 ? 'Zero KM' : v.km.toLocaleString('pt-BR') + ' km';
+    document.getElementById('vTrans').textContent = v.trans;
+    document.getElementById('vFuel').textContent = v.fuel;
+    document.getElementById('vType').textContent = v.type || '--';
+    document.getElementById('vPrice').textContent = 'R$ ' + v.price.toLocaleString('pt-BR');
+    document.getElementById('vInstallment').textContent = v.installment || '--';
+    document.getElementById('breadcrumbModel').textContent = v.name;
     document.title = `${v.name} - Santa Cecília Veículos`;
-    document.getElementById('detailName').textContent = v.name;
-    document.getElementById('detailTrim').textContent = v.trim || 'Versão não informada';
+
+    // Carousel Logic
+    const track = document.getElementById('carouselTrack');
+    const images = (v.images && v.images.length > 0) ? v.images : [v.img];
     
-    // Badge
-    const badgeEl = document.getElementById('detailBadge');
-    if (v.tag) {
-      badgeEl.textContent = v.tag;
-      badgeEl.style.display = 'block';
-      if (v.badge) {
-         // Map database badge colors if needed, but defaults to 'offer' (red)
-      }
-    } else {
-      badgeEl.style.display = 'none';
-    }
+    document.getElementById('totalIdx').textContent = images.length;
 
-    // Favorite Button Toggle
-    const favBtn = document.querySelector('.vd-favorite-btn');
-    if (favBtn) {
-      favBtn.addEventListener('click', () => {
-        favBtn.classList.toggle('active');
-      });
-    }
+    track.innerHTML = images.map((img, idx) => `
+      <div class="carousel-slide ${idx === 0 ? 'active' : ''}">
+        <img src="${img}" alt="${v.name}">
+      </div>
+    `).join('');
 
-    // Specs
-    document.getElementById('detailYear').textContent = v.year;
-    const kmText = v.km === 0 ? '0 km' : (v.km || 0).toLocaleString('pt-BR') + ' km';
-    document.getElementById('detailKm').textContent = kmText;
-    document.getElementById('detailFuel').textContent = v.fuel || '-';
-    document.getElementById('detailTrans').textContent = v.trans || '-';
-    document.getElementById('detailType').textContent = v.type || '-';
+    const slides = track.querySelectorAll('.carousel-slide');
+    let currentIndex = 0;
 
-    // Prices
-    document.getElementById('detailPrice').textContent = `R$ ${(v.price || 0).toLocaleString('pt-BR')}`;
-    const installmentEl = document.getElementById('detailInstallment');
-    if (installmentEl && v.installment) {
-      installmentEl.textContent = v.installment + '/mês';
-    } else if (installmentEl) {
-       installmentEl.parentElement.style.display = 'none';
-    }
+    const updateCarousel = () => {
+      const slideWidth = slides[0].offsetWidth;
+      const gap = 10;
+      const offset = currentIndex * (slideWidth + gap);
+      track.style.transform = `translateX(-${offset}px)`;
+      
+      slides.forEach((s, i) => s.classList.toggle('active', i === currentIndex));
+      document.getElementById('currentIdx').textContent = currentIndex + 1;
+    };
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      updateCarousel();
+    });
+
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      updateCarousel();
+    });
+
+    // Resize listener to fix transform on window change
+    window.addEventListener('resize', updateCarousel);
     
-    // Setup WhatsApp Button
-    const wppBtn = document.querySelector('.vd-btn-whatsapp');
-    if (wppBtn) {
-        wppBtn.addEventListener('click', () => {
-             const phoneNumber = '5511999999999'; // Replace with actual shop number
-             const message = `Olá! Gostaria de mais informações sobre o veículo ${v.name} (${v.year}), listado por R$ ${(v.price || 0).toLocaleString('pt-BR')}. Vi no site.`;
-             const waLink = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-             window.open(waLink, '_blank');
-        });
-    }
+    // Initial update
+    setTimeout(updateCarousel, 100);
   }
-
-  // Mobile Menu handling (same as index.js so it works here)
-  const hamburger = document.querySelector('.hamburger');
-  const mobileMenu = document.querySelector('.mobile-menu');
-  const overlay = document.querySelector('.mobile-menu-overlay');
-  
-  function toggleMenu() {
-    mobileMenu.classList.toggle('open');
-    overlay.classList.toggle('visible');
-    hamburger.classList.toggle('active');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-  }
-  
-  if (hamburger) hamburger.addEventListener('click', toggleMenu);
-  if (overlay) overlay.addEventListener('click', toggleMenu);
 });

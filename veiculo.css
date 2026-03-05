@@ -1,430 +1,395 @@
 /* ========================================
-   VEHICLE DETAILS PAGE — WebMotors Style
+   SANTA CECÍLIA VEÍCULOS — Veículo Estilo WebMotors
    ======================================== */
 
+:root {
+  --primary: #002c9b;
+  --primary-hover: #001f6d;
+  --bg-white: #ffffff;
+  --bg-gray: #f1f2f4;
+  --text-main: #1d1d1b;
+  --text-muted: #5b5b58;
+  --border: #e0e0e0;
+  --success: #25d366;
+  --offer-orange: #ff6a17;
+}
+
+body {
+  background: #ffffff !important;
+  color: var(--text-main);
+  font-family: "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .vd-main {
-    padding-top: 0;
-    padding-bottom: 60px;
-    background-color: #f4f4f6; /* Light gray background */
-    color: #111;
-}
-
-/* --- Gallery Hero --- */
-/* --- Gallery Carousel (Panorama Style) --- */
-.vd-gallery {
-    width: 100%;
-    background: #111;
-    margin-bottom: 0; /* Remove margin to let card overlap transition better */
-    user-select: none;
-    position: relative;
-    overflow: hidden;
-}
-
-.carousel-container {
-    position: relative;
-    width: 100%;
-    height: 600px;
-    margin: 0 auto;
-    overflow: visible; /* Allow seeing neighbors */
-}
-
-.carousel-track {
-    display: flex;
-    height: 100%;
-    transition: transform 0.6s cubic-bezier(0.2, 1, 0.3, 1);
-    gap: 10px;
-    padding: 0 15%; /* Horizontal padding to center the active slide */
-}
-
-.carousel-slide {
-    flex: 0 0 70%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #000;
-    border-radius: 4px;
-    overflow: hidden;
-    transition: opacity 0.3s, transform 0.3s;
-}
-
-.carousel-slide:not(.active) {
-    opacity: 0.4;
-    transform: scale(0.95);
-}
-
-.carousel-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Nav Buttons */
-.carousel-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    z-index: 20;
-}
-
-.carousel-nav:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
-}
-
-.carousel-nav.prev { left: 40px; }
-.carousel-nav.next { right: 40px; }
-
-/* Counter */
-.carousel-counter {
-    position: absolute;
-    top: 30px;
-    right: 40px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 6px 16px;
-    border-radius: 30px;
-    font-size: 14px;
-    font-weight: 600;
-    z-index: 15;
-}
-
-/* Overlay Card */
-.vd-overlay-card {
-    position: absolute;
-    bottom: -30px; /* Overlap into the container below */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 90%;
-    max-width: 1200px;
-    z-index: 30;
-}
-
-.vd-overlay-card .vd-header {
-    background: #ffffff;
-    padding: 30px 40px;
-    border-radius: 16px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.18);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid rgba(0, 0, 0, 0.04);
-}
-
-.vd-overlay-card .vd-title {
-    font-size: 36px;
-    margin-bottom: 4px;
-}
-
-.vd-overlay-card .vd-trim {
-    margin-bottom: 0;
-}
-
-/* Badge and Favorite */
-.vd-badge-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-.vd-badge {
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-}
-
-.vd-badge.offer {
-    background: #f42c4a;
-    color: #fff;
-}
-
-.vd-favorite-btn {
-    background: none;
-    border: 2px solid #e4e4ea;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.vd-favorite-btn:hover {
-    border-color: #f42c4a;
-    background: rgba(244, 44, 74, 0.05);
-}
-
-.vd-favorite-btn svg {
-    width: 24px;
-    height: 24px;
-    fill: none;
-    stroke: #6b6b80;
-    stroke-width: 2;
-}
-
-.vd-favorite-btn.active svg {
-    fill: #f42c4a;
-    stroke: #f42c4a;
-}
-
-/* Skeleton/Loading */
-.skeleton {
-    background: linear-gradient(90deg, #e4e4ea 25%, #f4f4f6 50%, #e4e4ea 75%);
-    background-size: 200% 100%;
-    animation: loading 1.5s infinite;
-}
-
-@keyframes loading {
-    from { background-position: 200% 0; }
-    to { background-position: -200% 0; }
-}
-
-@media (max-width: 900px) {
-    .carousel-container {
-        height: 300px;
-    }
-    .carousel-nav {
-        width: 36px;
-        height: 36px;
-        font-size: 16px;
-    }
+  padding-top: 20px;
+  background-color: #ffffff;
 }
 
 .vd-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-@media (max-width: 900px) {
-    .vd-container {
-        grid-template-columns: 1fr;
-    }
+/* Breadcrumb */
+.vd-breadcrumb {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+.vd-breadcrumb a {
+  color: var(--text-muted);
+  text-decoration: none;
+}
+.vd-breadcrumb a:hover {
+  text-decoration: underline;
 }
 
-/* --- Left Column: Details --- */
-.vd-left {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+/* Galeria Panorama */
+.vd-gallery {
+  margin-bottom: 24px;
+  overflow: hidden;
+  background: #000;
 }
 
-.vd-card {
-    background: #ffffff;
-    border: 1px solid #e4e4ea;
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.carousel {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
 }
 
-.vd-card:hover {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+.carousel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease-out;
+  gap: 10px;
 }
 
-.vd-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+.carousel-slide {
+  min-width: 70%;
+  height: 100%;
+  position: relative;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  backdrop-filter: blur(4px);
+}
+.carousel-btn:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+.carousel-btn.prev { left: 20px; }
+.carousel-btn.next { right: 20px; }
+
+.carousel-counter {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Grid de Conteúdo */
+.vd-content-grid {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 40px;
+  align-items: start;
+}
+
+/* Main Card (Header + Specs) */
+.vd-main-card {
+  padding: 0;
+  margin-bottom: 24px;
+}
+
+.vd-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.vd-header-info {
+  margin-bottom: 0;
+}
+
+.vd-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.vd-fav-btn {
+  background: white;
+  border: 1px solid var(--border);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.vd-fav-btn:hover {
+  background: #f8f8f8;
+  border-color: #ccc;
+}
+.vd-fav-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-width: 2;
 }
 
 .vd-title {
-    font-size: 32px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: #2e2e3a;
-    line-height: 1.2;
-    text-transform: uppercase;
-    letter-spacing: 0.01em;
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: var(--text-main);
 }
-
 .vd-trim {
-    font-size: 16px;
-    color: #6b6b80;
-    margin-bottom: 24px;
+  font-size: 16px;
+  color: var(--text-muted);
+  margin: 0;
 }
 
+.vd-location-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+.vd-location-row svg { width: 16px; height: 16px; fill: currentColor; }
+
+/* Specs Grid - Refined */
 .vd-specs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 20px;
-    padding-top: 24px;
-    border-top: 1px solid #e4e4ea;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid #ededf1;
 }
 
-.vd-spec-item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.spec-item {
+  display: flex;
+  flex-direction: column;
 }
 
-.vd-spec-label {
-    font-size: 12px;
-    color: #9e9eb0;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+.spec-item label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+.spec-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-main);
+  text-transform: capitalize;
 }
 
-.vd-spec-value {
-    font-size: 18px;
-    font-weight: 600;
-    color: #111;
-}
 
-/* --- Features --- */
-.vd-features-title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: #111;
+/* Selo Cautelar */
+.vd-seal-box {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background-color: var(--bg-gray);
+  border-radius: 8px;
+  margin-bottom: 40px;
+  align-items: center;
 }
+.seal-icon { font-size: 32px; }
+.seal-text h3 { margin: 0 0 4px 0; font-size: 16px; }
+.seal-text p { margin: 0; font-size: 14px; color: var(--text-muted); }
 
+/* Seções */
+.vd-section {
+  margin-bottom: 40px;
+}
+.vd-section-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary);
+  display: inline-block;
+}
+.vd-description {
+  line-height: 1.6;
+  color: var(--text-main);
+  white-space: pre-line;
+}
 .vd-features-list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  list-style: none;
+  padding: 0;
+  gap: 12px;
+}
+.vd-features-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+}
+.vd-features-list li::before {
+  content: "✓";
+  color: var(--primary);
+  font-weight: bold;
 }
 
-.vd-feature-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #6b6b80;
-    font-size: 14px;
+/* Coluna Direita (Sticky) */
+.vd-right-col {
+  position: sticky;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-.vd-feature-item svg {
-    width: 20px;
-    height: 20px;
-    fill: var(--color-brand-blue);
+.vd-price-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* --- Right Column: Price & Contact --- */
-.vd-right {
-    position: sticky;
-    top: 100px;
-    align-self: start;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+.price-header {
+  margin-bottom: 24px;
+}
+.price-badge {
+  display: inline-block;
+  background: var(--offer-orange);
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+.main-price {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--text-main);
 }
 
-.vd-price-box {
-    background: #ffffff;
-    border: 1px solid #e4e4ea;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-    border-radius: 12px;
-    padding: 32px;
-}
-
-.vd-price-label {
-    font-size: 14px;
-    color: #6b6b80;
-    margin-bottom: 8px;
-}
-
-.vd-price-value {
-    font-size: 40px;
-    font-weight: 700;
-    color: #2e2e3a;
-    margin-bottom: 8px;
-}
-
-.vd-installment {
-    display: inline-block;
-    background: #f4f4f6;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 14px;
-    color: #2d2d3a;
-    margin-bottom: 24px;
-}
-
-.vd-installment strong {
-    color: var(--color-brand-blue);
-}
-
-.vd-form-group {
-    margin-bottom: 16px;
-}
-
-.vd-form-group input {
-    width: 100%;
-    background: #f4f4f6;
-    border: 1px solid #e4e4ea;
-    padding: 14px 16px;
-    border-radius: 8px;
-    color: #111;
-    font-size: 14px;
-    transition: all 0.2s;
-}
-
-.vd-form-group input:focus {
-    outline: none;
-    border-color: var(--color-brand-blue);
-    background: rgba(0, 102, 255, 0.05);
+.cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
 }
 
 .vd-btn {
-    width: 100%;
-    padding: 16px;
-    border-radius: 8px;
-    border: none;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-.vd-btn-primary {
-    background: #2e2e3a;
-    color: #fff;
-}
-
-.vd-btn-primary:hover {
-    background: #1a1a2e;
-    opacity: 0.9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 52px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  border: none;
+  width: 100%;
 }
 
 .vd-btn-whatsapp {
-    background: #25d366;
-    color: #fff;
-    margin-top: 12px;
+  background-color: var(--primary);
+  color: white;
 }
-
 .vd-btn-whatsapp:hover {
-    background: #20bd5a;
-    opacity: 0.9;
+  background-color: var(--primary-hover);
+}
+.vd-btn-whatsapp svg { width: 20px; height: 20px; fill: white; }
+
+.vd-btn-secondary {
+  background: white;
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+.vd-btn-secondary:hover {
+  background: #f0f4ff;
 }
 
-.vd-btn-whatsapp svg {
-    width: 20px;
-    height: 20px;
-    fill: currentColor;
+.simulation-box {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  font-size: 14px;
+}
+.simulation-box p { margin: 0 0 8px 0; color: var(--text-muted); }
+.installment-value { font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 8px; }
+.sim-link { color: var(--primary); text-decoration: none; font-weight: 600; font-size: 13px; }
+
+.dealer-info-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+}
+.dealer-info-card h3 { font-size: 14px; color: var(--text-muted); margin: 0 0 15px 0; }
+.dealer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.dealer-brand img { width: 40px; height: 40px; object-fit: contain; }
+.dealer-brand span { font-weight: 700; font-size: 16px; }
+.dealer-info-card p { margin: 0; font-size: 14px; color: var(--text-muted); }
+
+/* Responsivo */
+@media (max-width: 900px) {
+  .vd-content-grid {
+    grid-template-columns: 1fr;
+  }
+  .vd-right-col {
+    position: static;
+  }
+  .vd-specs-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }

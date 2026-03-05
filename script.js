@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       vehicles = data || [];
       renderCards(vehicles);
     } catch (err) {
-      console.error('Error fetching vehicles:', err);
+      console.error('Erro ao buscar veículos:', err);
       // Fallback or message if needed
     }
   }
