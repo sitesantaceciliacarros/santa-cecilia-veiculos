@@ -1,85 +1,82 @@
 /* ========================================
-   SANTA CECÍLIA VEÍCULOS — Veículo Estilo Premium
+   SANTA CECÍLIA VEÍCULOS — Veículo Estilo Webmotors
    ======================================== */
 
+/* ---------- reset / main ---------- */
 .vd-main {
-  background-color: var(--color-bg);
-  padding-top: 24px;
-  padding-bottom: 60px;
+  background-color: #fff;
+  padding-top: 0;
+  padding-bottom: 80px; /* espaço para a action bar fixa */
 }
-
 .vd-container {
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0;
 }
 
-/* Breadcrumb */
+/* ---------- Breadcrumb ---------- */
 .vd-breadcrumb {
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-  color: var(--color-text-muted);
-  margin-bottom: 24px;
-  letter-spacing: 0.02em;
+  font-size: 12px;
+  font-weight: 400;
+  color: #999;
+  padding: 12px 16px;
+  letter-spacing: 0;
 }
 .vd-breadcrumb a {
-  color: var(--color-text-muted);
+  color: #666;
   text-decoration: none;
-  transition: color var(--transition-fast);
 }
 .vd-breadcrumb a:hover {
   color: var(--color-brand-blue);
 }
 
-/* Galeria Panorama */
+/* ========================================
+   GALERIA / CAROUSEL (estilo Webmotors)
+   ======================================== */
 .vd-gallery {
-  margin-bottom: 24px;
-  border-radius: var(--radius-lg);
+  margin-bottom: 0;
+  border-radius: 0;
   overflow: hidden;
-  background: var(--color-black);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-black);
+  background: #111;
+  box-shadow: none;
+  border: none;
+  position: relative;
 }
-
 .carousel {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 7;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
+  touch-action: pan-y;
 }
-
 .carousel-track {
   display: flex;
   height: 100%;
-  transition: transform 0.5s ease-out;
-  gap: 10px;
+  transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+  gap: 0;
 }
-
 .carousel-slide {
-  min-width: 70%;
+  min-width: 100%;
   height: 100%;
   position: relative;
-  opacity: 0.6;
-  transition: opacity 0.3s;
-}
-
-.carousel-slide.active {
   opacity: 1;
+  transition: none;
+  flex-shrink: 0;
 }
-
 .carousel-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* Botões prev/next - ocultar no mobile */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255,255,255,0.85);
   border: none;
-  color: white;
+  color: #333;
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -89,332 +86,613 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
-.carousel-btn:hover {
-  background: rgba(255, 255, 255, 0.5);
-}
-.carousel-btn.prev { left: 20px; }
-.carousel-btn.next { right: 20px; }
+.carousel-btn:hover { background: #fff; }
+.carousel-btn.prev { left: 16px; }
+.carousel-btn.next { right: 16px; }
 
-.carousel-counter {
+/* Counter (ocultar) */
+.carousel-counter { display: none; }
+
+/* Dots */
+.carousel-dots {
   position: absolute;
-  bottom: 20px;
-  right: 20px;
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-/* Grid de Conteúdo */
-.vd-content-grid {
-  display: grid;
-  grid-template-columns: 1fr 380px;
-  gap: 24px;
-  align-items: start;
-}
-
-/* Main Card (Header + Specs) */
-.vd-main-card {
-  background: var(--color-bg-card);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-border-light);
-}
-
-.vd-header-row {
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
+  gap: 6px;
+  z-index: 10;
+}
+.carousel-dots .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.45);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+.carousel-dots .dot.active {
+  background: var(--color-brand-blue, #0066ff);
+  transform: scale(1.25);
 }
 
-.vd-header-info {
-  margin-bottom: 0;
-}
-
-.vd-header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.vd-fav-btn {
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  width: 44px;
-  height: 44px;
+/* Favorito na galeria */
+.gallery-fav-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 10;
+  background: rgba(255,255,255,0.85);
+  border: none;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all var(--transition-base);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
-.vd-fav-btn:hover {
-  background: var(--color-bg);
-  border-color: var(--color-brand-blue);
-  transform: scale(1.05);
-}
-.vd-fav-btn svg {
+.gallery-fav-btn svg {
   width: 20px;
   height: 20px;
   fill: none;
-  stroke: var(--color-text-light);
+  stroke: #333;
   stroke-width: 2;
 }
-.price-badge {
-  background: var(--color-accent-orange);
-  color: var(--color-white);
-  padding: 6px 12px;
-  border-radius: var(--radius-xs);
-  font-weight: 800;
-  font-size: 11px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+
+/* ========================================
+   CONTEÚDO PRINCIPAL
+   ======================================== */
+.vd-content-grid {
+  display: block; /* no desktop tb fica linear no estilo mobile-first */
 }
+
+.vd-left-col, .vd-right-col {
+  display: block;
+}
+.vd-right-col {
+  position: static;
+}
+
+/* ---------- Main Card (título + preço + specs) ---------- */
+.vd-main-card {
+  background: #fff;
+  border-radius: 0;
+  padding: 20px 16px;
+  margin-bottom: 0;
+  box-shadow: none;
+  border: none;
+  border-bottom: 8px solid #f5f5f5;
+}
+
+/* Badge vendedor rápido */
+.seller-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #e8f5e9;
+  color: #2e7d32;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+.seller-badge svg {
+  width: 14px;
+  height: 14px;
+  fill: #2e7d32;
+}
+
+/* Título */
+.vd-header-row {
+  display: block;
+  margin-bottom: 4px;
+}
+.vd-header-actions { display: none; } /* favorito moveu pra galeria */
 
 .vd-title {
-  font-size: var(--font-size-2xl);
-  font-weight: 800;
-  margin: 0 0 6px 0;
-  color: var(--color-black);
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 2px 0;
+  color: #222;
+  text-transform: none;
+  line-height: 1.25;
+}
+.vd-title .model-highlight {
+  color: var(--color-brand-blue, #0066ff);
+}
+
+.vd-trim {
+  font-size: 13px;
+  color: #777;
+  margin: 0 0 16px 0;
+  font-weight: 400;
   text-transform: uppercase;
 }
-.vd-trim {
-  font-size: var(--font-size-base);
-  color: var(--color-text-light);
-  margin: 0;
-  font-weight: 500;
-}
 
-.vd-location-row {
+/* Location esconde — abre na specs */
+.vd-location-row { display: none; }
+
+/* ---------- Preço inline (estilo WM) ---------- */
+.vd-price-inline {
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-  margin-bottom: 32px;
-  margin-top: 16px;
-  font-weight: 500;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
 }
-.vd-location-row svg { width: 16px; height: 16px; fill: currentColor; }
+.vd-price-inline .price-label {
+  font-size: 14px;
+  color: #999;
+  display: block;
+  margin-bottom: 2px;
+}
+.vd-price-inline .main-price {
+  font-size: 32px;
+  font-weight: 800;
+  color: #111;
+  line-height: 1.1;
+}
+.vd-price-inline .btn-ver-parcelas {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-brand-blue, #0066ff);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.vd-price-inline .btn-ver-parcelas:hover {
+  background: #0052cc;
+}
+.vd-price-inline .btn-ver-parcelas svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
 
-/* Specs Grid - Refined */
+/* ---------- Specs Grid (estilo WM 2 colunas) ---------- */
 .vd-specs-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
-  padding-top: 24px;
-  border-top: 1px solid var(--color-border-light);
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding-top: 0;
+  border-top: none;
 }
-
 .spec-item {
   display: flex;
   flex-direction: column;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
 }
-
 .spec-item label {
-  font-size: 10px;
-  color: var(--color-text-muted);
-  margin-bottom: 6px;
-  letter-spacing: 0.05em;
-  font-weight: 600;
-  text-transform: uppercase;
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 4px;
+  letter-spacing: 0;
+  font-weight: 400;
+  text-transform: none;
 }
 .spec-value {
-  font-size: var(--font-size-md);
-  font-weight: 800;
-  color: var(--color-black);
-  text-transform: capitalize;
+  font-size: 15px;
+  font-weight: 700;
+  color: #222;
+  text-transform: none;
 }
 
+/* ---------- Selo Cautelar -> ocultar o velho ---------- */
+.vd-seal-box { display: none; }
 
-/* Selo Cautelar */
-.vd-seal-box {
-  display: flex;
-  gap: 16px;
-  padding: 24px;
-  background-color: var(--color-bg);
-  border-radius: var(--radius-md);
-  margin-bottom: 40px;
-  align-items: flex-start;
-  border: 1px solid var(--color-border-light);
-}
-.seal-icon { 
-  font-size: 28px; 
-  padding-top: 2px;
-}
-.seal-text h3 { 
-  margin: 0 0 6px 0; 
-  font-size: var(--font-size-md); 
-  font-weight: 800;
-  color: var(--color-black);
-}
-.seal-text p { 
-  margin: 0; 
-  font-size: var(--font-size-sm); 
-  color: var(--color-text-light); 
-  line-height: 1.5;
-}
-
-/* Seções */
+/* ========================================
+   SEÇÕES COM ACCORDION (estilo WM)
+   ======================================== */
 .vd-section {
-  background: var(--color-bg-card);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  margin-bottom: 24px;
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--color-border-light);
+  background: #fff;
+  border-radius: 0;
+  padding: 0;
+  margin-bottom: 0;
+  box-shadow: none;
+  border: none;
+  border-bottom: 8px solid #f5f5f5;
 }
 .vd-section-title {
-  font-size: var(--font-size-lg);
-  font-weight: 800;
-  margin: 0 0 24px 0;
-  padding-bottom: 8px;
-  border-bottom: 3px solid var(--color-brand-blue-light);
-  display: inline-block;
-  color: var(--color-black);
-}
-.vd-description {
-  line-height: 1.7;
-  color: var(--color-text-light);
-  white-space: pre-line;
-  font-size: var(--font-size-base);
-}
-.vd-features-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  list-style: none;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0;
   padding: 0;
-  gap: 16px;
+  border-bottom: none;
+  display: block;
+  color: #999;
 }
-.vd-features-list li {
+
+/* Accordion genérico */
+.wm-accordion {
+  border-bottom: 8px solid #f5f5f5;
+}
+.wm-accordion-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  color: var(--color-text);
-  font-size: var(--font-size-sm);
-  font-weight: 500;
+  justify-content: space-between;
+  padding: 18px 16px;
+  cursor: pointer;
+  background: #fff;
+  border: none;
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
 }
-.vd-features-list li::before {
-  content: '✓';
-  color: var(--color-brand-blue);
-  font-weight: 900;
-  font-size: 16px;
+.wm-accordion-header:hover {
+  background: #fafafa;
 }
-/* Coluna Direita (Sticky) */
-.vd-right-col {
-  position: sticky;
-  top: 100px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.vd-price-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  box-shadow: var(--shadow-sm);
-}
-
-.price-header {
-  margin-bottom: 24px;
-}
-.main-price {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--color-black);
-}
-
-.cta-actions {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.vd-btn {
+.wm-accordion-header .acc-icon {
+  width: 24px;
+  height: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  height: 52px;
-  border-radius: var(--radius-sm);
-  font-size: var(--font-size-md);
-  font-family: var(--font-family);
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+.wm-accordion-header .acc-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: #333;
+}
+.wm-accordion-header .acc-label {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+.wm-accordion-header .acc-chevron {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+.wm-accordion-header .acc-chevron svg {
+  width: 24px;
+  height: 24px;
+  fill: #999;
+}
+.wm-accordion.open .acc-chevron {
+  transform: rotate(180deg);
+}
+.wm-accordion-body {
+  display: none;
+  padding: 0 16px 18px;
+}
+.wm-accordion.open .wm-accordion-body {
+  display: block;
+}
+
+/* Ficha técnica items */
+.ft-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 14px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ft-row:last-child { border-bottom: none; }
+.ft-row .ft-label {
+  font-size: 14px;
+  color: #555;
+  flex: 1;
+}
+.ft-row .ft-value {
+  font-size: 14px;
   font-weight: 700;
+  color: #222;
+  text-align: right;
+}
+
+/* ---------- Descrição (Sobre este carro) ---------- */
+.vd-about-section {
+  padding: 20px 16px;
+  border-bottom: 8px solid #f5f5f5;
+}
+.vd-about-section .section-label {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 12px;
+}
+.vd-description {
+  line-height: 1.65;
+  color: #444;
+  white-space: pre-line;
+  font-size: 14px;
+}
+
+/* ---------- Itens do veículo ---------- */
+.vd-items-section {
+  padding: 20px 16px;
+  border-bottom: 8px solid #f5f5f5;
+}
+.vd-items-section .section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.vd-items-section .section-label {
+  font-size: 14px;
+  color: #999;
+}
+.vd-items-section .see-all {
+  font-size: 20px;
+  color: #999;
   cursor: pointer;
-  transition: all var(--transition-base);
   text-decoration: none;
-  border: none;
-  width: 100%;
+}
+.vd-features-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 0;
+}
+.vd-features-list li {
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  border-bottom: none;
+}
+.vd-features-list li::before {
+  content: none;
 }
 
-.vd-btn-whatsapp {
-  background-color: var(--color-brand-blue-light);
-  color: var(--color-brand-blue);
+/* ========================================
+   SEÇÃO DO VENDEDOR (estilo WM)
+   ======================================== */
+.vd-seller-section {
+  padding: 20px 16px;
+  border-bottom: 8px solid #f5f5f5;
 }
-.vd-btn-whatsapp:hover {
-  background-color: var(--color-brand-blue);
-  color: var(--color-white);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+.vd-seller-section .section-label {
+  font-size: 14px;
+  color: #999;
+  margin-bottom: 16px;
 }
-.vd-btn-whatsapp svg { width: 20px; height: 20px; fill: currentColor; }
-
-.vd-btn-secondary {
-  background: var(--color-white);
-  color: var(--color-black);
-  border: 1px solid var(--color-border);
-}
-.vd-btn-secondary:hover {
-  background: var(--color-bg);
-  border-color: var(--color-border);
-}
-
-.simulation-box {
-  border-top: 1px solid var(--color-border-light);
-  padding-top: 20px;
-  font-size: var(--font-size-sm);
-}
-.simulation-box p { margin: 0 0 8px 0; color: var(--color-text-muted); font-weight: 500;}
-.installment-value { font-size: var(--font-size-lg); font-weight: 800; color: var(--color-black); margin-bottom: 8px; }
-.sim-link { color: var(--color-brand-blue); text-decoration: none; font-weight: 600; font-size: 13px; }
-
-.dealer-info-card {
-  background: var(--color-bg-card);
-  border: 1px solid var(--color-border-light);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  box-shadow: var(--shadow-sm);
-}
-.dealer-info-card h3 { font-size: var(--font-size-sm); color: var(--color-text-muted); margin: 0 0 16px 0; font-weight: 600; text-transform: uppercase;}
-.dealer-brand {
+.seller-card {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
-.dealer-brand img { width: 40px; height: 40px; object-fit: contain; }
-.dealer-brand span { font-weight: 800; font-size: var(--font-size-md); color: var(--color-black);}
-.dealer-info-card p { margin: 0; font-size: var(--font-size-sm); color: var(--color-text-light); }
+.seller-card .seller-avatar {
+  width: 48px;
+  height: 48px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.seller-card .seller-avatar svg {
+  width: 28px;
+  height: 28px;
+  fill: #bbb;
+}
+.seller-card .seller-info .seller-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #222;
+}
+.seller-card .seller-info .seller-location {
+  font-size: 13px;
+  color: #999;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.seller-card .seller-info .seller-location svg {
+  width: 14px;
+  height: 14px;
+  fill: #999;
+}
 
-/* Responsivo */
-@media (max-width: 900px) {
+/* Status aberto/fechado */
+.seller-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+}
+.seller-status .status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f44336;
+}
+.seller-status .status-dot.open {
+  background: #4caf50;
+}
+
+/* Telefone */
+.seller-phone {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.seller-phone .phone-number {
+  font-size: 20px;
+  font-weight: 300;
+  color: #ccc;
+  letter-spacing: 1px;
+}
+.seller-phone .btn-ver-tel {
+  background: #333;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Ocultar card de preço/dealer antigos */
+.vd-price-card { display: none; }
+.dealer-info-card { display: none; }
+.price-badge { display: none; }
+
+/* ========================================
+   BARRA FIXA INFERIOR (Mobile Action Bar)
+   ======================================== */
+.mobile-action-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  background: #fff;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  gap: 8px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+}
+.mobile-action-bar .mab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 46px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  font-family: inherit;
+  white-space: nowrap;
+}
+
+/* Ver parcelas */
+.mab-parcelas {
+  flex: 1;
+  background: #fff;
+  color: #222;
+  border: 1.5px solid #ddd !important;
+}
+
+/* Telefone */
+.mab-phone {
+  width: 46px;
+  height: 46px;
+  background: #f0f0f0;
+  flex-shrink: 0;
+}
+.mab-phone svg {
+  width: 20px;
+  height: 20px;
+  fill: #333;
+}
+
+/* Enviar mensagem */
+.mab-whatsapp {
+  flex: 1;
+  background: var(--color-brand-blue, #0066ff);
+  color: #fff;
+}
+.mab-whatsapp:hover {
+  background: #0052cc;
+}
+
+/* ========================================
+   RESPONSIVO
+   ======================================== */
+
+/* Desktop */
+@media (min-width: 901px) {
+  .vd-container {
+    padding: 0 24px;
+  }
+  .vd-gallery {
+    border-radius: 12px;
+    margin: 0 24px 24px;
+    overflow: hidden;
+  }
+  .carousel {
+    aspect-ratio: 16/9;
+  }
+  .vd-main-card {
+    padding: 28px 24px;
+    margin: 0 24px;
+    border-bottom: 1px solid #eee;
+  }
+  .vd-about-section,
+  .vd-items-section,
+  .vd-seller-section,
+  .wm-accordion-header {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .wm-accordion-body {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .vd-main {
+    padding-bottom: 60px;
+  }
+  .mobile-action-bar {
+    display: none;
+  }
+  /* Desktop: mostrar CTA antigo */
+  .vd-price-card {
+    display: block;
+  }
+  .dealer-info-card {
+    display: block;
+  }
   .vd-content-grid {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 24px;
+    padding: 0 24px;
   }
   .vd-right-col {
-    position: static;
+    position: sticky;
+    top: 100px;
   }
-  .vd-specs-grid {
-    grid-template-columns: repeat(2, 1fr);
+}
+
+/* Mobile small */
+@media (max-width: 480px) {
+  .carousel {
+    aspect-ratio: 1 / 1;
+  }
+  .carousel-btn {
+    display: none;
+  }
+  .vd-title {
+    font-size: 20px;
+  }
+  .vd-price-inline .main-price {
+    font-size: 28px;
   }
 }

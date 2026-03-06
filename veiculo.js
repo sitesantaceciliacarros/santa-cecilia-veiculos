@@ -5,109 +5,188 @@ document.addEventListener('DOMContentLoaded', () => {
   const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtcXVjbmhhbnJnanhmZW5qemF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNDAyMjIsImV4cCI6MjA4NzcxNjIyMn0.TmykuoD93fGNaHslx7Pubf8ZnYyBvb3VB28rrdiu5WU';
   const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-  // Parse ID from URL
   const params = new URLSearchParams(window.location.search);
   const vId = params.get('id');
 
-  if (!vId) {
-    window.location.href = '/';
-    return;
-  }
+  if (!vId) { window.location.href = '/'; return; }
 
   fetchVehicleData(vId);
 
   async function fetchVehicleData(id) {
-    // ---- Mock/Demo Mode for BMW iX Simulation ----
     if (id === 'bmw-ix') {
-      const mockVehicle = {
-        id: 'bmw-ix',
-        name: "BMW iX",
-        trim: "ELÉTRICO XDRIVE50 SPORT",
-        price: 889990,
-        year: 2024,
-        km: 0,
-        fuel: "Elétrico",
-        trans: "Automática",
-        type: "SUV",
-        img: "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13052135373.jpg?s=fill&w=1200",
+      renderVehicleDetails({
+        id: 'bmw-ix', name: "BMW iX", trim: "ELÉTRICO XDRIVE50 SPORT",
+        price: 889990, year: 2024, km: 0, fuel: "Elétrico", trans: "Automática", type: "SUV",
         images: [
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13052135373.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13073021913.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13092349320.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13112321871.jpg?s=fill&w=1920&h=1440&q=100",
-            "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13132297988.jpg?s=fill&w=1920&h=1440&q=100"
+          "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13052135373.jpg?s=fill&w=1920&h=1440&q=100",
+          "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13073021913.jpg?s=fill&w=1920&h=1440&q=100",
+          "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13092349320.jpg?s=fill&w=1920&h=1440&q=100",
+          "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13112321871.jpg?s=fill&w=1920&h=1440&q=100",
+          "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13132297988.jpg?s=fill&w=1920&h=1440&q=100"
         ],
-        tag: "OFERTA",
-        badge: "Oferta Destaque",
-        installment: "R$ 12.990"
-      };
-      renderVehicleDetails(mockVehicle);
+        badge: "Oferta Destaque", installment: "R$ 12.990",
+        description: "Veículo em excelente estado. Único dono, todas as revisões na concessionária. Manual e chave reserva. IPVA pago.",
+        color: "Preto", plate: "3"
+      });
       return;
     }
-
     try {
       const { data, error } = await _supabase.from('vehicles').select('*').eq('id', id).single();
       if (error || !data) throw new Error('Veículo não encontrado');
       renderVehicleDetails(data);
     } catch (err) {
       console.error(err);
-      document.querySelector('.vd-container').innerHTML = '<h2>Veículo não encontrado.</h2>';
+      document.querySelector('.vd-container').innerHTML = '<h2 style="padding:40px;text-align:center;">Veículo não encontrado.</h2>';
     }
   }
 
   function renderVehicleDetails(v) {
-    // Fill Text
-    document.getElementById('vName').textContent = v.name;
-    document.getElementById('vTrim').textContent = v.trim;
-    document.getElementById('vYear').textContent = v.year;
-    document.getElementById('vKm').textContent = v.km === 0 ? 'Zero KM' : v.km.toLocaleString('pt-BR') + ' km';
-    document.getElementById('vTrans').textContent = v.trans;
-    document.getElementById('vFuel').textContent = v.fuel;
+    // Title with model highlight
+    const titleEl = document.getElementById('vName');
+    const nameParts = v.name.split(' ');
+    if (nameParts.length > 1) {
+      titleEl.innerHTML = nameParts[0] + ' <span class="model-highlight">' + nameParts.slice(1).join(' ') + '</span>';
+    } else {
+      titleEl.textContent = v.name;
+    }
+
+    document.getElementById('vTrim').textContent = v.trim || '';
+    document.getElementById('vYear').textContent = v.year || '--';
+    document.getElementById('vKm').textContent = v.km === 0 ? '0' : (v.km ? v.km.toLocaleString('pt-BR') : '--');
+    document.getElementById('vTrans').textContent = v.trans || '--';
+    document.getElementById('vFuel').textContent = v.fuel || '--';
     document.getElementById('vType').textContent = v.type || '--';
-    document.getElementById('vPrice').textContent = 'R$ ' + v.price.toLocaleString('pt-BR');
-    document.getElementById('vInstallment').textContent = v.installment || '--';
+    document.getElementById('vColor').textContent = v.color || '--';
+    document.getElementById('vPlate').textContent = v.plate || '--';
+
+    // Price
+    const priceFormatted = v.price ? v.price.toLocaleString('pt-BR') : '0';
+    document.getElementById('vPrice').textContent = priceFormatted;
+    const desktopPrice = document.getElementById('vPriceDesktop');
+    if (desktopPrice) desktopPrice.textContent = 'R$ ' + priceFormatted;
+
+    // Installment
+    const inst = document.getElementById('vInstallment');
+    if (inst) inst.textContent = v.installment || '--';
+
+    // Description
+    document.getElementById('vDesc').textContent = v.description || 'Veículo em excelente estado de conservação.';
+
+    // Breadcrumb
     document.getElementById('breadcrumbModel').textContent = v.name;
     document.title = `${v.name} - Santa Cecília Veículos`;
 
-    // Carousel Logic
+    // WhatsApp links
+    const phone = '5511999999999';
+    const msg = encodeURIComponent(`Olá! Tenho interesse no ${v.name} anunciado no site.`);
+    const waUrl = `https://wa.me/${phone}?text=${msg}`;
+    const btnWA = document.getElementById('btnWhatsapp');
+    if (btnWA) btnWA.href = waUrl;
+    const mabWA = document.getElementById('mabWhatsapp');
+    if (mabWA) mabWA.href = waUrl;
+
+    // ---- CAROUSEL ----
     const track = document.getElementById('carouselTrack');
-    const images = (v.images && v.images.length > 0) ? v.images : [v.img];
-    
+    const dotsContainer = document.getElementById('carouselDots');
+    const images = (v.images && v.images.length > 0) ? v.images : (v.img ? [v.img] : []);
+
+    if (images.length === 0) {
+      track.innerHTML = '<div class="carousel-slide"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;">Sem imagens</div></div>';
+      return;
+    }
+
     document.getElementById('totalIdx').textContent = images.length;
 
-    track.innerHTML = images.map((img, idx) => `
-      <div class="carousel-slide ${idx === 0 ? 'active' : ''}">
-        <img src="${img}" alt="${v.name}">
-      </div>
-    `).join('');
+    track.innerHTML = images.map((img, idx) =>
+      `<div class="carousel-slide"><img src="${img}" alt="${v.name}" loading="${idx === 0 ? 'eager' : 'lazy'}"></div>`
+    ).join('');
 
-    const slides = track.querySelectorAll('.carousel-slide');
+    // Create dots
+    dotsContainer.innerHTML = images.map((_, i) =>
+      `<button class="dot ${i === 0 ? 'active' : ''}" data-idx="${i}"></button>`
+    ).join('');
+
     let currentIndex = 0;
+    const slides = track.querySelectorAll('.carousel-slide');
+    const dots = dotsContainer.querySelectorAll('.dot');
 
-    const updateCarousel = () => {
-      const slideWidth = slides[0].offsetWidth;
-      const gap = 10;
-      const offset = currentIndex * (slideWidth + gap);
-      track.style.transform = `translateX(-${offset}px)`;
-      
-      slides.forEach((s, i) => s.classList.toggle('active', i === currentIndex));
+    function goToSlide(idx) {
+      currentIndex = idx;
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
       document.getElementById('currentIdx').textContent = currentIndex + 1;
-    };
+    }
 
+    // Dots click
+    dots.forEach(dot => {
+      dot.addEventListener('click', () => goToSlide(parseInt(dot.dataset.idx)));
+    });
+
+    // Prev/Next
     document.getElementById('nextBtn').addEventListener('click', () => {
-      currentIndex = (currentIndex + 1) % images.length;
-      updateCarousel();
+      goToSlide((currentIndex + 1) % images.length);
     });
-
     document.getElementById('prevBtn').addEventListener('click', () => {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      updateCarousel();
+      goToSlide((currentIndex - 1 + images.length) % images.length);
     });
 
-    // Resize listener to fix transform on window change
-    window.addEventListener('resize', updateCarousel);
-    
-    // Initial update
-    setTimeout(updateCarousel, 100);
+    // Touch/Swipe
+    let startX = 0, startY = 0, isDragging = false;
+    const carousel = document.getElementById('vehicleCarousel');
+
+    carousel.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+      isDragging = true;
+    }, { passive: true });
+
+    carousel.addEventListener('touchend', (e) => {
+      if (!isDragging) return;
+      isDragging = false;
+      const endX = e.changedTouches[0].clientX;
+      const endY = e.changedTouches[0].clientY;
+      const diffX = startX - endX;
+      const diffY = Math.abs(startY - endY);
+
+      if (Math.abs(diffX) > 50 && diffY < 100) {
+        if (diffX > 0 && currentIndex < images.length - 1) {
+          goToSlide(currentIndex + 1);
+        } else if (diffX < 0 && currentIndex > 0) {
+          goToSlide(currentIndex - 1);
+        }
+      }
+    }, { passive: true });
+
+    // Resize
+    window.addEventListener('resize', () => goToSlide(currentIndex));
+    setTimeout(() => goToSlide(0), 100);
+
+    // ---- Ver Telefone ----
+    const btnVerTel = document.getElementById('btnVerTel');
+    const phoneDisplay = document.getElementById('sellerPhone');
+    if (btnVerTel) {
+      btnVerTel.addEventListener('click', () => {
+        phoneDisplay.textContent = '(11) 99999-9999';
+        btnVerTel.textContent = 'Ligar';
+        btnVerTel.onclick = () => window.location.href = 'tel:+5511999999999';
+      });
+    }
+  }
+
+  // ---- Mobile menu ----
+  const hamburger = document.querySelector('.hamburger');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const overlay = document.querySelector('.mobile-menu-overlay');
+  if (hamburger) {
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+      overlay.classList.toggle('visible');
+    });
+    overlay.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      mobileMenu.classList.remove('open');
+      overlay.classList.remove('visible');
+    });
   }
 });
