@@ -75,7 +75,7 @@
 html {
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip; /* clip não quebra o position: sticky como o hidden costuma fazer em alguns contextos */
   width: 100%;
 }
 body {
@@ -84,7 +84,7 @@ body {
   color: var(--color-text);
   background: var(--color-bg);
   line-height: 1.6;
-  overflow-x: hidden;
+  overflow-x: clip;
   width: 100%;
   position: relative;
 }
@@ -584,8 +584,10 @@ input, select {
   box-shadow: var(--shadow-card);
   padding: 0;
   position: sticky;
-  top: calc(var(--nav-height) + 60px);
-  overflow: hidden;
+  top: 20px; /* Gruda mais perto do topo agora que as variáveis e o contexto foram limpos */
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  z-index: 10;
 }
 
 .sidebar-header {
