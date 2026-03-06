@@ -4,26 +4,26 @@
 
 /* ---------- Base ---------- */
 body {
-  background-color: #f7f9fa; /* Fundo levemente frio */
+  background-color: #f2f4f7; /* Fundo cinza claro para destacar os cards brancos */
 }
 .vd-main {
   background: transparent;
   padding: 0 0 80px;
 }
 .vd-container {
-  max-width: 1140px; /* Um pouco mais compacto para não esticar muito */
+  max-width: 1140px;
   margin: 0 auto;
   padding: 0;
 }
 
 /* ---------- Typography & Utility ---------- */
 .section-label, .spec-item label, .price-label, .dealer-info-card h3 {
-  font-size: 12px;
+  font-size: 11px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #8a94a6; /* Cinza azulado elegante */
+  letter-spacing: 1.2px;
+  color: #727c8e; /* Cinza elegante, mais nítido */
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
   display: block;
 }
 
@@ -45,7 +45,7 @@ body {
   overflow: hidden;
   background: #000;
   position: relative;
-  border-radius: 12px;
+  border-radius: 0; /* No mobile e nesse layout novo, a galeria costuma ser full no topo */
   box-shadow: 0 4px 20px rgba(0,0,0,0.06);
 }
 .carousel {
@@ -605,26 +605,27 @@ body {
     box-shadow: 0 6px 24px rgba(229, 57, 53, 0.35);
   }
 
-  /* Ajustes Mobile Cards: remove border radius laterais e cola nas bordas */
+  /* Ajustes Mobile Cards: mantém o efeito de degrauzinho */
   .vd-main-card,
   .vd-about-section,
   .vd-items-section,
   .vd-seller-section,
   .wm-accordion {
     padding: 24px 20px;
-    border-radius: 0;
-    border-left: none;
-    border-right: none;
-    margin-bottom: 0;
-    box-shadow: none;
-    border-bottom: 8px solid #f7f9fa;
+    border-radius: 12px;
+    margin: 0 16px 16px; /* Margem lateral para mostrar o fundo cinza */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.05);
   }
   
   .vd-gallery {
     border-radius: 0;
-    margin-bottom: 0;
-    border-bottom: 8px solid #f7f9fa;
+    margin-bottom: 16px;
     box-shadow: none;
+  }
+
+  .vd-container {
+    background-color: #f2f4f7;
   }
 
   .wm-accordion { border-bottom: 1px solid #edf1f5; }
