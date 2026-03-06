@@ -1432,30 +1432,39 @@ input, select {
 
 @media (max-width: 480px) {
   .search-panel {
-    padding: 16px 20px;
+    padding: 12px 14px;
   }
   .search-tabs {
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .search-tab {
-    padding: 12px;
-    font-size: 11px;
+    padding: 8px;
+    font-size: 10px;
     flex: 1;
     text-align: center;
   }
   .search-fields {
     grid-template-columns: 1fr 1fr;
-    gap: 16px 12px;
+    gap: 12px 10px;
   }
   .field-group:nth-child(3),
   .field-group:nth-child(4) {
     grid-column: span 1;
   }
+  .field-group label {
+    font-size: 9px;
+  }
+  .field-group select,
+  .field-group input {
+    height: 40px;
+    padding: 0 10px;
+    font-size: var(--font-size-sm);
+  }
   .btn-search {
     grid-column: 1 / -1;
-    height: 48px;
+    height: 44px;
     font-size: var(--font-size-sm);
-    margin-top: 8px;
+    margin-top: 4px;
   }
   .hero-stats {
     flex-direction: column;
