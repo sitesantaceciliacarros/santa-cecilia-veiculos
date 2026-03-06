@@ -305,46 +305,6 @@ input, select {
   text-align: center;
 }
 
-/* Vehicle Toggle Pill */
-.vehicle-toggle-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 32px;
-}
-
-.vehicle-toggle {
-  display: inline-flex;
-  background-color: #ededf3;
-  border-radius: 40px;
-  padding: 4px;
-}
-
-.vehicle-type-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 32px;
-  border-radius: 36px;
-  border: none;
-  background: transparent;
-  color: #6b6b80;
-  font-weight: 600;
-  font-size: 15px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.vehicle-type-btn.active {
-  background: #ffffff;
-  color: #1d1d1b;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-
-.vehicle-type-btn svg {
-  width: 18px;
-  height: 18px;
-  stroke: currentColor;
-}
 
 .hero-search h1 {
   font-size: var(--font-size-3xl);
@@ -616,6 +576,72 @@ input, select {
 
 .filter-block {
   border-bottom: 1px solid var(--color-border-light);
+}
+
+/* Vehicle Type Toggle - Premium Webmotors Style */
+.vehicle-toggle-wrapper {
+  padding-bottom: 16px;
+  background: #fff;
+}
+
+.sidebar .vehicle-toggle-wrapper {
+  position: sticky;
+  top: 56px; /* Altura aproximada do .sidebar-header */
+  z-index: 5;
+  padding: 16px 20px;
+  margin: 0;
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.sidebar .sidebar-header {
+  position: sticky;
+  top: 0;
+  z-index: 6;
+  background: #fff;
+}
+
+.vehicle-toggle {
+  display: flex;
+  background: #f3f4f6;
+  padding: 4px;
+  border-radius: var(--radius-md);
+  gap: 4px;
+  box-sizing: border-box;
+}
+
+.vehicle-type-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  color: #727c8e;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.vehicle-type-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  stroke-width: 2.2px;
+}
+
+.vehicle-type-btn.active {
+  background: #fff;
+  color: #121214;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.vehicle-type-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 .filter-block-header {
