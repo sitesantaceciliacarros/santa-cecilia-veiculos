@@ -157,6 +157,52 @@ document.addEventListener('DOMContentLoaded', () => {
   if (hamburger) hamburger.addEventListener('click', toggleMenu);
   if (overlay) overlay.addEventListener('click', toggleMenu);
 
+  // ---- LEAD MODAL LOGIC (Global) ----
+  const leadModal = document.getElementById('leadModal');
+  const closeLeadBtn = document.getElementById('closeLeadModal');
+  const leadForm = document.getElementById('leadForm');
+  if (leadModal && leadForm) {
+      const tradeRadios = document.querySelectorAll('input[name="hasTrade"]');
+      const tradeDetails = document.getElementById('tradeDetails');
+
+      function closeModal() {
+        leadModal.classList.remove('visible');
+        document.body.style.overflow = '';
+      }
+
+      if (closeLeadBtn) closeLeadBtn.addEventListener('click', closeModal);
+      leadModal.addEventListener('click', (e) => { if (e.target === leadModal) closeModal(); });
+
+      tradeRadios.forEach(r => {
+        r.addEventListener('change', () => {
+          tradeDetails.style.display = (r.value === 'Sim') ? 'block' : 'none';
+        });
+      });
+
+      leadForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('leadName').value;
+        const phone = document.getElementById('leadPhone').value;
+        const type = document.querySelector('input[name="vType"]:checked').value;
+        const payment = document.querySelector('input[name="payMethod"]:checked').value;
+        const when = document.querySelector('input[name="whenBuy"]:checked').value;
+        const hasTrade = document.querySelector('input[name="hasTrade"]:checked').value;
+        const tradeTxt = tradeDetails.value;
+
+        const fullMsg = `📋 *Formulário de Interesse*\n\n` +
+                        `👤 *Nome:* ${name}\n` +
+                        `📱 *Zap:* ${phone}\n` +
+                        `🔹 *Tipo:* ${type}\n` +
+                        `💰 *Pagamento:* ${payment}\n` +
+                        `📅 *Quando:* ${when}\n` +
+                        `🔄 *Troca:* ${hasTrade}${hasTrade === 'Sim' ? ' (' + tradeTxt + ')' : ''}`;
+
+        const waCleanPhone = '5511999999999';
+        window.open(`https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`, '_blank');
+        closeModal();
+      });
+  }
+
   // ---- Scroll Animations ----
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('animate-in'); obs.unobserve(e.target); } });

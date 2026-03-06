@@ -161,6 +161,71 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => goToSlide(currentIndex));
     setTimeout(() => goToSlide(0), 100);
 
+    // ---- LEAD MODAL LOGIC ----
+    const leadModal = document.getElementById('leadModal');
+    const closeLeadBtn = document.getElementById('closeLeadModal');
+    const leadForm = document.getElementById('leadForm');
+    const tradeRadios = document.querySelectorAll('input[name="hasTrade"]');
+    const tradeDetails = document.getElementById('tradeDetails');
+
+    function openModal() {
+      leadModal.classList.add('visible');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      leadModal.classList.remove('visible');
+      document.body.style.overflow = '';
+    }
+
+    closeLeadBtn.addEventListener('click', closeModal);
+    leadModal.addEventListener('click', (e) => { if (e.target === leadModal) closeModal(); });
+
+    // Open by triggers
+    const triggerParcelas = document.getElementById('btnVerParcelas');
+    const triggerInteresse = document.getElementById('btnWhatsapp');
+    const mabParcelas = document.querySelector('.mab-parcelas');
+    
+    if (triggerParcelas) triggerParcelas.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    if (triggerInteresse) triggerInteresse.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    if (mabParcelas) mabParcelas.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+
+    // Handle trade details visibility
+    tradeRadios.forEach(r => {
+      r.addEventListener('change', () => {
+        tradeDetails.style.display = (r.value === 'Sim') ? 'block' : 'none';
+        if (r.value === 'Sim') tradeDetails.required = true;
+        else tradeDetails.required = false;
+      });
+    });
+
+    // Form submission
+    leadForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      const name = document.getElementById('leadName').value;
+      const phone = document.getElementById('leadPhone').value;
+      const type = document.querySelector('input[name="vType"]:checked').value;
+      const payment = document.querySelector('input[name="payMethod"]:checked').value;
+      const when = document.querySelector('input[name="whenBuy"]:checked').value;
+      const hasTrade = document.querySelector('input[name="hasTrade"]:checked').value;
+      const tradeTxt = tradeDetails.value;
+
+      const fullMsg = `📋 *Formulário de Interesse*\n\n` +
+                      `🚗 *Veículo:* ${v.name}\n` +
+                      `👤 *Nome:* ${name}\n` +
+                      `📱 *Zap:* ${phone}\n` +
+                      `🔹 *Tipo:* ${type}\n` +
+                      `💰 *Pagamento:* ${payment}\n` +
+                      `📅 *Quando:* ${when}\n` +
+                      `🔄 *Troca:* ${hasTrade}${hasTrade === 'Sim' ? ' (' + tradeTxt + ')' : ''}`;
+
+      const waCleanPhone = '5511999999999'; // Shop phone
+      const waUrl = `https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`;
+      
+      window.open(waUrl, '_blank');
+      closeModal();
+    });
 
   }
 
