@@ -296,6 +296,47 @@ input, select {
   text-align: center;
 }
 
+/* Vehicle Toggle Pill */
+.vehicle-toggle-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.vehicle-toggle {
+  display: inline-flex;
+  background-color: #ededf3;
+  border-radius: 40px;
+  padding: 4px;
+}
+
+.vehicle-type-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 32px;
+  border-radius: 36px;
+  border: none;
+  background: transparent;
+  color: #6b6b80;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.vehicle-type-btn.active {
+  background: #ffffff;
+  color: #1d1d1b;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.vehicle-type-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+}
+
 .hero-search h1 {
   font-size: var(--font-size-3xl);
   font-weight: 800;

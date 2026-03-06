@@ -26,6 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('listingGrid');
   const compareState = [];
 
+  // ---- Vehicle Toggle ----
+  const vehicleToggles = document.querySelectorAll('.vehicle-type-btn');
+  vehicleToggles.forEach(btn => {
+    btn.addEventListener('click', () => {
+      vehicleToggles.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
   // ---- Render Cards ----
   function renderCards(list) {
     grid.innerHTML = list.map(v => {
