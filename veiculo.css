@@ -35,7 +35,7 @@ body {
   padding: 16px 20px;
 }
 .vd-breadcrumb a { color: #525f7f; text-decoration: none; transition: color 0.2s;}
-.vd-breadcrumb a:hover { color: var(--color-brand-blue, #0056d6); }
+.vd-breadcrumb a:hover { color: var(--color-brand-red, #e53935); }
 
 /* =============================================
    GALERIA / CAROUSEL
@@ -210,7 +210,7 @@ body {
   letter-spacing: -0.5px;
   line-height: 1.2;
 }
-.vd-title .model-highlight { color: var(--color-brand-blue, #0056d6); }
+.vd-title .model-highlight { color: var(--color-brand-red, #e53935); }
 
 .vd-trim {
   font-size: 15px;
@@ -243,7 +243,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--color-brand-blue, #0056d6);
+  background: var(--color-brand-red, #e53935);
   color: #fff;
   border: none;
   padding: 12px 20px;
@@ -253,12 +253,12 @@ body {
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s;
-  box-shadow: 0 4px 12px rgba(0, 86, 214, 0.2);
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
 }
 .vd-price-inline .btn-ver-parcelas:hover { 
-  background: #0044b3; 
+  background: #c62828; 
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 86, 214, 0.3);
+  box-shadow: 0 6px 16px rgba(229, 57, 53, 0.3);
 }
 .vd-price-inline .btn-ver-parcelas svg { width: 18px; height: 18px; fill: currentColor; }
 
@@ -317,7 +317,7 @@ body {
 }
 .vd-items-section .see-all {
   font-size: 14px;
-  color: var(--color-brand-blue, #0056d6);
+  color: var(--color-brand-red, #e53935);
   cursor: pointer;
   font-weight: 700;
   text-decoration: none;
@@ -472,14 +472,14 @@ body {
   width: 100%;
 }
 .vd-btn-whatsapp {
-  background: var(--color-brand-blue, #0056d6);
+  background: var(--color-brand-red, #e53935);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 86, 214, 0.2);
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
 }
 .vd-btn-whatsapp:hover {
-  background: #0044b3;
+  background: #c62828;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 86, 214, 0.3);
+  box-shadow: 0 6px 16px rgba(229, 57, 53, 0.3);
 }
 .vd-btn-whatsapp svg { width: 20px; height: 20px; fill: #fff; }
 
@@ -491,7 +491,7 @@ body {
 }
 .simulation-box p { margin: 0 0 6px; color: #8a94a6; font-weight: 600; font-size: 13px; }
 .installment-value { font-size: 24px; font-weight: 800; color: #12263f; margin-bottom: 6px; letter-spacing: -0.5px;}
-.sim-link { color: var(--color-brand-blue, #0056d6); text-decoration: none; font-weight: 700; font-size: 14px;}
+.sim-link { color: var(--color-brand-red, #e53935); text-decoration: none; font-weight: 700; font-size: 14px;}
 
 /* Dealer card */
 .dealer-info-card {
@@ -560,11 +560,11 @@ body {
 .mab-phone svg { width: 22px; height: 22px; fill: #12263f; }
 .mab-whatsapp {
   flex: 1;
-  background: var(--color-brand-blue, #0056d6);
+  background: var(--color-brand-red, #e53935);
   color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 86, 214, 0.2);
+  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
 }
-.mab-whatsapp:hover { background: #0044b3; }
+.mab-whatsapp:hover { background: #c62828; }
 
 /* =============================================
    RESPONSIVO — MOBILE (max 900px)
