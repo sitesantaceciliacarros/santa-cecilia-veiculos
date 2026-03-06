@@ -1370,11 +1370,27 @@ input, select {
 }
 
 @media (max-width: 1024px) {
-  .nav-links {
-    display: none;
+  .nav-inner {
+    display: flex;
+    justify-content: space-between;
+  }
+  .nav-logo svg,
+  .nav-logo-img {
+    height: 48px;
+  }
+  .nav-right {
+    gap: 2px;
+  }
+  .nav-icon-btn {
+    width: 36px;
+    height: 36px;
   }
   .hamburger {
     display: flex;
+    margin-left: 8px;
+  }
+  .nav-links {
+    display: none;
   }
   .listing-layout {
     grid-template-columns: 1fr;
