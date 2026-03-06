@@ -1428,6 +1428,9 @@ input, select {
   .hero-search h1 {
     font-size: var(--font-size-2xl);
   }
+  .hero-search p {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
