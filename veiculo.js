@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderVehicleDetails({
         id: 'bmw-ix', name: "BMW iX", trim: "ELÉTRICO XDRIVE50 SPORT",
         price: 889990, year: 2024, km: 0, fuel: "Elétrico", trans: "Automática", type: "SUV",
-        images: [
+        image_gallery: [
           "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13052135373.jpg?s=fill&w=1920&h=1440&q=100",
           "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13073021913.jpg?s=fill&w=1920&h=1440&q=100",
           "https://image.webmotors.com.br/_fotos/anunciousados/gigante/2026/202602/20260226/bmw-ix-eletrico-xdrive50-sport-wmimagem13092349320.jpg?s=fill&w=1920&h=1440&q=100",
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- CAROUSEL ----
     const track = document.getElementById('carouselTrack');
     const dotsContainer = document.getElementById('carouselDots');
-    const images = (v.images && v.images.length > 0) ? v.images : (v.img ? [v.img] : []);
+    const images = (v.image_gallery && v.image_gallery.length > 0) ? v.image_gallery : (v.img ? [v.img] : []);
 
     if (images.length === 0) {
       track.innerHTML = '<div class="carousel-slide"><div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;">Sem imagens</div></div>';

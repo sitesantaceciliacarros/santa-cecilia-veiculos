@@ -266,12 +266,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       const vId = document.getElementById('vId').value;
       const payload = {
-        name: document.getElementById('vName').value,
-        trim: document.getElementById('vTrim').value,
-        img: imagesArray.join(','), // Bypass: save all images separated by comma in the 'img' field
-        images: imagesArray,
-        price: parseFloat(document.getElementById('vPrice').value),
-        installment: document.getElementById('vInstallment').value,
+        name: document.getElementById('vName').value.trim(),
+        trim: document.getElementById('vTrim').value.trim(),
+        img: imagesArray[0] || '', // First image as main thumbnail
+        image_gallery: imagesArray, // Store all images in the new JSONB column
+        price: parseFloat(document.getElementById('vPrice').value.replace(/[^0-9.-]+/g, "")),
+        installment: document.getElementById('vInstallment').value.trim(),
         year: parseInt(document.getElementById('vYear').value, 10),
         km: parseInt(document.getElementById('vKm').value, 10),
         fuel: document.getElementById('vFuel').value,
@@ -322,7 +322,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('vTag').value = v.tag || '';
 
     // Load existing images into gallery
-    existingImages = v.images || (v.img ? [v.img] : []);
+    existingImages = v.image_gallery || (v.img ? [v.img] : []);
     renderGalleryPreview();
 
     openModal("Editar Veículo");
@@ -347,6 +347,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   let sectionsList = [];
 
   async function loadSections() {
+    if (!sectionsGrid) {
+      console.error("Critical: Cannot load sections. Element '#sectionsGrid' is missing from the DOM.");
+      return;
+    }
+    
     sectionsGrid.innerHTML = '<div class="section-empty"><div class="empty-icon">📝</div><h3>Carregando seções...</h3></div>';
     const { data: sections, error } = await supabase.from('sections').select('*').order('created_at', { ascending: false });
 
