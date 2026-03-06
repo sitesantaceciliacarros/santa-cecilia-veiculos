@@ -1,15 +1,14 @@
 /* ========================================
-   SANTA CECÍLIA VEÍCULOS — Veículo Estilo Webmotors
+   SANTA CECÍLIA VEÍCULOS — Veículo (Webmotors Style)
    ======================================== */
 
-/* ---------- reset / main ---------- */
+/* ---------- Base ---------- */
 .vd-main {
-  background-color: #fff;
-  padding-top: 0;
-  padding-bottom: 80px; /* espaço para a action bar fixa */
+  background: #f5f5f5;
+  padding: 0 0 80px;
 }
 .vd-container {
-  max-width: 960px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0;
 }
@@ -19,33 +18,26 @@
   font-size: 12px;
   font-weight: 400;
   color: #999;
-  padding: 12px 16px;
-  letter-spacing: 0;
+  padding: 10px 16px;
 }
-.vd-breadcrumb a {
-  color: #666;
-  text-decoration: none;
-}
-.vd-breadcrumb a:hover {
-  color: var(--color-brand-blue);
-}
+.vd-breadcrumb a { color: #666; text-decoration: none; }
+.vd-breadcrumb a:hover { color: var(--color-brand-blue, #0066ff); }
 
-/* ========================================
-   GALERIA / CAROUSEL (estilo Webmotors)
-   ======================================== */
+/* =============================================
+   GALERIA / CAROUSEL
+   ============================================= */
 .vd-gallery {
   margin-bottom: 0;
   border-radius: 0;
   overflow: hidden;
   background: #111;
-  box-shadow: none;
   border: none;
   position: relative;
 }
 .carousel {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4/3;
   overflow: hidden;
   touch-action: pan-y;
 }
@@ -58,9 +50,6 @@
 .carousel-slide {
   min-width: 100%;
   height: 100%;
-  position: relative;
-  opacity: 1;
-  transition: none;
   flex-shrink: 0;
 }
 .carousel-slide img {
@@ -69,16 +58,16 @@
   object-fit: cover;
 }
 
-/* Botões prev/next - ocultar no mobile */
+/* Botões Nav */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.9);
   border: none;
   color: #333;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
@@ -86,13 +75,13 @@
   align-items: center;
   justify-content: center;
   font-size: 18px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  transition: background 0.2s;
 }
 .carousel-btn:hover { background: #fff; }
 .carousel-btn.prev { left: 16px; }
 .carousel-btn.next { right: 16px; }
 
-/* Counter (ocultar) */
 .carousel-counter { display: none; }
 
 /* Dots */
@@ -109,27 +98,27 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.4);
   border: none;
   cursor: pointer;
   padding: 0;
-  transition: background 0.2s, transform 0.2s;
+  transition: all 0.25s;
 }
 .carousel-dots .dot.active {
   background: var(--color-brand-blue, #0066ff);
-  transform: scale(1.25);
+  transform: scale(1.3);
 }
 
-/* Favorito na galeria */
+/* Fav na galeria */
 .gallery-fav-btn {
   position: absolute;
   top: 14px;
   right: 14px;
   z-index: 10;
-  background: rgba(255,255,255,0.85);
+  background: rgba(255,255,255,0.9);
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -145,32 +134,38 @@
   stroke-width: 2;
 }
 
-/* ========================================
-   CONTEÚDO PRINCIPAL
-   ======================================== */
+/* =============================================
+   LAYOUT GRID (2 colunas desktop)
+   ============================================= */
 .vd-content-grid {
-  display: block; /* no desktop tb fica linear no estilo mobile-first */
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  padding: 20px 16px 0;
 }
 
-.vd-left-col, .vd-right-col {
-  display: block;
-}
 .vd-right-col {
-  position: static;
+  position: sticky;
+  top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-self: start;
 }
 
-/* ---------- Main Card (título + preço + specs) ---------- */
+/* =============================================
+   MAIN CARD (Título + Preço + Specs)
+   ============================================= */
 .vd-main-card {
   background: #fff;
-  border-radius: 0;
-  padding: 20px 16px;
-  margin-bottom: 0;
-  box-shadow: none;
-  border: none;
-  border-bottom: 8px solid #f5f5f5;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 
-/* Badge vendedor rápido */
+/* Badge "Vendedor responde rápido" */
 .seller-badge {
   display: inline-flex;
   align-items: center;
@@ -179,47 +174,37 @@
   color: #2e7d32;
   font-size: 12px;
   font-weight: 600;
-  padding: 6px 12px;
+  padding: 5px 12px;
   border-radius: 20px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
-.seller-badge svg {
-  width: 14px;
-  height: 14px;
-  fill: #2e7d32;
-}
+.seller-badge svg { width: 14px; height: 14px; fill: #2e7d32; }
 
 /* Título */
-.vd-header-row {
-  display: block;
-  margin-bottom: 4px;
-}
-.vd-header-actions { display: none; } /* favorito moveu pra galeria */
+.vd-header-row { display: block; margin-bottom: 4px; }
+.vd-header-actions { display: none; }
 
 .vd-title {
   font-size: 22px;
   font-weight: 700;
-  margin: 0 0 2px 0;
+  margin: 0 0 2px;
   color: #222;
   text-transform: none;
-  line-height: 1.25;
+  line-height: 1.3;
 }
-.vd-title .model-highlight {
-  color: var(--color-brand-blue, #0066ff);
-}
+.vd-title .model-highlight { color: var(--color-brand-blue, #0066ff); }
 
 .vd-trim {
   font-size: 13px;
-  color: #777;
-  margin: 0 0 16px 0;
+  color: #888;
+  margin: 0 0 16px;
   font-weight: 400;
   text-transform: uppercase;
 }
 
-/* Location esconde — abre na specs */
 .vd-location-row { display: none; }
 
-/* ---------- Preço inline (estilo WM) ---------- */
+/* Preço inline */
 .vd-price-inline {
   display: flex;
   align-items: center;
@@ -235,7 +220,7 @@
   margin-bottom: 2px;
 }
 .vd-price-inline .main-price {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 800;
   color: #111;
   line-height: 1.1;
@@ -247,7 +232,7 @@
   background: var(--color-brand-blue, #0066ff);
   color: #fff;
   border: none;
-  padding: 10px 18px;
+  padding: 10px 20px;
   border-radius: 24px;
   font-size: 13px;
   font-weight: 700;
@@ -255,172 +240,73 @@
   white-space: nowrap;
   transition: background 0.2s;
 }
-.vd-price-inline .btn-ver-parcelas:hover {
-  background: #0052cc;
-}
-.vd-price-inline .btn-ver-parcelas svg {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
-}
+.vd-price-inline .btn-ver-parcelas:hover { background: #0052cc; }
+.vd-price-inline .btn-ver-parcelas svg { width: 16px; height: 16px; fill: currentColor; }
 
-/* ---------- Specs Grid (estilo WM 2 colunas) ---------- */
+/* Specs Grid */
 .vd-specs-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 0;
-  padding-top: 0;
-  border-top: none;
 }
 .spec-item {
   display: flex;
   flex-direction: column;
-  padding: 14px 0;
+  padding: 12px 0;
   border-bottom: 1px solid #f0f0f0;
 }
 .spec-item label {
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 4px;
-  letter-spacing: 0;
+  font-size: 11px;
+  color: #aaa;
+  margin-bottom: 3px;
   font-weight: 400;
-  text-transform: none;
 }
 .spec-value {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: #222;
-  text-transform: none;
 }
 
-/* ---------- Selo Cautelar -> ocultar o velho ---------- */
+/* Selo ocultar */
 .vd-seal-box { display: none; }
+.vd-section { display: none; }
 
-/* ========================================
-   SEÇÕES COM ACCORDION (estilo WM)
-   ======================================== */
-.vd-section {
-  background: #fff;
-  border-radius: 0;
-  padding: 0;
-  margin-bottom: 0;
-  box-shadow: none;
-  border: none;
-  border-bottom: 8px solid #f5f5f5;
-}
-.vd-section-title {
-  font-size: 14px;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
-  border-bottom: none;
-  display: block;
-  color: #999;
-}
+/* =============================================
+   SEÇÕES CARDS
+   ============================================= */
 
-/* Accordion genérico */
-.wm-accordion {
-  border-bottom: 8px solid #f5f5f5;
-}
-.wm-accordion-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 16px;
-  cursor: pointer;
-  background: #fff;
-  border: none;
-  width: 100%;
-  font-family: inherit;
-  text-align: left;
-}
-.wm-accordion-header:hover {
-  background: #fafafa;
-}
-.wm-accordion-header .acc-icon {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 12px;
-  flex-shrink: 0;
-}
-.wm-accordion-header .acc-icon svg {
-  width: 20px;
-  height: 20px;
-  fill: #333;
-}
-.wm-accordion-header .acc-label {
-  flex: 1;
-  font-size: 15px;
-  font-weight: 600;
-  color: #222;
-}
-.wm-accordion-header .acc-chevron {
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s ease;
-  flex-shrink: 0;
-}
-.wm-accordion-header .acc-chevron svg {
-  width: 24px;
-  height: 24px;
-  fill: #999;
-}
-.wm-accordion.open .acc-chevron {
-  transform: rotate(180deg);
-}
-.wm-accordion-body {
-  display: none;
-  padding: 0 16px 18px;
-}
-.wm-accordion.open .wm-accordion-body {
-  display: block;
-}
-
-/* Ficha técnica items */
-.ft-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 14px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-.ft-row:last-child { border-bottom: none; }
-.ft-row .ft-label {
-  font-size: 14px;
-  color: #555;
-  flex: 1;
-}
-.ft-row .ft-value {
-  font-size: 14px;
-  font-weight: 700;
-  color: #222;
-  text-align: right;
-}
-
-/* ---------- Descrição (Sobre este carro) ---------- */
+/* Sobre este carro */
 .vd-about-section {
-  padding: 20px 16px;
-  border-bottom: 8px solid #f5f5f5;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 .vd-about-section .section-label {
-  font-size: 14px;
-  color: #999;
+  font-size: 12px;
+  color: #aaa;
   margin-bottom: 12px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 .vd-description {
-  line-height: 1.65;
+  line-height: 1.7;
   color: #444;
   white-space: pre-line;
   font-size: 14px;
 }
 
-/* ---------- Itens do veículo ---------- */
+/* Itens do veículo */
 .vd-items-section {
-  padding: 20px 16px;
-  border-bottom: 8px solid #f5f5f5;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 .vd-items-section .section-header {
   display: flex;
@@ -429,18 +315,21 @@
   margin-bottom: 16px;
 }
 .vd-items-section .section-label {
-  font-size: 14px;
-  color: #999;
+  font-size: 12px;
+  color: #aaa;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 .vd-items-section .see-all {
-  font-size: 20px;
-  color: #999;
+  font-size: 22px;
+  color: #bbb;
   cursor: pointer;
   text-decoration: none;
 }
 .vd-features-list {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -448,26 +337,28 @@
 }
 .vd-features-list li {
   padding: 10px 0;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  color: #222;
-  border-bottom: none;
+  color: #333;
 }
-.vd-features-list li::before {
-  content: none;
-}
+.vd-features-list li::before { content: none; }
 
-/* ========================================
-   SEÇÃO DO VENDEDOR (estilo WM)
-   ======================================== */
+/* Seção do vendedor */
 .vd-seller-section {
-  padding: 20px 16px;
-  border-bottom: 8px solid #f5f5f5;
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
 }
 .vd-seller-section .section-label {
-  font-size: 14px;
-  color: #999;
+  font-size: 12px;
+  color: #aaa;
   margin-bottom: 16px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.04em;
 }
 .seller-card {
   display: flex;
@@ -479,16 +370,12 @@
   width: 48px;
   height: 48px;
   background: #f0f0f0;
-  border-radius: 8px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.seller-card .seller-avatar svg {
-  width: 28px;
-  height: 28px;
-  fill: #bbb;
-}
+.seller-card .seller-avatar svg { width: 26px; height: 26px; fill: #bbb; }
 .seller-card .seller-info .seller-name {
   font-size: 16px;
   font-weight: 700;
@@ -501,13 +388,8 @@
   align-items: center;
   gap: 4px;
 }
-.seller-card .seller-info .seller-location svg {
-  width: 14px;
-  height: 14px;
-  fill: #999;
-}
+.seller-card .seller-info .seller-location svg { width: 14px; height: 14px; fill: #999; }
 
-/* Status aberto/fechado */
 .seller-status {
   display: flex;
   align-items: center;
@@ -521,24 +403,19 @@
   color: #222;
 }
 .seller-status .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 8px; height: 8px;
   border-radius: 50%;
   background: #f44336;
 }
-.seller-status .status-dot.open {
-  background: #4caf50;
-}
+.seller-status .status-dot.open { background: #4caf50; }
 
-/* Telefone */
 .seller-phone {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 8px;
 }
 .seller-phone .phone-number {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 300;
   color: #ccc;
   letter-spacing: 1px;
@@ -552,29 +429,155 @@
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
+  transition: background 0.2s;
+}
+.seller-phone .btn-ver-tel:hover { background: #111; }
+
+/* Accordion */
+.wm-accordion {
+  background: #fff;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #e8e8e8;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.wm-accordion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 100%;
+  font-family: inherit;
+  text-align: left;
+}
+.wm-accordion-header:hover { background: #fafafa; border-radius: 12px; }
+.wm-accordion-header .acc-label {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+.wm-accordion-header .acc-chevron {
+  width: 24px; height: 24px;
+  transition: transform 0.3s;
+}
+.wm-accordion-header .acc-chevron svg { width: 24px; height: 24px; fill: #999; }
+.wm-accordion.open .acc-chevron { transform: rotate(180deg); }
+.wm-accordion-body {
+  display: none;
+  padding: 0 24px 18px;
+}
+.wm-accordion.open .wm-accordion-body { display: block; }
+
+/* =============================================
+   COLUNA DIREITA — CARD DE PREÇO (Desktop)
+   ============================================= */
+.vd-price-card {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.price-badge { display: none; }
+.price-header { margin-bottom: 20px; }
+.vd-price-card .main-price {
+  font-size: 30px;
+  font-weight: 800;
+  color: #111;
 }
 
-/* Ocultar card de preço/dealer antigos */
-.vd-price-card { display: none; }
-.dealer-info-card { display: none; }
-.price-badge { display: none; }
+.cta-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
 
-/* ========================================
-   BARRA FIXA INFERIOR (Mobile Action Bar)
-   ======================================== */
+.vd-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 48px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  border: none;
+  width: 100%;
+}
+.vd-btn-whatsapp {
+  background: var(--color-brand-blue, #0066ff);
+  color: #fff;
+}
+.vd-btn-whatsapp:hover {
+  background: #0052cc;
+  box-shadow: 0 4px 14px rgba(0,102,255,0.25);
+}
+.vd-btn-whatsapp svg { width: 20px; height: 20px; fill: #fff; }
+
+.vd-btn-secondary {
+  background: #fff;
+  color: #333;
+  border: 1.5px solid #ddd;
+}
+.vd-btn-secondary:hover { background: #f7f7f7; }
+
+.simulation-box {
+  border-top: 1px solid #eee;
+  padding-top: 16px;
+  font-size: 13px;
+}
+.simulation-box p { margin: 0 0 6px; color: #999; font-weight: 500; }
+.installment-value { font-size: 18px; font-weight: 800; color: #111; margin-bottom: 6px; }
+.sim-link { color: var(--color-brand-blue, #0066ff); text-decoration: none; font-weight: 600; font-size: 13px; }
+
+/* Dealer card */
+.dealer-info-card {
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.dealer-info-card h3 {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0 0 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.dealer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.dealer-brand img { width: 36px; height: 36px; object-fit: contain; }
+.dealer-brand span { font-weight: 700; font-size: 15px; color: #222; }
+.dealer-info-card p { margin: 0; font-size: 13px; color: #888; }
+
+/* =============================================
+   BARRA FIXA INFERIOR (Mobile)
+   ============================================= */
 .mobile-action-bar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   z-index: 900;
   background: #fff;
   border-top: 1px solid #e0e0e0;
-  display: flex;
+  display: none; /* escondido por padrão, aparece no mobile */
   align-items: center;
   padding: 10px 12px;
   gap: 8px;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
+  box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
 }
 .mobile-action-bar .mab-btn {
   display: flex;
@@ -591,273 +594,81 @@
   font-family: inherit;
   white-space: nowrap;
 }
-
-/* Ver parcelas */
 .mab-parcelas {
   flex: 1;
   background: #fff;
   color: #222;
   border: 1.5px solid #ddd !important;
 }
-
-/* Telefone */
 .mab-phone {
-  width: 46px;
-  height: 46px;
+  width: 46px; height: 46px;
   background: #f0f0f0;
   flex-shrink: 0;
 }
-.mab-phone svg {
-  width: 20px;
-  height: 20px;
-  fill: #333;
-}
-
-/* Enviar mensagem */
+.mab-phone svg { width: 20px; height: 20px; fill: #333; }
 .mab-whatsapp {
   flex: 1;
   background: var(--color-brand-blue, #0066ff);
   color: #fff;
 }
-.mab-whatsapp:hover {
-  background: #0052cc;
-}
+.mab-whatsapp:hover { background: #0052cc; }
 
-/* ========================================
-   RESPONSIVO
-   ======================================== */
-
-/* Desktop */
-@media (min-width: 901px) {
+/* =============================================
+   RESPONSIVO — MOBILE (max 900px)
+   ============================================= */
+@media (max-width: 900px) {
   .vd-main {
-    background: #f5f5f5;
-    padding-top: 16px;
-    padding-bottom: 60px;
+    background: #fff;
+    padding-bottom: 80px;
   }
-  .vd-container {
-    max-width: 1200px;
-    padding: 0 24px;
-  }
-
-  /* Breadcrumb no topo */
-  .vd-breadcrumb {
-    padding: 8px 0 12px;
-    font-size: 13px;
-  }
-
-  /* Gallery desktop */
-  .vd-gallery {
-    border-radius: 8px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    border: 1px solid #e0e0e0;
-  }
-  .carousel {
-    aspect-ratio: 16/9;
-  }
-  .carousel-btn {
-    width: 44px;
-    height: 44px;
-    font-size: 20px;
-  }
-
-  /* ---- 2 COLUNAS ---- */
   .vd-content-grid {
-    display: grid;
-    grid-template-columns: 1fr 360px;
-    gap: 20px;
+    display: block;
     padding: 0;
   }
+  .vd-right-col {
+    position: static;
+  }
+  /* Esconder card de preço desktop, mostrar action bar */
+  .vd-price-card { display: none; }
+  .dealer-info-card { display: none; }
+  .mobile-action-bar { display: flex; }
 
-  /* Esconder action bar, mostrar CTA desktop */
-  .mobile-action-bar { display: none; }
-  .vd-price-card { display: block; }
-  .dealer-info-card { display: block; }
-
-  /* Main Card desktop */
-  .vd-main-card {
-    background: #fff;
-    border-radius: 8px;
-    padding: 24px;
-    margin: 0 0 16px;
-    border: 1px solid #e8e8e8;
-    border-bottom: 1px solid #e8e8e8;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  }
-  .seller-badge {
-    margin-bottom: 10px;
-  }
-  .vd-title {
-    font-size: 24px;
-    font-weight: 700;
-  }
-  .vd-trim {
-    font-size: 14px;
-    margin-bottom: 20px;
-  }
-  .vd-price-inline {
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-  }
-  .vd-price-inline .main-price {
-    font-size: 34px;
-  }
-
-  /* Specs desktop: 3 colunas */
-  .vd-specs-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-  }
-  .spec-item {
-    padding: 12px 16px 12px 0;
-  }
-
-  /* Seções com cards */
+  /* Cards sem border-radius no mobile */
+  .vd-main-card,
   .vd-about-section,
   .vd-items-section,
-  .vd-seller-section {
-    background: #fff;
-    border-radius: 8px;
-    padding: 24px;
-    margin-bottom: 16px;
-    border: 1px solid #e8e8e8;
-    border-bottom: 1px solid #e8e8e8;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  }
-  .vd-about-section .section-label,
-  .vd-items-section .section-label,
-  .vd-seller-section .section-label {
-    font-size: 13px;
-    text-transform: uppercase;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    margin-bottom: 16px;
-    color: #888;
-  }
-
-  /* Features em 3 colunas no desktop */
-  .vd-features-list {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  /* Accordion desktop */
+  .vd-seller-section,
   .wm-accordion {
-    background: #fff;
-    border-radius: 8px;
-    margin-bottom: 16px;
-    border: 1px solid #e8e8e8;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    margin-bottom: 0;
+    border-bottom: 8px solid #f5f5f5;
+    box-shadow: none;
   }
-  .wm-accordion-header {
-    padding: 18px 24px;
-  }
-  .wm-accordion-body {
-    padding: 0 24px 18px;
-  }
+  .vd-main-card { padding: 20px 16px; }
+  .vd-about-section { padding: 20px 16px; }
+  .vd-items-section { padding: 20px 16px; }
+  .vd-seller-section { padding: 20px 16px; }
 
-  /* ---- Coluna direita (Preço sticky) ---- */
-  .vd-right-col {
-    position: sticky;
-    top: 90px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-self: start;
-  }
-  .vd-price-card {
-    background: #fff;
-    border: 1px solid #e8e8e8;
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  }
-  .vd-price-card .price-header {
-    margin-bottom: 20px;
-  }
-  .vd-price-card .main-price {
-    font-size: 32px;
-    font-weight: 800;
-    color: #111;
-  }
-  .vd-price-card .cta-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-bottom: 20px;
-  }
-  .vd-btn {
-    height: 48px;
-    border-radius: 8px;
-    font-size: 14px;
-  }
-  .vd-btn-whatsapp {
-    background: var(--color-brand-blue, #0066ff);
-    color: #fff;
-  }
-  .vd-btn-whatsapp:hover {
-    background: #0052cc;
-    color: #fff;
-  }
-  .vd-btn-whatsapp svg { fill: #fff; }
-  .vd-btn-secondary {
-    background: #fff;
-    color: #333;
-    border: 1.5px solid #ddd;
-  }
-  .vd-btn-secondary:hover {
-    background: #f5f5f5;
-  }
+  .vd-specs-grid { grid-template-columns: 1fr 1fr; }
+  .vd-features-list { grid-template-columns: 1fr 1fr; }
 
-  .simulation-box {
-    border-top: 1px solid #eee;
-    padding-top: 16px;
-  }
-
-  .dealer-info-card {
-    background: #fff;
-    border: 1px solid #e8e8e8;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  }
-  .dealer-info-card h3 {
-    font-size: 12px;
-    color: #888;
-    margin: 0 0 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-  .dealer-brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  .dealer-brand span {
-    font-weight: 700;
-    font-size: 15px;
-    color: #222;
-  }
-  .dealer-info-card p {
-    margin: 0;
-    font-size: 13px;
-    color: #888;
-  }
+  .vd-breadcrumb { padding: 10px 16px; }
 }
 
-/* Mobile small */
+/* Mobile pequeno */
 @media (max-width: 480px) {
-  .carousel {
-    aspect-ratio: 1 / 1;
-  }
-  .carousel-btn {
-    display: none;
-  }
-  .vd-title {
-    font-size: 20px;
-  }
-  .vd-price-inline .main-price {
-    font-size: 28px;
+  .carousel { aspect-ratio: 1/1; }
+  .carousel-btn { display: none; }
+  .vd-title { font-size: 19px; }
+  .vd-price-inline .main-price { font-size: 26px; }
+  .vd-price-inline .btn-ver-parcelas { padding: 8px 14px; font-size: 12px; }
+}
+
+/* Desktop largo */
+@media (min-width: 1201px) {
+  .vd-content-grid {
+    grid-template-columns: 1fr 380px;
   }
 }
