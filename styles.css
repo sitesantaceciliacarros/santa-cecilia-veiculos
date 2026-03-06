@@ -988,18 +988,18 @@ input, select {
 }
 
 .btn-card-primary {
-  background: linear-gradient(135deg, var(--color-brand-blue) 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
   color: var(--color-white);
-  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+  box-shadow: 0 4px 12px rgba(225, 29, 72, 0.15);
   font-size: 15px;
   letter-spacing: 0.01em;
   text-transform: uppercase;
   font-weight: 700;
 }
 .btn-card-primary:hover {
-  background: linear-gradient(135deg, #1d4ed8 0%, var(--color-brand-blue) 100%);
+  background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 6px 16px rgba(225, 29, 72, 0.25);
 }
 
 
