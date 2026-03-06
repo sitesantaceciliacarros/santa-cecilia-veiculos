@@ -262,6 +262,33 @@ input, select {
   padding: 14px 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
+.mobile-menu-actions {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+}
+.mobile-action-btn {
+  color: #fff;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.05);
+  transition: all var(--transition-fast);
+}
+.mobile-action-btn:active {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(0.95);
+}
+.mobile-action-btn svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
 .mobile-menu-overlay {
   position: fixed;
   inset: 0;
@@ -1417,6 +1444,7 @@ input, select {
   .nav-icon-btn {
     width: 36px;
     height: 36px;
+    display: none;
   }
   .hamburger {
     display: flex;
