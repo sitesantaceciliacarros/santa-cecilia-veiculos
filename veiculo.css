@@ -509,13 +509,7 @@ body {
 }
 .vd-btn-whatsapp svg { width: 20px; height: 20px; fill: #fff; }
 
-.vd-btn-secondary {
-  background: #fff;
-  color: #12263f;
-  border: 1px solid #edf1f5;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
-.vd-btn-secondary:hover { background: #f7f9fa; }
+
 
 .simulation-box {
   border-top: 1px solid #edf1f5;
