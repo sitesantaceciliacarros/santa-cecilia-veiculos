@@ -1393,9 +1393,11 @@ input, select {
 @media (max-width: 768px) {
   .search-fields {
     grid-template-columns: 1fr 1fr;
+    gap: 16px 12px;
   }
   .btn-search {
     grid-column: 1 / -1;
+    margin-top: 8px;
   }
   .listing-grid {
     grid-template-columns: 1fr;
@@ -1429,8 +1431,31 @@ input, select {
 }
 
 @media (max-width: 480px) {
+  .search-panel {
+    padding: 16px 20px;
+  }
+  .search-tabs {
+    margin-bottom: 16px;
+  }
+  .search-tab {
+    padding: 12px;
+    font-size: 11px;
+    flex: 1;
+    text-align: center;
+  }
   .search-fields {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 12px;
+  }
+  .field-group:nth-child(3),
+  .field-group:nth-child(4) {
+    grid-column: span 1;
+  }
+  .btn-search {
+    grid-column: 1 / -1;
+    height: 48px;
+    font-size: var(--font-size-sm);
+    margin-top: 8px;
   }
   .hero-stats {
     flex-direction: column;
