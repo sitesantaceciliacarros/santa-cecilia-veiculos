@@ -1467,7 +1467,8 @@ input, select {
     display: flex;
     margin-left: 0;
   }
-  .nav-links {
+  .nav-links,
+  .nav-icon-btn {
     display: none;
   }
   .listing-layout {
