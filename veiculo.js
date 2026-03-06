@@ -161,16 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', () => goToSlide(currentIndex));
     setTimeout(() => goToSlide(0), 100);
 
-    // ---- Ver Telefone ----
-    const btnVerTel = document.getElementById('btnVerTel');
-    const phoneDisplay = document.getElementById('sellerPhone');
-    if (btnVerTel) {
-      btnVerTel.addEventListener('click', () => {
-        phoneDisplay.textContent = '(11) 99999-9999';
-        btnVerTel.textContent = 'Ligar';
-        btnVerTel.onclick = () => window.location.href = 'tel:+5511999999999';
-      });
-    }
+
   }
 
   // ---- Mobile menu ----

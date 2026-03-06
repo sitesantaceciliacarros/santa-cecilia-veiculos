@@ -391,33 +391,7 @@ body {
 }
 .seller-status .status-dot.open { background: #38a169; }
 
-.seller-phone {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: #f7f9fa;
-  padding: 16px 20px;
-  border-radius: 12px;
-}
-.seller-phone .phone-number {
-  font-size: 20px;
-  font-weight: 600;
-  color: #cbd5e0;
-  letter-spacing: 1px;
-}
-.seller-phone .btn-ver-tel {
-  background: #fff;
-  color: #12263f;
-  border: 1px solid #edf1f5;
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
-.seller-phone .btn-ver-tel:hover { background: #edf1f5; }
+
 
 /* Accordion */
 .wm-accordion { padding: 0; }
@@ -642,10 +616,7 @@ body {
   .spec-item { padding: 4px 0; }
 
   .vd-features-list { grid-template-columns: 1fr 1fr; }
-  
-  .seller-phone { flex-direction: column; align-items: stretch; background: transparent; padding: 0;}
-  .seller-phone .btn-ver-tel { width: 100%; height: 48px; }
-  .seller-phone .phone-number { margin-bottom: 12px; }
+
 }
 
 /* Mobile pequeno */
