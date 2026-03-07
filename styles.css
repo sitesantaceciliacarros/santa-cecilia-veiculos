@@ -87,6 +87,11 @@ body {
   overflow-x: clip;
   width: 100%;
   position: relative;
+  /* Anti-inspection / anti-copy */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 a {
   text-decoration: none;
@@ -97,6 +102,8 @@ img {
   display: block;
   max-width: 100%;
   height: auto;
+  /* Anti-inspection / anti-copy */
+  -webkit-user-drag: none;
 }
 ul, ol {
   list-style: none;
