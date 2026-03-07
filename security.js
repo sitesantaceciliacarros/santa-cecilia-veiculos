@@ -8,6 +8,17 @@
 
     let isLocked = false;
 
+    // 1. Frame-Busting (Anti-Iframe)
+    if (window.top !== window.self) {
+        try {
+            window.top.location = window.self.location;
+        } catch (e) {
+            // Se o navegador bloquear o redirecionamento cross-origin, nós destruímos a página
+            document.write('');
+            document.documentElement.innerHTML = '';
+        }
+    }
+
     const blockEvents = (e) => {
         e.stopPropagation();
         e.stopImmediatePropagation();
@@ -17,12 +28,15 @@
     const lockScreen = () => {
         if (isLocked) return;
         isLocked = true;
-        document.body.innerHTML = `
-            <div style="background:#000;color:#f00;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;position:fixed;top:0;left:0;width:100%;z-index:999999;">
+        
+        // Wipe todo o DOM (Head + Body) para não sobrar nenhum link ou imagem no Source
+        document.documentElement.innerHTML = `
+            <head><title>Bloqueado</title></head>
+            <body style="background:#000;color:#f00;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;margin:0;">
                 <h1 style="font-size:48px;margin-bottom:10px;">🛡️ AMBIENTE PROTEGIDO</h1>
                 <p style="font-size:20px;">O acesso ao código-fonte ou ferramentas de inspeção foi detectado e bloqueado.</p>
                 <button onclick="location.reload()" style="margin-top:20px;padding:10px 20px;background:#f00;color:#fff;border:none;border-radius:5px;cursor:pointer;font-weight:bold;">VOLTAR AO SITE</button>
-            </div>
+            </body>
         `;
     };
 
@@ -45,6 +59,22 @@
 
     setInterval(applyProtections, 200);
     applyProtections();
+
+    // 3.5. Scanner de DevTools Pré-Carregado (Docked)
+    // Se o usuário entrou com o F12 já aberto, a janela útil será muito menor que o navegador.
+    const detectDockedDevTools = () => {
+        // Tolerância de 180px para barras de favoritos/menus normais dos navegadores
+        const widthDiff = window.outerWidth - window.innerWidth;
+        const heightDiff = window.outerHeight - window.innerHeight;
+        
+        // 180 é um valor de corte seguro para não pegar falsos positivos de UI normal.
+        if (widthDiff > 180 || heightDiff > 220) {
+            lockScreen();
+        }
+    };
+    
+    // Roda logo na primeira fração de segundo
+    setTimeout(detectDockedDevTools, 100);
 
     // 4. Detecção de DevTools via Resize (Menos sensível)
     let lastWidth = window.innerWidth;
