@@ -27,8 +27,29 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 3. Logout
   document.getElementById('btnSair').addEventListener('click', async () => {
     await supabase.auth.signOut();
-    window.location.href = 'admin-login.html';
+    window.location.href = 'acesso-scv-9f82.html';
   });
+
+  // ---- TOAST SYSTEM ----
+  function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    let icon = '🔔';
+    if(type === 'success') icon = '✅';
+    if(type === 'error') icon = '❌';
+
+    toast.innerHTML = `<span>${icon}</span> <span>${message}</span>`;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(20px)';
+      setTimeout(() => toast.remove(), 300);
+    }, 4000);
+  }
+  window.showToast = showToast; // Global access
 
   // 4. Load Vehicles
   const vehicleTableBody = document.getElementById('vehicleTableBody');
@@ -90,6 +111,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   await loadVehicles();
+
+  // ---- SEARCH LOGIC ----
+  const adminSearch = document.getElementById('adminSearch');
+  if (adminSearch) {
+    adminSearch.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase();
+      const rows = vehicleTableBody.querySelectorAll('tr');
+      
+      rows.forEach(row => {
+        if (row.querySelector('td[colspan]')) return; // Ignore "loading" row
+        const text = row.innerText.toLowerCase();
+        row.style.display = text.includes(term) ? '' : 'none';
+      });
+    });
+  }
 
   // 5. Modal Logic
   const modal = document.getElementById('modalVehicle');
@@ -289,10 +325,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       if (result.error) {
-        alert("Erro ao salvar: " + result.error.message);
+        showToast("Erro ao salvar: " + result.error.message, 'error');
       } else {
         closeModal();
         await loadVehicles();
+        showToast(vId ? "Veículo atualizado com sucesso!" : "Veículo cadastrado com sucesso!", 'success');
       }
     } catch (err) {
       alert(err.message);
@@ -332,9 +369,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (confirm("Tem certeza que deseja excluir este veículo? Esta ação não pode ser desfeita.")) {
       const { error } = await supabase.from('vehicles').delete().eq('id', id);
       if (error) {
-        alert("Erro ao excluir: " + error.message);
+        showToast("Erro ao excluir: " + error.message, 'error');
       } else {
         await loadVehicles();
+        showToast("Veículo excluído com sucesso!", 'success');
       }
     }
   };
@@ -480,41 +518,53 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   };
 
-  // --- IA Quality Agent Logic ---
-  window.runManualAudit = function() {
+  // --- IA Quality Agent Logic (REAL) ---
+  window.runManualAudit = async function() {
     const log = document.getElementById('auditLog');
     const btn = document.getElementById('btnAudit');
     
     log.style.display = 'block';
-    log.innerHTML = '> Iniciando varredura profunda...<br>';
+    log.innerHTML = '<span style="color:var(--color-brand-blue)">[SISTEMA]</span> Iniciando Auditoria de IA no banco de dados...<br>';
     btn.disabled = true;
     btn.innerText = '🛡️ Auditando...';
 
-    setTimeout(() => {
-      log.innerHTML += '> Verificando integridade dos dados no Supabase... OK<br>';
-    }, 500);
+    // Fetch fresh data for audit
+    const { data: currentVehicles } = await supabase.from('vehicles').select('*');
+    
+    let issuesFound = 0;
+    let report = [];
+
+    setTimeout(() => { log.innerHTML += '> Analisando integridade das imagens...<br>'; }, 500);
+    
+    // Check for common issues
+    currentVehicles.forEach(v => {
+      if (!v.img || v.img.includes('placeholder')) {
+        report.push(`<span style="color:#ff9800">[AVISO]</span> Veículo ID ${v.id} (${v.name}) está sem imagem principal.`);
+        issuesFound++;
+      }
+      if (!v.price || v.price <= 0) {
+        report.push(`<span style="color:#ff5050">[ERRO]</span> Veículo ID ${v.id} está com preço zerado ou inválido.`);
+        issuesFound++;
+      }
+      if (!v.image_gallery || v.image_gallery.length < 3) {
+        report.push(`<span style="color:#ff9800">[SUGESTÃO]</span> Veículo ${v.name} tem poucas fotos na galeria (ideal: 3+).`);
+        issuesFound++;
+      }
+    });
 
     setTimeout(() => {
-      log.innerHTML += '> Buscando links quebrados... Nenhum encontrado.<br>';
-    }, 1200);
-
-    setTimeout(() => {
-      log.innerHTML += '> Analisando termos em inglês (Varredura Anti-Inglês)... <span style="color:#00ff00">0% Encontrado.</span><br>';
-    }, 2000);
-
-    setTimeout(() => {
-      log.innerHTML += '> Verificando acentuação e codificação UTF-8... <span style="color:#00ff00">Tudo OK.</span><br>';
-    }, 2800);
-
-    setTimeout(() => {
-      log.innerHTML += '> O Agente de IA confirmou: O site está 100% otimizado e correto!<br>';
-      log.innerHTML += '> <br>[STATUS: SUCESSO] Auditoria concluída com êxito.';
-      btn.disabled = false;
-      btn.innerText = '✨ Auditoria Concluída';
+      if (issuesFound > 0) {
+        log.innerHTML += `<br><span style="color:#ff9800">VARREDURA CONCLUÍDA: ${issuesFound} pontos de atenção encontrados.</span><br>`;
+        log.innerHTML += report.join('<br>');
+        showToast(`Auditoria concluída: ${issuesFound} problemas encontrados.`, 'info');
+      } else {
+        log.innerHTML += '<br><span style="color:#00ff00">✅ NENHUM PROBLEMA ENCONTRADO!</span> Seu estoque está perfeito.';
+        showToast('Auditoria concluída: Estoque 100% perfeito!', 'success');
+      }
       
-      // Auto-correction "Magic" (Simulation of continuous observation)
-      console.log('🤖 Agente de IA: Monitorando erros comuns... Todos os sistemas em ordem.');
-    }, 3500);
+      btn.disabled = false;
+      btn.innerText = '✨ Auditoria Finalizada';
+    }, 2000);
   };
 
 });
