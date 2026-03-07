@@ -149,7 +149,11 @@
             if (error) {
                 console.error("Erro de Login:", error);
                 errorMsg.style.display = 'block';
-                errorMsg.innerText = "Erro: " + error.message;
+                if (error.message === "Invalid login credentials") {
+                    errorMsg.innerHTML = "<strong>Credenciais Inválidas:</strong> O e-mail ou senha estão incorretos, ou a conta ainda não foi criada.<br><br>Clique no botão abaixo para <strong>Criar Conta Admin</strong> se for seu primeiro acesso.";
+                } else {
+                    errorMsg.innerText = "Erro: " + error.message;
+                }
             } else {
                 console.log("Login OK! Redirecionando...");
                 window.location.href = 'painel-scv-3x1a.html';
