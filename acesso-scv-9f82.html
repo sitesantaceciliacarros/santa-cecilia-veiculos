@@ -59,12 +59,18 @@
             width: 100%;
             padding: 12px;
             border-radius: 6px;
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--color-border, rgba(255,255,255,0.1));
             background-color: rgba(255, 255, 255, 0.05);
-            color: var(--text-base);
+            color: #ffffff;
+            color: var(--color-white, #ffffff);
             font-size: 16px;
             outline: none;
             transition: border-color 0.2s;
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
         }
 
         .form-group input:focus {

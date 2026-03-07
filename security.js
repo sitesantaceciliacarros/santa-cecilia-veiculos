@@ -20,6 +20,12 @@
     }
 
     const blockEvents = (e) => {
+        // PERMITIR eventos em campos de texto/input
+        const tag = e.target.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || e.target.isContentEditable) {
+            return; 
+        }
+
         e.stopPropagation();
         e.stopImmediatePropagation();
         e.preventDefault();
