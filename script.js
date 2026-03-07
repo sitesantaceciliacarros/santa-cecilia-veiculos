@@ -151,14 +151,31 @@ document.addEventListener('DOMContentLoaded', () => {
   const hamburger = document.querySelector('.hamburger');
   const mobileMenu = document.querySelector('.mobile-menu');
   const overlay = document.querySelector('.mobile-menu-overlay');
+  
   function toggleMenu() {
-    mobileMenu.classList.toggle('open');
+    const isOpen = mobileMenu.classList.toggle('open');
     overlay.classList.toggle('visible');
     hamburger.classList.toggle('active');
-    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    
+    // Travar scroll do fundo de forma robusta para mobile/iOS
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.touchAction = 'none'; // Evita scroll em telas touch
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
+    }
   }
+  
   if (hamburger) hamburger.addEventListener('click', toggleMenu);
-  if (overlay) overlay.addEventListener('click', toggleMenu);
+  
+  if (overlay) {
+    overlay.addEventListener('click', toggleMenu);
+    // Bloqueia qualquer tentativa de scroll ou arraste invisível na área do overlay
+    overlay.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+    }, { passive: false });
+  }
 
   // ---- LEAD MODAL LOGIC (Global) ----
   const leadModal = document.getElementById('leadModal');
