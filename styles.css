@@ -254,7 +254,7 @@ input, select {
   z-index: 1050;
   transition: left var(--transition-base);
   overflow-y: auto;
-  padding: 72px 0 40px;
+  padding: 24px 0 40px;
 }
 .mobile-menu.open {
   left: 0;
