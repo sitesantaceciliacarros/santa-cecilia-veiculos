@@ -6,19 +6,20 @@
 (function() {
     'use strict';
 
-    const _u = "68747470733a2f2f686d7175636e68616e72676a7866656e6a7a617a2e73757061626173652e636f";
-    const _k = "65794A68624763694F694A49557A49314E694973496E523563434936496B705856434A392E65794A7063334D694F694A7A64584268596D467A5A534973496E4A6C5A694936496D68746358566A626D6868626E4A6E616E686D5A573571656D463649697769636D39735A534936496D4675623234694C434A70595851694F6A45334E7a49784E4441794D6A4973496D5634634349364D6A41344E7a63784E6A49794D6E302E546m796b756f44393366474E6148736C783750756266385A6E597942766233564232387272646975355755";
+    const _u = "aHR0cHM6Ly9obXF1Y25oYW5yZ2p4ZmVuanphei5zdXBhYmFzZS5jbw==";
+    const _k = "ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW1odGNYVmpibWhoYm5KbmFuaG1aVzVxZW1GNklpd2ljbTlzWlNJNkltRnViMjRpTENKcFlYUWlPakUzTnpJeE5EQXlNaklzSW1WNGNDSTZNakE0TnpjeE5qSXlNbjAuVG15a3VvRDkzZkdOYUhzbHg3UHViZjhabll5QnZiM1ZCMjhycmRpdTVXVQ==";
 
-    const hexDecode = (hex) => {
-        let str = '';
-        for (let i = 0; i < hex.length; i += 2) {
-            str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    const b64Decode = (str) => {
+        try {
+            return atob(str);
+        } catch (e) {
+            console.error("Vault: Decode failure.");
+            return null;
         }
-        return str;
     };
 
-    const url = hexDecode(_u);
-    const key = hexDecode(_k);
+    const url = b64Decode(_u);
+    const key = b64Decode(_k);
 
     if (url && key && window.supabase) {
         window.sb = window.supabase.createClient(url, key);
