@@ -109,6 +109,7 @@
                 <input type="password" id="password" required placeholder="Sua senha" />
             </div>
             <button type="submit" class="btn-submit" id="btnSubmit">Entrar</button>
+            <button type="button" class="btn-submit" id="btnSignUp" style="margin-top: 10px; background-color: transparent; border: 1px solid var(--primary); color: var(--primary);">Criar Conta Admin</button>
             <div class="error-msg" id="errorMsg">E-mail ou senha inválidos.</div>
         </form>
     </div>
@@ -144,6 +145,34 @@
                 errorMsg.innerText = error.message;
             } else {
                 window.location.href = 'painel-scv-3x1a.html';
+            }
+        });
+
+        const btnSignUp = document.getElementById('btnSignUp');
+        btnSignUp.addEventListener('click', async () => {
+            errorMsg.style.display = 'none';
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            if (!email || !password) {
+                alert("Preencha e-mail e senha para cadastrar.");
+                return;
+            }
+
+            btnSignUp.innerText = 'Cadastrando...';
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: { data: { role: 'admin' } }
+            });
+
+            btnSignUp.innerText = 'Criar Conta Admin';
+
+            if (error) {
+                errorMsg.style.display = 'block';
+                errorMsg.innerText = "Erro ao cadastrar: " + error.message;
+            } else {
+                alert("Conta criada com sucesso! Se você desmarcou 'Confirmar E-mail' no Supabase, já pode entrar. Caso contrário, verifique seu e-mail.");
             }
         });
 
