@@ -334,7 +334,7 @@ input, select {
 .hero-search {
   position: relative;
   background: var(--color-brand-dark);
-  padding: 80px 0 100px;
+  padding: 40px 0 100px;
   overflow: hidden;
 }
 
