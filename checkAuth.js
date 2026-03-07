@@ -23,7 +23,7 @@
 
         if (!window.sb) {
             console.error("Supabase client not initialized. Redirecting to login...");
-            window.location.replace('admin-login.html');
+            window.location.replace('acesso-scv-9f82.html');
             return;
         }
 
@@ -33,7 +33,7 @@
             if (error || !session) {
                 console.warn("🔐 Unauthorized access attempt blocked. Redeploying to login...");
                 // Use replace() to avoid keeping the protected page in the browser history
-                window.location.replace('admin-login.html');
+                window.location.replace('acesso-scv-9f82.html');
                 return;
             }
 
@@ -48,7 +48,7 @@
 
         } catch (err) {
             console.error("Session verification failed:", err);
-            window.location.replace('admin-login.html');
+            window.location.replace('acesso-scv-9f82.html');
         }
     }
 

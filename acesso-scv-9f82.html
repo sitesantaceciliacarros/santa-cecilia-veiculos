@@ -143,14 +143,14 @@
                 errorMsg.style.display = 'block';
                 errorMsg.innerText = error.message;
             } else {
-                window.location.href = 'admin.html';
+                window.location.href = 'painel-scv-3x1a.html';
             }
         });
 
         // Check if already logged in
         supabase.auth.getSession().then(({ data: { session } }) => {
             if (session) {
-                window.location.href = 'admin.html';
+                window.location.href = 'painel-scv-3x1a.html';
             }
         });
     </script>
