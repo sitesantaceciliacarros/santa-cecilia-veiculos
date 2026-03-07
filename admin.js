@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 1. Auth Check - RESTORED SECURITY
   const { data: { session } } = await supabase.auth.getSession();
   if (!session) {
-    window.location.href = 'admin-login.html';
+    window.location.href = 'acesso-scv-9f82.html';
     return;
   }
 
