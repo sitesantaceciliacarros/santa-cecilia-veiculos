@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="styles.css" />
     <style>
         body {
-            background-color: #0a0f1d; /* Fallback */
-            background-color: var(--color-bg-dark);
+            background-color: #0d0d1a;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,28 +18,24 @@
             margin: 0;
             padding: 20px;
             color: #ffffff;
-            color: var(--color-white);
+            font-family: sans-serif;
         }
 
         .login-container {
-            background-color: #111421; /* Fallback */
-            background-color: var(--color-bg-card, #111421);
+            background-color: #111421;
             padding: 40px;
             border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
             width: 100%;
             max-width: 400px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border: 1px solid var(--color-border, rgba(255,255,255,0.1));
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .login-container h1 {
-            font-family: inherit;
             font-size: 24px;
             margin-bottom: 24px;
             text-align: center;
             color: #e53935;
-            color: var(--color-brand-red);
         }
 
         .form-group {
@@ -52,60 +47,64 @@
             margin-bottom: 8px;
             font-size: 14px;
             color: #9ca3af;
-            color: var(--color-text-muted);
         }
 
         .form-group input {
             width: 100%;
             padding: 12px;
             border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border: 1px solid var(--color-border, rgba(255,255,255,0.1));
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
-            color: var(--color-white, #ffffff);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background-color: #1a1a2e; /* Escuro para o texto branco aparecer */
+            color: #ffffff !important; /* Forçado */
             font-size: 16px;
             outline: none;
             transition: border-color 0.2s;
             -webkit-user-select: text;
-            -moz-user-select: text;
-            -ms-user-select: text;
             user-select: text;
         }
 
         .form-group input:focus {
             border-color: #e53935;
-            border-color: var(--color-brand-red);
         }
 
         .btn-submit {
             width: 100%;
             padding: 14px;
             background-color: #e53935;
-            background-color: var(--color-brand-red);
             color: white;
             border: none;
             border-radius: 6px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: opacity 0.2s;
+            transition: transform 0.1s;
+            text-transform: uppercase;
         }
 
-        .btn-submit:hover {
-            background-color: var(--primary-hover);
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        #btnSignUp {
+            background-color: #2e2e48; /* Cor sólida para garantir visibilidade */
+            margin-top: 10px;
+            border: 1px solid #45456b;
         }
 
         .error-msg {
             color: #ff4d4d;
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: 15px;
             text-align: center;
             display: none;
+            line-height: 1.4;
+            background: rgba(255, 77, 77, 0.1);
+            padding: 10px;
+            border-radius: 6px;
         }
 
         .loading {
-            opacity: 0.7;
+            opacity: 0.5;
             pointer-events: none;
         }
     </style>
