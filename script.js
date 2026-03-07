@@ -159,9 +159,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Travar scroll do fundo de forma robusta para mobile/iOS
     if (isOpen) {
+      document.documentElement.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
       document.body.style.touchAction = 'none'; // Evita scroll em telas touch
     } else {
+      document.documentElement.style.overflow = '';
       document.body.style.overflow = '';
       document.body.style.touchAction = '';
     }

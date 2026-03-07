@@ -254,6 +254,7 @@ input, select {
   z-index: 1050;
   transition: left var(--transition-base);
   overflow-y: auto;
+  overscroll-behavior: contain; /* Trava o scroll dentro do menu e não vaza pro corpo */
   padding: 24px 0 40px;
 }
 .mobile-menu.open {
@@ -320,6 +321,8 @@ input, select {
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition-base);
+  overscroll-behavior: none;
+  touch-action: none;
 }
 .mobile-menu-overlay.visible {
   opacity: 1;
