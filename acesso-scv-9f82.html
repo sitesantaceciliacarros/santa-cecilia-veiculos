@@ -10,31 +10,37 @@
     <link rel="stylesheet" href="styles.css" />
     <style>
         body {
-            background-color: var(--bg-dark);
+            background-color: #0a0f1d; /* Fallback */
+            background-color: var(--color-bg-dark);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
-            color: var(--text-base);
+            padding: 20px;
+            color: #ffffff;
+            color: var(--color-white);
         }
 
         .login-container {
-            background-color: var(--surface);
+            background-color: #111421; /* Fallback */
+            background-color: var(--color-bg-card, #111421);
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             width: 100%;
             max-width: 400px;
-            border: 1px solid var(--border-color);
+            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid var(--color-border, rgba(255,255,255,0.1));
         }
 
         .login-container h1 {
-            font-family: var(--font-serif);
+            font-family: inherit;
             font-size: 24px;
             margin-bottom: 24px;
             text-align: center;
-            color: var(--primary);
+            color: #e53935;
+            color: var(--color-brand-red);
         }
 
         .form-group {
@@ -45,7 +51,8 @@
             display: block;
             margin-bottom: 8px;
             font-size: 14px;
-            color: var(--text-muted);
+            color: #9ca3af;
+            color: var(--color-text-muted);
         }
 
         .form-group input {
@@ -61,20 +68,22 @@
         }
 
         .form-group input:focus {
-            border-color: var(--primary);
+            border-color: #e53935;
+            border-color: var(--color-brand-red);
         }
 
         .btn-submit {
             width: 100%;
             padding: 14px;
-            background-color: var(--primary);
+            background-color: #e53935;
+            background-color: var(--color-brand-red);
             color: white;
             border: none;
             border-radius: 6px;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: opacity 0.2s;
         }
 
         .btn-submit:hover {
