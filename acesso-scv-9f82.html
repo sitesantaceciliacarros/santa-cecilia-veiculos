@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Administrativo | Santa Cecília Veículos</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="vault.js"></script>
     <link rel="stylesheet" href="styles.css" />
     <style>
         body {
@@ -115,10 +116,6 @@
     </div>
 
     <script>
-        const SUPABASE_URL = 'https://hmqucnhanrgjxfenjzaz.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtcXVjbmhhbnJnanhmZW5qemF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNDAyMjIsImV4cCI6MjA4NzcxNjIyMn0.TmykuoD93fGNaHslx7Pubf8ZnYyBvb3VB28rrdiu5WU';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
         const form = document.getElementById('loginForm');
         const errorMsg = document.getElementById('errorMsg');
         const btnSubmit = document.getElementById('btnSubmit');
@@ -132,7 +129,16 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            const { data, error } = await supabase.auth.signInWithPassword({
+            console.log("Tentando login para:", email);
+
+            if (!window.sb) {
+                alert("Erro: Cliente Supabase não carregou. Verifique o console.");
+                btnSubmit.classList.remove('loading');
+                btnSubmit.innerText = 'Entrar';
+                return;
+            }
+
+            const { data, error } = await window.sb.auth.signInWithPassword({
                 email: email,
                 password: password,
             });
@@ -141,9 +147,11 @@
             btnSubmit.innerText = 'Entrar';
 
             if (error) {
+                console.error("Erro de Login:", error);
                 errorMsg.style.display = 'block';
-                errorMsg.innerText = error.message;
+                errorMsg.innerText = "Erro: " + error.message;
             } else {
+                console.log("Login OK! Redirecionando...");
                 window.location.href = 'painel-scv-3x1a.html';
             }
         });
@@ -159,8 +167,13 @@
                 return;
             }
 
+            if (!window.sb) {
+                alert("Erro: Cliente Supabase não carregou.");
+                return;
+            }
+
             btnSignUp.innerText = 'Cadastrando...';
-            const { data, error } = await supabase.auth.signUp({
+            const { data, error } = await window.sb.auth.signUp({
                 email: email,
                 password: password,
                 options: { data: { role: 'admin' } }
@@ -169,19 +182,24 @@
             btnSignUp.innerText = 'Criar Conta Admin';
 
             if (error) {
+                console.error("Erro de Cadastro:", error);
                 errorMsg.style.display = 'block';
                 errorMsg.innerText = "Erro ao cadastrar: " + error.message;
             } else {
-                alert("Conta criada com sucesso! Se você desmarcou 'Confirmar E-mail' no Supabase, já pode entrar. Caso contrário, verifique seu e-mail.");
+                alert("Conta criada com sucesso! Você já pode entrar.");
             }
         });
 
         // Check if already logged in
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (session) {
-                window.location.href = 'painel-scv-3x1a.html';
+        setTimeout(() => {
+            if (window.sb) {
+                window.sb.auth.getSession().then(({ data: { session } }) => {
+                    if (session) {
+                        window.location.href = 'painel-scv-3x1a.html';
+                    }
+                });
             }
-        });
+        }, 500);
     </script>
 
 </body>

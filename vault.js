@@ -1,29 +1,18 @@
 /**
- * SANTA CÉCILIA VEÍCULOS — Secure Vault
- * Centralizes and obfuscates Supabase credentials.
+ * SANTA CÉCILIA VEÍCULOS — Secure Vault (DEBUG MODE)
+ * Centralizes Supabase credentials.
  */
 
 (function() {
     'use strict';
 
-    const _u = "aHR0cHM6Ly9obXF1Y25oYW5yZ2p4ZmVuanphei5zdXBhYmFzZS5jbw==";
-    const _k = "ZXlKaGJHY2lPaUpJVXpJMU5pSXNJblI1Y0NJNklrcFhWQ0o5LmV5SnBjM01pT2lKemRYQmhZbUZ6WlNJc0luSmxaaUk2SW1odGNYVmpibWhoYm5KbmFuaG1aVzVxZW1GNklpd2ljbTlzWlNJNkltRnViMjRpTENKcFlYUWlPakUzTnpJeE5EQXlNaklzSW1WNGNDSTZNakE0TnpjeE5qSXlNbjAuVG15a3VvRDkzZkdOYUhzbHg3UHViZjhabll5QnZiM1ZCMjhycmRpdTVXVQ==";
+    const URL = 'https://hmqucnhanrgjxfenjzaz.supabase.co';
+    const KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhtcXVjbmhhbnJnanhmZW5qemF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNDAyMjIsImV4cCI6MjA4NzcxNjIyMn0.TmykuoD93fGNaHslx7Pubf8ZnYyBvb3VB28rrdiu5WU';
 
-    const b64Decode = (str) => {
-        try {
-            return atob(str);
-        } catch (e) {
-            console.error("Vault: Decode failure.");
-            return null;
-        }
-    };
-
-    const url = b64Decode(_u);
-    const key = b64Decode(_k);
-
-    if (url && key && window.supabase) {
-        window.sb = window.supabase.createClient(url, key);
+    if (window.supabase) {
+        window.sb = window.supabase.createClient(URL, KEY);
+        console.log("Vault: Supabase client initialized.");
     } else {
-        console.error("Vault: Initialization failure.");
+        console.error("Vault: Supabase library not found!");
     }
 })();

@@ -30,6 +30,7 @@
         isLocked = true;
         
         // Wipe todo o DOM (Head + Body) para não sobrar nenhum link ou imagem no Source
+        /*
         document.documentElement.innerHTML = `
             <head><title>Bloqueado</title></head>
             <body style="background:#000;color:#f00;height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:sans-serif;text-align:center;padding:20px;margin:0;">
@@ -38,6 +39,9 @@
                 <button onclick="location.reload()" style="margin-top:20px;padding:10px 20px;background:#f00;color:#fff;border:none;border-radius:5px;cursor:pointer;font-weight:bold;">VOLTAR AO SITE</button>
             </body>
         `;
+        */
+        console.warn("🛡️ Security: Intentional block detected but bypassed in DEBUG MODE.");
+        isLocked = false; // Permite continuar no modo de depuração
     };
 
     const applyProtections = () => {
