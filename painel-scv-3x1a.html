@@ -821,7 +821,11 @@
         <nav class="admin-nav">
             <a data-target="tab-veiculos" class="active">
                 <span class="nav-icon">🚗</span>
-                <span>Meus Veículos</span>
+                <span>Carros</span>
+            </a>
+            <a data-target="tab-motos">
+                <span class="nav-icon">🏍️</span>
+                <span>Motos</span>
             </a>
             <div class="nav-spacer"></div>
             <a id="btnSair" class="nav-logout">
@@ -835,19 +839,19 @@
         <!-- VEÍCULOS TAB -->
         <div id="tab-veiculos" class="tab-content active">
             <div class="admin-header">
-                <h1>Gerenciar <span>Veículos</span></h1>
-                <button class="btn-admin" id="btnAddVehicle">
+                <h1>Gerenciar <span>Carros</span></h1>
+                <button class="btn-admin" onclick="openModalFor('car')">
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
                     </svg>
-                    Novo Veículo
+                    Novo Carro
                 </button>
             </div>
 
             <!-- Stats -->
             <div class="stats-row" id="statsRow">
                 <div class="stat-card">
-                    <div class="stat-label">Total de Veículos</div>
+                    <div class="stat-label">Total de Carros</div>
                     <div class="stat-value blue" id="statTotal">—</div>
                 </div>
                 <div class="stat-card">
@@ -863,7 +867,7 @@
             <!-- Tabela -->
             <div class="admin-search-wrapper">
                 <svg class="search-icon-fixed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" id="adminSearch" class="admin-search-input" placeholder="Buscar veículo por nome, modelo ou ano..." />
+                <input type="text" id="adminSearch" class="admin-search-input" placeholder="Buscar carro por nome, modelo ou ano..." />
             </div>
 
             <div class="admin-table-container">
@@ -880,7 +884,62 @@
                     <tbody id="vehicleTableBody">
                         <tr>
                             <td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">
-                                Carregando veículos...
+                                Carregando carros...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="tab-motos" class="tab-content">
+            <div class="admin-header">
+                <h1>Gerenciar <span>Motos</span></h1>
+                <button class="btn-admin" onclick="openModalFor('moto')">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                    </svg>
+                    Nova Moto
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-row" id="statsRowMotos">
+                <div class="stat-card">
+                    <div class="stat-label">Total de Motos</div>
+                    <div class="stat-value blue" id="statTotalMotos">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Preço Médio</div>
+                    <div class="stat-value green" id="statAvgPriceMotos">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Última Cadastro</div>
+                    <div class="stat-value orange" id="statLastAddedMotos">—</div>
+                </div>
+            </div>
+
+            <!-- Tabela -->
+            <div class="admin-search-wrapper">
+                <svg class="search-icon-fixed" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="adminSearchMotos" class="admin-search-input" placeholder="Buscar moto por nome, modelo ou ano..." />
+            </div>
+
+            <div class="admin-table-container">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Imagem</th>
+                            <th>Moto</th>
+                            <th>Ano</th>
+                            <th>Preço</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="motosTableBody">
+                        <tr>
+                            <td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">
+                                Carregando motos...
                             </td>
                         </tr>
                     </tbody>
@@ -979,13 +1038,18 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Tipo / Categoria</label>
-                        <select id="vType">
-                            <option value="hatch">Hatch</option>
-                            <option value="suv">SUV</option>
-                            <option value="sedan">Sedan</option>
-                            <option value="comercial">Comercial</option>
-                        </select>
+                        <label>Tipo / Categoria (Livre)</label>
+                        <input type="text" id="vType" list="categorySuggestions" placeholder="Ex: Hatch, SUV, Moto, Custom..." required />
+                        <datalist id="categorySuggestions">
+                            <option value="Hatch">
+                            <option value="SUV">
+                            <option value="Sedan">
+                            <option value="Picape">
+                            <option value="Esportivo">
+                            <option value="Moto">
+                            <option value="Scooter">
+                            <option value="Street">
+                        </datalist>
                     </div>
                 </div>
 

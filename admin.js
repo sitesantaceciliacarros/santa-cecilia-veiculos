@@ -51,30 +51,45 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   window.showToast = showToast; // Global access
 
-  // 4. Load Vehicles
+  // 4. Load Inventories (Carros and Motos)
   const vehicleTableBody = document.getElementById('vehicleTableBody');
+  const motosTableBody = document.getElementById('motosTableBody');
   let vehiclesList = [];
+  let motosList = [];
 
-  async function loadVehicles() {
+  async function loadInventories() {
+    // Loading states
     vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">Carregando...</td></tr>';
-    const { data: vehicles, error } = await supabase.from('vehicles').select('*').order('id', { ascending: false });
+    motosTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">Carregando...</td></tr>';
+
+    const { data: allVehicles, error } = await supabase.from('vehicles').select('*').order('id', { ascending: false });
     
     if (error) {
       console.error(error);
-      vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#ff4d4d; padding: 40px;">Erro ao carregar veículos. Verifique as permissões (RLS) no Supabase.</td></tr>';
-      updateStats([]);
+      const errorMsg = '<tr><td colspan="5" style="text-align:center; color:#ff4d4d; padding: 40px;">Erro ao carregar dados.</td></tr>';
+      vehicleTableBody.innerHTML = errorMsg;
+      motosTableBody.innerHTML = errorMsg;
       return;
     }
     
-    vehiclesList = vehicles;
-    updateStats(vehiclesList);
+    // Split the data. If category is 'moto' (case insensitive), goes to Motos tab.
+    vehiclesList = allVehicles.filter(v => (v.type || '').toLowerCase() !== 'moto');
+    motosList = allVehicles.filter(v => (v.type || '').toLowerCase() === 'moto');
 
-    if (vehiclesList.length === 0) {
-      vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">Nenhum veículo encontrado. Clique em "+ Novo Veículo" para começar!</td></tr>';
+    renderTable(vehicleTableBody, vehiclesList, "Nenhum carro encontrado. Clique em '+ Novo Carro'!");
+    renderTable(motosTableBody, motosList, "Nenhuma moto encontrada. Clique em '+ Nova Moto'!");
+
+    updateStats(vehiclesList, 'statTotal', 'statAvgPrice', 'statLastAdded');
+    updateStats(motosList, 'statTotalMotos', 'statAvgPriceMotos', 'statLastAddedMotos');
+  }
+
+  function renderTable(container, list, emptyMsg) {
+    if (list.length === 0) {
+      container.innerHTML = `<tr><td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">${emptyMsg}</td></tr>`;
       return;
     }
 
-    vehicleTableBody.innerHTML = vehiclesList.map(v => `
+    container.innerHTML = list.map(v => `
       <tr>
         <td><img src="${v.img}" alt="${v.name}"/></td>
         <td>
@@ -93,43 +108,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     `).join('');
   }
 
-  function updateStats(list) {
-    const statTotal = document.getElementById('statTotal');
-    const statAvgPrice = document.getElementById('statAvgPrice');
-    const statLastAdded = document.getElementById('statLastAdded');
+  function updateStats(list, totalId, avgId, lastId) {
+    const elTotal = document.getElementById(totalId);
+    const elAvg = document.getElementById(avgId);
+    const elLast = document.getElementById(lastId);
 
-    statTotal.textContent = list.length;
+    if (elTotal) elTotal.textContent = list.length;
 
     if (list.length > 0) {
       const avg = list.reduce((sum, v) => sum + (v.price || 0), 0) / list.length;
-      statAvgPrice.textContent = 'R$ ' + Math.round(avg).toLocaleString('pt-BR');
-      statLastAdded.textContent = list[0].name || '—';
+      if (elAvg) elAvg.textContent = 'R$ ' + Math.round(avg).toLocaleString('pt-BR');
+      if (elLast) elLast.textContent = list[0].name || '—';
     } else {
-      statAvgPrice.textContent = '—';
-      statLastAdded.textContent = '—';
+      if (elAvg) elAvg.textContent = '—';
+      if (elLast) elLast.textContent = '—';
     }
   }
 
-  await loadVehicles();
+  await loadInventories();
 
   // ---- SEARCH LOGIC ----
-  const adminSearch = document.getElementById('adminSearch');
-  if (adminSearch) {
-    adminSearch.addEventListener('input', (e) => {
-      const term = e.target.value.toLowerCase();
-      const rows = vehicleTableBody.querySelectorAll('tr');
-      
-      rows.forEach(row => {
-        if (row.querySelector('td[colspan]')) return; // Ignore "loading" row
-        const text = row.innerText.toLowerCase();
-        row.style.display = text.includes(term) ? '' : 'none';
+  const setupSearch = (inputId, tableBody) => {
+    const input = document.getElementById(inputId);
+    if (input) {
+      input.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        const rows = tableBody.querySelectorAll('tr');
+        rows.forEach(row => {
+          if (row.querySelector('td[colspan]')) return;
+          const text = row.innerText.toLowerCase();
+          row.style.display = text.includes(term) ? '' : 'none';
+        });
       });
-    });
-  }
+    }
+  };
+
+  setupSearch('adminSearch', vehicleTableBody);
+  setupSearch('adminSearchMotos', motosTableBody);
 
   // 5. Modal Logic
   const modal = document.getElementById('modalVehicle');
-  const btnAdd = document.getElementById('btnAddVehicle');
   const btnClose = document.getElementById('btnCloseModal');
   const btnCancel = document.getElementById('btnCancelModal');
   const vehicleForm = document.getElementById('vehicleForm');
@@ -139,20 +157,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     modal.classList.add('active');
   }
 
+  // Generalized modal opener
+  window.openModalFor = function(type) {
+    const title = type === 'moto' ? "Adicionar Nova Moto" : "Adicionar Novo Carro";
+    openModal(title);
+    document.getElementById('vType').value = type === 'moto' ? 'Moto' : '';
+    // If it's a car, we leave it empty for the user to type or it might get a default later
+  };
+
   function closeModal() {
     modal.classList.remove('active');
     vehicleForm.reset();
     document.getElementById('vId').value = '';
     document.getElementById('progressBar').style.width = '0%';
-    // Reset gallery
     selectedFiles = [];
     existingImages = [];
     renderGalleryPreview();
   }
 
-  btnAdd.addEventListener('click', () => {
-    openModal("Adicionar Novo Veículo");
-  });
   btnClose.addEventListener('click', closeModal);
   btnCancel.addEventListener('click', closeModal);
 
@@ -162,13 +184,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   let selectedFiles = [];
   let existingImages = [];
 
-  // Handle file selection
   fileInput.addEventListener('change', (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 0) handleFilesSelected(files);
   });
 
-  // Drag and drop
   uploadArea.addEventListener('dragover', (e) => {
     e.preventDefault();
     uploadArea.classList.add('dragover');
@@ -191,32 +211,27 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
       return true;
     });
-
     selectedFiles = [...selectedFiles, ...validFiles];
     renderGalleryPreview();
   }
 
   function renderGalleryPreview() {
     let html = '';
-    
-    // Render existing images
     html += existingImages.map((url, index) => `
       <div style="position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 2px solid var(--color-brand-blue);">
         <img src="${url}" style="width:100%; height:100%; object-fit:cover;" />
-        <button type="button" onclick="removeExistingFile(${index})" style="position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; background: #ff5050; color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;">&times;</button>
-        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: var(--color-brand-blue); color: #fff; font-size: 8px; text-align: center; padding: 2px;">EXISTENTE</div>
+        <button type="button" onclick="removeExistingFile(${index})" style="position: absolute; top: 5px; right: 5px; width: 24px; height: 24px; background: #ff5050; color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: var(--color-brand-blue); color: #fff; font-size: 9px; text-align: center; padding: 2px;">EXISTENTE</div>
       </div>
     `).join('');
 
-    // Render new files
     html += selectedFiles.map((file, index) => `
       <div style="position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
         <img src="${URL.createObjectURL(file)}" style="width:100%; height:100%; object-fit:cover;" />
-        <button type="button" onclick="removeFile(${index})" style="position: absolute; top: 5px; right: 5px; width: 20px; height: 20px; background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px;">&times;</button>
-        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: #00c853; color: #fff; font-size: 8px; text-align: center; padding: 2px;">NOVA</div>
+        <button type="button" onclick="removeFile(${index})" style="position: absolute; top: 5px; right: 5px; width: 24px; height: 24px; background: rgba(0,0,0,0.7); color: #fff; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        <div style="position: absolute; bottom: 0; left: 0; right: 0; background: #00c853; color: #fff; font-size: 9px; text-align: center; padding: 2px;">NOVA</div>
       </div>
     `).join('');
-
     uploadGalleryPreview.innerHTML = html;
   }
 
@@ -240,32 +255,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     const fileName = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}.${fileExt}`;
     const filePath = `vehicles/${fileName}`;
 
-    progressBar.style.width = '60%';
-
     const { data, error } = await supabase.storage
       .from('vehicle-images')
-      .upload(filePath, file, {
-        cacheControl: '3600',
-        upsert: false,
-      });
+      .upload(filePath, file, { cacheControl: '3600', upsert: false });
 
     if (error) {
       progressEl.style.display = 'none';
       throw new Error('Erro ao enviar imagem: ' + error.message);
     }
 
-    progressBar.style.width = '90%';
-
-    const { data: publicData } = supabase.storage
-      .from('vehicle-images')
-      .getPublicUrl(filePath);
-
+    const { data: publicData } = supabase.storage.from('vehicle-images').getPublicUrl(filePath);
     progressBar.style.width = '100%';
-    
-    setTimeout(() => {
-      progressEl.style.display = 'none';
-    }, 500);
-
+    setTimeout(() => { progressEl.style.display = 'none'; }, 500);
     return publicData.publicUrl;
   }
 
@@ -273,13 +274,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   vehicleForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btnSave = document.getElementById('btnSaveVehicle');
+    const originalText = btnSave.innerText;
     btnSave.innerText = 'Salvando...';
     btnSave.disabled = true;
 
     try {
       let imagesArray = [...existingImages];
 
-      // Upload new files
       if (selectedFiles.length > 0) {
         for (const file of selectedFiles) {
           const url = await uploadImageToStorage(file);
@@ -287,32 +288,33 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       }
 
-      // Fallback to URL field if no files added and imagesArray is empty
       const urlInput = document.getElementById('vImg').value.trim();
       if (urlInput && imagesArray.indexOf(urlInput) === -1) {
-        imagesArray.unshift(urlInput); // Add URL input as first image
+        imagesArray.unshift(urlInput);
       }
 
       if (imagesArray.length === 0) {
         alert('Por favor, envie pelo menos uma imagem.');
-        btnSave.innerText = 'Salvar Veículo';
+        btnSave.innerText = originalText;
         btnSave.disabled = false;
         return;
       }
 
       const vId = document.getElementById('vId').value;
+      const typeVal = document.getElementById('vType').value.trim();
+
       const payload = {
         name: document.getElementById('vName').value.trim(),
         trim: document.getElementById('vTrim').value.trim(),
-        img: imagesArray[0] || '', // First image as main thumbnail
-        image_gallery: imagesArray, // Store all images in the new JSONB column
+        img: imagesArray[0] || '',
+        image_gallery: imagesArray,
         price: parseFloat(document.getElementById('vPrice').value.replace(/[^0-9.-]+/g, "")),
         installment: document.getElementById('vInstallment').value.trim(),
         year: parseInt(document.getElementById('vYear').value, 10),
         km: parseInt(document.getElementById('vKm').value, 10),
         fuel: document.getElementById('vFuel').value,
         trans: document.getElementById('vTrans').value,
-        type: document.getElementById('vType').value,
+        type: typeVal || 'Hatch', // Custom or fallback
         badge: document.getElementById('vBadge').value,
         tag: document.getElementById('vTag').value,
       };
@@ -328,20 +330,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         showToast("Erro ao salvar: " + result.error.message, 'error');
       } else {
         closeModal();
-        await loadVehicles();
-        showToast(vId ? "Veículo atualizado com sucesso!" : "Veículo cadastrado com sucesso!", 'success');
+        await loadInventories();
+        showToast(vId ? "Atualizado com sucesso!" : "Cadastrado com sucesso!", 'success');
       }
     } catch (err) {
       alert(err.message);
     }
 
-    btnSave.innerText = 'Salvar Veículo';
+    btnSave.innerText = originalText;
     btnSave.disabled = false;
   });
 
-  // Global functions to be accessed via onclick attributes
+  // Global functions
   window.editVehicle = function(id) {
-    const v = vehiclesList.find(x => x.id === id);
+    const v = [...vehiclesList, ...motosList].find(x => x.id === id);
     if (!v) return;
 
     document.getElementById('vId').value = v.id;
@@ -354,11 +356,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('vKm').value = v.km;
     document.getElementById('vFuel').value = v.fuel;
     document.getElementById('vTrans').value = v.trans;
-    document.getElementById('vType').value = v.type;
+    document.getElementById('vType').value = v.type || '';
     document.getElementById('vBadge').value = v.badge || '';
     document.getElementById('vTag').value = v.tag || '';
 
-    // Load existing images into gallery
     existingImages = v.image_gallery || (v.img ? [v.img] : []);
     renderGalleryPreview();
 
@@ -366,13 +367,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   };
 
   window.deleteVehicle = async function(id) {
-    if (confirm("Tem certeza que deseja excluir este veículo? Esta ação não pode ser desfeita.")) {
+    if (confirm("Tem certeza que deseja excluir?")) {
       const { error } = await supabase.from('vehicles').delete().eq('id', id);
       if (error) {
         showToast("Erro ao excluir: " + error.message, 'error');
       } else {
-        await loadVehicles();
-        showToast("Veículo excluído com sucesso!", 'success');
+        await loadInventories();
+        showToast("Excluído com sucesso!", 'success');
       }
     }
   };
