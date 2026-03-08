@@ -1198,25 +1198,31 @@ input, select {
   text-align: center;
   padding: 24px 12px;
   border-radius: var(--radius-md);
-  border: 0.8px solid var(--color-border);
-  transition: all var(--transition-base);
-  cursor: pointer;
+  background: #f8fafc;
+  border: 1px solid rgba(0,0,0,0.05);
+  padding: 30px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  text-align: center;
 }
+
 .service-item:hover {
-  border-color: var(--color-brand-blue);
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
+  background: #fff;
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+  border-color: var(--color-brand-blue-light);
 }
 
 .service-item-icon {
-  width: 48px;
-  height: 48px;
-  margin: 0 auto 12px;
+  width: 60px;
+  height: 60px;
+  background: var(--color-brand-blue-light);
+  color: var(--color-brand-blue);
+  border-radius: 14px;
+  margin: 0 auto 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-brand-blue-light);
-  border-radius: var(--radius-sm);
 }
 .service-item-icon svg {
   width: 24px;
@@ -1238,16 +1244,25 @@ input, select {
 
 /* ========================================
    NEWSLETTER
-   ======================================== */
+   ========================================*/
+/* ---------- NEWSLETTER ---------- */
 .newsletter-section {
-  background: var(--color-brand-dark);
-  padding: 64px 0;
+  padding: 100px 0;
+  background: linear-gradient(135deg, #0d1117 0%, #010409 100%);
+  color: #fff;
+  overflow: hidden;
+  position: relative;
 }
 
 .newsletter-inner {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 60px;
+  border-radius: 24px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 48px;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
   align-items: center;
 }
 
