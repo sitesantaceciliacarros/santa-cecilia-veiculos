@@ -240,51 +240,70 @@
     <div class="lead-modal">
       <button class="lead-modal-close" id="closeLeadModal">&times;</button>
       <div class="lead-modal-header">
-        <h3>📋 Formulário de Interesse</h3>
+        <svg class="label-icon" style="width: 40px; height: 40px; margin-bottom: 16px; opacity: 1;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+        <h3>Formulário de Interesse</h3>
         <p>Preencha os dados abaixo e entraremos em contato imediatamente.</p>
       </div>
       <form class="lead-form" id="leadForm">
         <div class="form-group">
-          <label>1️⃣ Nome completo</label>
+          <label>
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            Nome completo
+          </label>
           <input type="text" id="leadName" placeholder="Seu nome completo" required>
         </div>
         <div class="form-group">
-          <label>2️⃣ Telefone / WhatsApp</label>
+          <label>
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+            Telefone / WhatsApp
+          </label>
           <input type="tel" id="leadPhone" placeholder="(00) 00000-0000" required>
         </div>
         <div class="form-group">
-          <label>3️⃣ Qual tipo de veículo você tem interesse?</label>
+          <label>
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H12c-.6 0-1.2.3-1.8.7C9.3 8.6 8 10 8 10s-2.7.6-4.5 1.1c-.8.2-1.5 1-1.5 1.9v3c0 .6.4 1 1 1h2"></path><circle cx="7.5" cy="17.5" r="2.5"></circle><circle cx="16.5" cy="17.5" r="2.5"></circle></svg>
+            Tipo de veículo
+          </label>
           <div class="radio-grid">
-            <label class="radio-item"><input type="radio" name="vType" value="Hatch" checked> Hatch</label>
-            <label class="radio-item"><input type="radio" name="vType" value="Sedan"> Sedan</label>
-            <label class="radio-item"><input type="radio" name="vType" value="SUV"> SUV</label>
-            <label class="radio-item"><input type="radio" name="vType" value="Camionete"> Camionete</label>
-            <label class="radio-item"><input type="radio" name="vType" value="Motocicleta"> Motocicleta</label>
+            <label class="radio-item"><input type="radio" name="vType" value="Hatch" checked> <span>Hatch</span></label>
+            <label class="radio-item"><input type="radio" name="vType" value="Sedan"> <span>Sedan</span></label>
+            <label class="radio-item"><input type="radio" name="vType" value="SUV"> <span>SUV</span></label>
+            <label class="radio-item"><input type="radio" name="vType" value="Camionete"> <span>Camionete</span></label>
+            <label class="radio-item"><input type="radio" name="vType" value="Motocicleta"> <span>Motocicleta</span></label>
           </div>
         </div>
         <div class="form-group">
-          <label>4️⃣ Forma de pagamento</label>
+          <label>
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+            Forma de pagamento
+          </label>
           <div class="radio-grid">
-            <label class="radio-item"><input type="radio" name="payMethod" value="À vista" checked> À vista</label>
-            <label class="radio-item"><input type="radio" name="payMethod" value="Financiamento"> Financiamento</label>
-            <label class="radio-item"><input type="radio" name="payMethod" value="Consórcio"> Consórcio</label>
-            <label class="radio-item"><input type="radio" name="payMethod" value="Cheque"> Cheque</label>
+            <label class="radio-item"><input type="radio" name="payMethod" value="À vista" checked> <span>À vista</span></label>
+            <label class="radio-item"><input type="radio" name="payMethod" value="Financiamento"> <span>Financiamento</span></label>
+            <label class="radio-item"><input type="radio" name="payMethod" value="Consórcio"> <span>Consórcio</span></label>
+            <label class="radio-item"><input type="radio" name="payMethod" value="Cheque"> <span>Cheque</span></label>
           </div>
         </div>
         <div class="form-group">
-          <label>5️⃣ Quando pretende comprar?</label>
+          <label>
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            Quando pretende comprar?
+          </label>
           <div class="radio-grid">
-            <label class="radio-item"><input type="radio" name="whenBuy" value="Imediatamente" checked> Imediatamente</label>
-            <label class="radio-item"><input type="radio" name="whenBuy" value="Até 30 dias"> Até 30 dias</label>
-            <label class="radio-item"><input type="radio" name="whenBuy" value="Até 3 meses"> Até 3 meses</label>
-            <label class="radio-item"><input type="radio" name="whenBuy" value="Só pesquisando"> Só pesquisando</label>
+            <label class="radio-item"><input type="radio" name="whenBuy" value="Imediatamente" checked> <span>Imediatamente</span></label>
+            <label class="radio-item"><input type="radio" name="whenBuy" value="Até 30 dias"> <span>Até 30 dias</span></label>
+            <label class="radio-item"><input type="radio" name="whenBuy" value="Até 3 meses"> <span>Até 3 meses</span></label>
+            <label class="radio-item"><input type="radio" name="whenBuy" value="Só pesquisando"> <span>Só pesquisando</span></label>
           </div>
         </div>
         <div class="form-group">
-          <label>6️⃣ Tem veículo para dar na troca?</label>
+          <label>
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7 15 3 3 3-3"></path><path d="m17 9-3-3-3 3"></path><path d="M10 6v12"></path><path d="M14 18V6"></path></svg>
+            Tem veículo para dar na troca?
+          </label>
           <div class="radio-group-row">
-            <label class="radio-item"><input type="radio" name="hasTrade" value="Não" checked> Não</label>
-            <label class="radio-item"><input type="radio" name="hasTrade" value="Sim"> Sim</label>
+            <label class="radio-item"><input type="radio" name="hasTrade" value="Não" checked> <span>Não</span></label>
+            <label class="radio-item"><input type="radio" name="hasTrade" value="Sim"> <span>Sim</span></label>
           </div>
           <input type="text" id="tradeDetails" placeholder="Qual veículo?" style="display: none; margin-top: 10px;">
         </div>
