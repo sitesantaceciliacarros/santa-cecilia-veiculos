@@ -29,53 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('listingGrid');
   const compareState = [];
 
-  // ---- Vehicle Type Tabs Logic (Banner + Listing) ----
-  const allTypeButtons = document.querySelectorAll('.type-tab, .vehicle-type-btn');
-  
-  allTypeButtons.forEach(btn => {
+  // ---- Vehicle Toggle ----
+  const vehicleToggles = document.querySelectorAll('.vehicle-type-btn');
+  vehicleToggles.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Sync active state across all button groups if needed, but primarily filter
-      const filterType = btn.dataset.type || (btn.textContent.trim().toLowerCase().includes('moto') ? 'moto' : 'car');
-      
-      // Update UI for the specific group clicked
-      const siblings = btn.parentElement.querySelectorAll(btn.tagName.toLowerCase());
-      siblings.forEach(s => s.classList.remove('active'));
+      vehicleToggles.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      let filtered = vehicles;
-      if (filterType === 'car') {
-        filtered = vehicles.filter(v => (v.type || '').toLowerCase() !== 'moto');
-      } else if (filterType === 'moto') {
-        filtered = vehicles.filter(v => (v.type || '').toLowerCase() === 'moto');
-      } else if (filterType === 'all') {
-        filtered = vehicles;
-      }
-      
-      renderCards(filtered);
-      
-      // Scroll to grid if it's the banner button
-      if (btn.classList.contains('vehicle-type-btn')) {
-        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
     });
   });
 
-  function updateListingHeader(count) {
-    const countEl = document.querySelector('.listing-count span');
-    if (countEl) countEl.textContent = count;
-  }
-
   // ---- Render Cards ----
   function renderCards(list) {
-    if (!grid) return;
-    updateListingHeader(list.length);
-
     grid.innerHTML = list.map(v => {
-      const isMoto = (v.type || '').toLowerCase() === 'moto';
-      const badgeHTML = v.badge ? `<div class="vehicle-card-badges"><span class="badge badge-${v.badge}">${v.tag || v.badge}</span></div>` : '';
+      const badgeHTML = v.badge ? `<div class="vehicle-card-badges"><span class="badge badge-${v.badge}">${v.tag}</span></div>` : '';
       const isSelected = compareState.includes(v.id);
-      const kmText = v.km === 0 ? 'Zero KM' : v.km.toLocaleString('pt-BR') + ' km';
-      
+      const kmText = v.km === 0 ? '0 km' : v.km.toLocaleString('pt-BR') + ' km';
       return `
       <div class="vehicle-card" data-id="${v.id}">
         ${badgeHTML}
@@ -88,28 +56,17 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="vehicle-card-body">
           <div class="vehicle-card-title">${v.name}</div>
           <div class="vehicle-card-trim">${v.trim} · ${v.year}</div>
-          
           <div class="vehicle-card-specs">
-            <span class="spec-tag">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-              ${kmText}
-            </span>
-            <span class="spec-tag">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              ${v.trans}
-            </span>
+            <span class="spec-tag"><svg viewBox="0 0 24 24"><path d="M13.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM9.8 8.9L7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3C14.8 12 16.8 13 19 13v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1L6 8.3V13h2V9.6l1.8-.7z"/></svg>${kmText}</span>
+            <span class="spec-tag"><svg viewBox="0 0 24 24"><path d="M19.77 7.23l.01-.01-3.72-3.72L15 4.56l2.11 2.11c-.94.36-1.61 1.26-1.61 2.33 0 1.38 1.12 2.5 2.5 2.5.36 0 .69-.08 1-.21v7.21c0 .55-.45 1-1 1s-1-.45-1-1V14c0-1.1-.9-2-2-2h-1V5c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v16h10v-7.5h1.5v5c0 1.38 1.12 2.5 2.5 2.5s2.5-1.12 2.5-2.5V9c0-.69-.28-1.32-.73-1.77zM12 10H6V5h6v5z"/></svg>${v.fuel}</span>
+            <span class="spec-tag"><svg viewBox="0 0 24 24"><path d="M12.5 6.9c1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85z"/></svg>${v.trans}</span>
           </div>
-
           <div class="vehicle-card-price-row">
             <div class="vehicle-card-price">R$ ${v.price.toLocaleString('pt-BR')}</div>
           </div>
-          
-          <div class="vehicle-card-installment">
-            Financiamento em até <strong>60x</strong>
-          </div>
-
+          <div class="vehicle-card-installment">ou <strong>${v.installment}x sem juros</strong></div>
           <div class="vehicle-card-actions">
-            <a href="veiculo.html?id=${v.id}" class="btn-card btn-card-primary">Ver Detalhes</a>
+            <a href="veiculo.html?id=${v.id}" class="btn-card btn-card-primary">Ver oferta</a>
           </div>
         </div>
       </div>`;
@@ -125,15 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
       document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
       const text = pill.textContent.trim().toLowerCase();
-      
-      let filtered = vehicles;
-      if (text.includes('suv')) filtered = vehicles.filter(v => (v.type || '').toLowerCase() === 'suv');
-      else if (text.includes('hatch')) filtered = vehicles.filter(v => (v.type || '').toLowerCase() === 'hatch');
-      else if (text.includes('híbrido')) filtered = vehicles.filter(v => v.fuel === 'Híbrido');
-      else if (text.includes('automático')) filtered = vehicles.filter(v => v.trans === 'Automático');
-      else if (text.includes('100k')) filtered = vehicles.filter(v => v.price <= 100000);
-      
-      renderCards(filtered);
+      if (text.includes('todos')) { renderCards(vehicles); }
+      else if (text.includes('suv')) { renderCards(vehicles.filter(v => v.type === 'suv')); }
+      else if (text.includes('hatch')) { renderCards(vehicles.filter(v => v.type === 'hatch')); }
+      else if (text.includes('híbrido')) { renderCards(vehicles.filter(v => v.fuel === 'Híbrido')); }
+      else if (text.includes('automático')) { renderCards(vehicles.filter(v => v.trans === 'Automático')); }
+      else if (text.includes('100k')) { renderCards(vehicles.filter(v => v.price <= 100000)); }
+      else { renderCards(vehicles); }
+      document.querySelector('.listing-count span').textContent = document.querySelectorAll('.vehicle-card').length;
     });
   });
 
