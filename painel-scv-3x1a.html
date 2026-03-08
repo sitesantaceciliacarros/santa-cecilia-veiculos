@@ -751,6 +751,137 @@
             border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
 
+        /* PREMIUM REDESIGN OVERRIDES */
+        .modal-overlay {
+            background: rgba(4, 4, 12, 0.6);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal {
+            background: rgba(20, 20, 40, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.8), 
+                        inset 0 1px 1px rgba(255, 255, 255, 0.05);
+            animation: modalAppear 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 102, 255, 0.05), transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .modal-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            letter-spacing: -0.01em;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-group label {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group input, 
+        .form-group select,
+        .form-group textarea {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            font-size: 14px;
+            padding: 14px;
+        }
+
+        .form-group input:focus, 
+        .form-group select:focus,
+        .form-group textarea:focus {
+            background: rgba(0, 102, 255, 0.05);
+            border-color: var(--color-brand-blue);
+            box-shadow: 0 0 0 4px rgba(0, 102, 255, 0.15), inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .upload-area {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .upload-area:hover {
+            border-color: var(--color-brand-blue);
+            background: rgba(0, 102, 255, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .upload-icon {
+            font-size: 42px;
+            filter: drop-shadow(0 4px 10px rgba(0,0,0,0.3));
+        }
+
+        .btn-admin {
+            background: linear-gradient(135deg, var(--color-brand-blue) 0%, #0047b3 100%);
+            box-shadow: 0 4px 20px rgba(0, 102, 255, 0.2);
+            padding: 14px 28px;
+            font-size: 14px;
+        }
+
+        .btn-admin:hover {
+            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        #uploadGalleryPreview > div {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            transition: all 0.2s;
+        }
+
+        #uploadGalleryPreview > div:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+
+        .modal-scroller {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255,255,255,0.1) transparent;
+        }
+
+        .modal-scroller::-webkit-scrollbar { width: 4px; }
+        .modal-scroller::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+
+
         /* ---------- Responsive ---------- */
         @media (max-width: 900px) {
             .admin-sidebar {
@@ -976,21 +1107,24 @@
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Imagem do Veículo</label>
+                        <label>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                            Imagens do Veículo
+                        </label>
                         <div class="upload-area" id="uploadArea">
                             <input type="file" id="vFile" accept="image/jpeg,image/png,image/webp,image/gif" multiple />
-                            <div class="upload-icon">📷</div>
-                            <div class="upload-text"><strong>Clique para enviar</strong> ou arraste as fotos</div>
-                            <div class="upload-hint">Selecione várias fotos (JPG, PNG, WebP ou GIF)</div>
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text"><strong>Arraste suas fotos</strong> ou clique para buscar</div>
+                            <div class="upload-hint">Formatos: JPG, PNG, WebP (Máx. 5MB por foto)</div>
                         </div>
                         
                         <!-- Miniaturas da Galeria -->
-                        <div id="uploadGalleryPreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 12px; margin-top: 16px;"></div>
-                        <div class="upload-progress" id="uploadProgress">
+                        <div id="uploadGalleryPreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 14px; margin-top: 20px;"></div>
+                        <div class="upload-progress" id="uploadProgress" style="margin-top: 15px;">
                             <div class="progress-bar" id="progressBar"></div>
                         </div>
-                        <div class="upload-or">ou</div>
-                        <input type="url" id="vImg" placeholder="Cole a URL da imagem aqui..." />
+                        <div class="upload-or">ou informe um link direto</div>
+                        <input type="url" id="vImg" placeholder="https://exemplo.com/imagem.jpg" />
                     </div>
                 </div>
 
