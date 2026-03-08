@@ -393,6 +393,7 @@ input, select {
   margin-bottom: 16px;
   background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -474,6 +475,10 @@ input, select {
   color: var(--color-brand-blue);
   border-bottom-color: var(--color-brand-blue);
 }
+
+.btn-search svg {
+  width: 18px;
+  height: 18px;
   fill: currentColor;
 }
 
