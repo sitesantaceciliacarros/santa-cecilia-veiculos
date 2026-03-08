@@ -209,7 +209,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const payment = document.querySelector('input[name="payMethod"]:checked').value;
         const when = document.querySelector('input[name="whenBuy"]:checked').value;
         const hasTrade = document.querySelector('input[name="hasTrade"]:checked').value;
-        const tradeTxt = tradeDetails.value;
+        const tradeTxt = document.getElementById('tradeDetails').value;
+
+        // UI Feedback: Show Success State
+        const formHeader = document.querySelector('.modal-header-form');
+        const successHeader = document.querySelector('.modal-header-success');
+        
+        if (leadForm) leadForm.classList.add('success-hidden');
+        if (formHeader) formHeader.style.display = 'none';
+        if (successHeader) successHeader.style.display = 'block';
 
         const fullMsg = `📋 *Formulário de Interesse*\n\n` +
                         `👤 *Nome:* ${name}\n` +
@@ -220,8 +228,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         `🔄 *Troca:* ${hasTrade}${hasTrade === 'Sim' ? ' (' + tradeTxt + ')' : ''}`;
 
         const waCleanPhone = '5511999999999';
-        window.open(`https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`, '_blank');
-        closeModal();
+        
+        // Wait 2 seconds then open WhatsApp
+        setTimeout(() => {
+          window.open(`https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`, '_blank');
+          
+          // Reset Modal after transition
+          setTimeout(() => {
+            closeModal();
+            // Reset state for next opening
+            if (leadForm) leadForm.classList.remove('success-hidden');
+            if (formHeader) formHeader.style.display = 'block';
+            if (successHeader) successHeader.style.display = 'none';
+            leadForm.reset();
+          }, 500);
+        }, 2000);
       });
   }
 

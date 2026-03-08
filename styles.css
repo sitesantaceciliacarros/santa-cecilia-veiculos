@@ -1626,23 +1626,22 @@ input, select {
   }
 
   .mab-interest {
-    flex: 1.8;
+    flex: 3;
     background: linear-gradient(135deg, var(--color-brand-red) 0%, #c62828 100%);
     color: #fff !important;
     box-shadow: 0 4px 12px rgba(229, 57, 53, 0.25);
+    order: 2;
   }
 
   .mab-whatsapp {
-    flex: 1;
-    background: #25d366;
-    color: #fff !important;
-    text-decoration: none;
+    display: none !important;
   }
 
   .mab-phone {
     width: 48px;
     background: #f1f3f5;
     color: #495057;
+    order: 1;
   }
 
   .mab-phone svg {
@@ -1872,4 +1871,37 @@ input, select {
   .radio-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Success State Styles */
+.modal-header-success {
+  text-align: center;
+  padding: 20px 0;
+  animation: modalFadeIn 0.5s ease-out;
+}
+
+.success-checkmark {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 20px;
+  background: rgba(76, 175, 80, 0.1);
+  border-radius: 50%;
+  border: 2px solid rgba(76, 175, 80, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.success-checkmark svg {
+  width: 32px;
+  height: 32px;
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.lead-form.success-hidden {
+  display: none !important;
 }

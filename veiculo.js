@@ -220,6 +220,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!nameInput || !phoneInput ) return;
 
+        // UI Feedback: Show Success State
+        const formHeader = document.querySelector('.modal-header-form');
+        const successHeader = document.querySelector('.modal-header-success');
+        
+        if (leadForm) leadForm.classList.add('success-hidden');
+        if (formHeader) formHeader.style.display = 'none';
+        if (successHeader) successHeader.style.display = 'block';
+
         const fullMsg = `📋 *Formulário de Interesse*\n\n` +
                         `🚗 *Veículo:* ${v.name}\n` +
                         `👤 *Nome:* ${nameInput.value}\n` +
@@ -230,8 +238,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         `🔄 *Troca:* ${tradeChecked?.value || 'Não'}${tradeChecked?.value === 'Sim' ? ' (' + tradeDetails.value + ')' : ''}`;
 
         const waCleanPhone = '5511999999999'; 
-        window.open(`https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`, '_blank');
-        closeModal();
+        
+        // Wait 2 seconds then open WhatsApp
+        setTimeout(() => {
+          window.open(`https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`, '_blank');
+          
+          // Reset Modal after transition
+          setTimeout(() => {
+            closeModal();
+            // Reset state for next opening
+            if (leadForm) leadForm.classList.remove('success-hidden');
+            if (formHeader) formHeader.style.display = 'block';
+            if (successHeader) successHeader.style.display = 'none';
+            leadForm.reset();
+          }, 500);
+        }, 2000);
       });
     }
 

@@ -520,9 +520,18 @@
       <div class="lead-modal">
         <button class="lead-modal-close" id="closeLeadModal">&times;</button>
         <div class="lead-modal-header">
-          <svg class="label-icon" style="width: 40px; height: 40px; margin-bottom: 16px; opacity: 1;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-          <h3>Formulário de Interesse</h3>
-          <p>Preencha os dados abaixo e entraremos em contato imediatamente.</p>
+          <div class="modal-header-form">
+            <svg class="label-icon" style="width: 40px; height: 40px; margin-bottom: 16px; opacity: 1;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+            <h3>Formulário de Interesse</h3>
+            <p>Preencha os dados abaixo e entraremos em contato imediatamente.</p>
+          </div>
+          <div class="modal-header-success" style="display: none;">
+            <div class="success-checkmark">
+               <svg viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h3>Interesse Recebido!</h3>
+            <p>Agradecemos seu contato. Um de nossos consultores falará com você agora mesmo.</p>
+          </div>
         </div>
         <form class="lead-form" id="leadForm">
           <div class="form-group">
