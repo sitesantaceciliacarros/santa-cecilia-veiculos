@@ -187,13 +187,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Open by triggers
       const triggerParcelas = document.getElementById('btnVerParcelas');
-      const triggerInteresse = document.getElementById('btnId'); // Note: previously it was btnWhatsapp, let's check triggers below
+      const triggerInteresse = document.getElementById('btnId'); 
       const triggerWhatsapp = document.getElementById('btnWhatsapp');
       const mabParcelas = document.querySelector('.mab-parcelas');
+      const mabInterest = document.getElementById('mabInterest');
       
       if (triggerParcelas) triggerParcelas.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
       if (triggerWhatsapp) triggerWhatsapp.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
       if (mabParcelas) mabParcelas.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+      if (mabInterest) mabInterest.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
 
       // Handle trade details visibility
       tradeRadios.forEach(r => {
