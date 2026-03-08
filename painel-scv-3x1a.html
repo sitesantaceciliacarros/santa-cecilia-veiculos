@@ -823,19 +823,7 @@
                 <span class="nav-icon">🚗</span>
                 <span>Meus Veículos</span>
             </a>
-            <a data-target="tab-sessoes">
-                <span class="nav-icon">📝</span>
-                <span>Seções do Site</span>
-            </a>
-            <a data-target="tab-agente" style="color: #00c853;">
-                <span class="nav-icon">🤖</span>
-                <span>Agente de IA</span>
-            </a>
             <div class="nav-spacer"></div>
-            <a href="index.html">
-                <span class="nav-icon">🌐</span>
-                <span>Ver Site</span>
-            </a>
             <a id="btnSair" class="nav-logout">
                 <span class="nav-icon">⏻</span>
                 <span>Sair</span>
@@ -900,91 +888,10 @@
             </div>
         </div>
 
-        <div id="tab-sessoes" class="tab-content">
-            <div class="admin-header">
-                <h1>Seções do <span>Site</span></h1>
-            </div>
-            <div style="background: rgba(255,255,255,0.05); padding: 40px; border-radius: 12px; text-align: center; border: 2px dashed rgba(255,255,255,0.1);">
-                <div style="font-size: 40px; margin-bottom: 16px;">🚀</div>
-                <h3 style="margin-bottom: 12px;">Funcionalidade em Desenvolvimento</h3>
-                <p style="color: rgba(255,255,255,0.5); max-width: 450px; margin: 0 auto;">
-                    Em breve, você poderá gerenciar as seções dinâmicas (Hero, Ofertas, Banners) diretamente por aqui. No momento, o Agente de IA está cuidando da integridade dessas áreas.
-                </p>
-            </div>
-        </div>
+
 
         <!-- AGENTE IA TAB -->
-        <div id="tab-agente" class="tab-content">
-            <div class="admin-header">
-                <h1>Agente de <span>Qualidade IA</span></h1>
-                <div class="status-badge" style="background: rgba(0, 200, 83, 0.2); color: #00c853; padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">
-                    Ativo e Monitorando
-                </div>
-            </div>
-            
-            <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 32px; border: 1px solid rgba(255,255,255,0.06);">
-                <div style="display: flex; gap: 24px; align-items: flex-start; margin-bottom: 32px;">
-                    <div style="font-size: 48px;">🤖</div>
-                    <div>
-                        <h2 style="margin-bottom: 8px;">Estou cuidando de tudo, Murilo!</h2>
-                        <p style="color: rgba(255,255,255,0.5); max-width: 600px;">
-                            Meu trabalho é garantir que o site da <strong>Santa Cecília Veículos</strong> esteja sempre perfeito. 
-                            Eu monitoro erros de português, links quebrados e problemas de carregamento 24h por dia.
-                        </p>
-                    </div>
-                </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px;">
-                    <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04);">
-                        <h3 style="font-size: 14px; text-transform: uppercase; color: #0066ff; margin-bottom: 12px;">Última Varredura</h3>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>Textos em Inglês:</span>
-                            <span style="color: #00c853;">0 encontrados</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>Erro de Acentuação:</span>
-                            <span style="color: #00c853;">Corrigido</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>Links Quebrados:</span>
-                            <span style="color: #00c853;">Nenhum</span>
-                        </div>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.04);">
-                        <h3 style="font-size: 14px; text-transform: uppercase; color: #00b74f; margin-bottom: 12px;">Saúde do Sistema</h3>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>Supabase:</span>
-                            <span style="color: #00c853;">Conectado</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                            <span>Imagens:</span>
-                            <span style="color: #00c853;">Otimizadas</span>
-                        </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <span>Velocidade:</span>
-                            <span style="color: #00c853;">Excelente</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="display: flex; gap: 12px;">
-                    <button class="btn-admin" onclick="runManualAudit()" id="btnAudit">
-                        ✨ Executar Auditoria Completa
-                    </button>
-                    <button class="btn-admin" style="background: rgba(255,255,255,0.1); color: #fff;" onclick="alert('Correção automática ativada 24/7!')">
-                        ⚙️ Configurações do Agente
-                    </button>
-                </div>
-
-                <div id="auditLog" style="margin-top: 24px; padding: 16px; background: #000; border-radius: 6px; font-family: monospace; font-size: 12px; color: #00ff00; display: none; max-height: 200px; overflow-y: auto; border: 1px solid #333;">
-                    > Iniciando varredura...<br>
-                    > Verificando arquivos HTML...<br>
-                    > Buscando termos em inglês...<br>
-                    > Analisando codificação UTF-8...<br>
-                    > 100% Completo. Site verificado!
-                </div>
-            </div>
-        </div>
     </main>
 
     <!-- MODAL VEÍCULO -->
@@ -1109,48 +1016,7 @@
     </div>
 
     <!-- MODAL SEÇÃO -->
-    <div class="modal-overlay" id="modalSection">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 id="sectionModalTitle">Adicionar Seção</h2>
-                <button class="close-modal" id="btnCloseSectionModal">✕</button>
-            </div>
-            <form id="sectionForm">
-                <input type="hidden" id="sId" />
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Nome da Seção</label>
-                        <input type="text" id="sName" required placeholder="Ex: Banner Hero, Ofertas da Semana..." />
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Conteúdo</label>
-                        <textarea id="sContent" required placeholder="Texto, HTML ou informações da seção..."></textarea>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group" style="flex: 0 0 auto;">
-                        <label>Ativo no Site</label>
-                        <label class="toggle-switch" style="margin-top: 4px;">
-                            <input type="checkbox" id="sActive" checked />
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-
-                <div class="modal-actions">
-                    <button type="button" class="btn-admin btn-secondary" id="btnCancelSectionModal">Cancelar</button>
-                    <button type="submit" class="btn-admin" id="btnSaveSection">
-                        Salvar Seção
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <div id="toastContainer" class="toast-container"></div>
     <script src="admin.js"></script>
