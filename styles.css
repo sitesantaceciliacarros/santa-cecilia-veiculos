@@ -412,6 +412,7 @@ input, select {
   gap: 0;
   margin-bottom: 20px;
   border-bottom: 2px solid var(--color-border-light);
+  justify-content: center;
 }
 
 .search-tab {
@@ -453,6 +454,7 @@ input, select {
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  text-align: center;
 }
 
 .field-group select,
