@@ -1681,16 +1681,6 @@ input, select {
   font-size: 14px;
   line-height: 1.5;
 }
-  font-size: 22px;
-  margin-bottom: 8px;
-  color: var(--color-brand-dark);
-}
-
-.lead-modal-header p {
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-  margin-bottom: 24px;
-}
 
 .lead-form .form-group {
   margin-bottom: 24px;
