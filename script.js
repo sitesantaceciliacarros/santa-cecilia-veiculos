@@ -29,23 +29,34 @@ document.addEventListener('DOMContentLoaded', () => {
   const grid = document.getElementById('listingGrid');
   const compareState = [];
 
-  // ---- Vehicle Type Tabs Logic (Carros / Motos) ----
-  const typeTabs = document.querySelectorAll('.type-tab');
-  typeTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      typeTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-      const filterType = tab.dataset.type;
+  // ---- Vehicle Type Tabs Logic (Banner + Listing) ----
+  const allTypeButtons = document.querySelectorAll('.type-tab, .vehicle-type-btn');
+  
+  allTypeButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Sync active state across all button groups if needed, but primarily filter
+      const filterType = btn.dataset.type || (btn.textContent.trim().toLowerCase().includes('moto') ? 'moto' : 'car');
       
+      // Update UI for the specific group clicked
+      const siblings = btn.parentElement.querySelectorAll(btn.tagName.toLowerCase());
+      siblings.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+
       let filtered = vehicles;
       if (filterType === 'car') {
         filtered = vehicles.filter(v => (v.type || '').toLowerCase() !== 'moto');
       } else if (filterType === 'moto') {
         filtered = vehicles.filter(v => (v.type || '').toLowerCase() === 'moto');
+      } else if (filterType === 'all') {
+        filtered = vehicles;
       }
       
       renderCards(filtered);
-      updateListingHeader(filtered.length);
+      
+      // Scroll to grid if it's the banner button
+      if (btn.classList.contains('vehicle-type-btn')) {
+        grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
     });
   });
 
