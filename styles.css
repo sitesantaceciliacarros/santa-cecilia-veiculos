@@ -1595,19 +1595,20 @@ input, select {
   .mobile-action-bar {
     display: flex !important;
     position: fixed;
-    bottom: 20px;
+    bottom: 25px;
     left: 15px;
     right: 15px;
-    height: 64px;
+    height: 68px;
     background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
+    backdrop-filter: blur(25px) saturate(200%);
+    -webkit-backdrop-filter: blur(25px) saturate(200%);
+    border-radius: 100px;
     padding: 8px;
-    gap: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    gap: 10px;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.25);
     z-index: 9000;
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    pointer-events: auto;
   }
 
   .mab-btn {
@@ -1629,8 +1630,12 @@ input, select {
     flex: 3;
     background: linear-gradient(135deg, var(--color-brand-red) 0%, #c62828 100%);
     color: #fff !important;
-    box-shadow: 0 4px 12px rgba(229, 57, 53, 0.25);
+    box-shadow: 0 8px 20px rgba(229, 57, 53, 0.3);
     order: 2;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
   }
 
   .mab-whatsapp {
@@ -1638,10 +1643,13 @@ input, select {
   }
 
   .mab-phone {
-    width: 48px;
+    width: 52px;
+    height: 52px;
     background: #f1f3f5;
     color: #495057;
     order: 1;
+    border-radius: 100px;
+    flex-shrink: 0;
   }
 
   .mab-phone svg {

@@ -517,16 +517,25 @@ body {
    ============================================= */
 .mobile-action-bar {
   position: fixed;
-  bottom: 0; left: 0; right: 0;
-  z-index: 900;
-  background: rgba(255,255,255,0.95);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid #edf1f5;
-  display: none; 
+  bottom: 25px; /* Altura flutuante */
+  left: 20px;
+  right: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: 10px;
   gap: 12px;
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.05);
+  border-radius: 100px; /* Pílula total */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+/* No desktop ela some */
+@media (min-width: 901px) {
+  .mobile-action-bar { display: none; }
 }
 .mobile-action-bar .mab-btn {
   display: flex;
@@ -582,35 +591,48 @@ body {
   .vd-price-card { display: none; }
   .dealer-info-card { display: none; }
   .mobile-action-bar {
-    display: flex;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid #edf1f5;
-    padding: 12px 16px;
-    box-shadow: 0 -4px 16px rgba(0,0,0,0.05);
+    display: flex !important;
+    bottom: 25px;
+    left: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(25px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    padding: 8px;
+    border-radius: 80px;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.25);
     pointer-events: auto;
   }
-  .mobile-action-bar .mab-parcelas,
-  .mobile-action-bar .mab-phone { display: none; }
   .mobile-action-bar .mab-interest {
     pointer-events: auto;
     flex: 1;
-    width: 100%;
-    max-width: 400px;
-    height: 56px;
-    border-radius: 16px;
-    font-size: 16px;
-    font-weight: 700;
-    box-shadow: 0 6px 24px rgba(229, 57, 53, 0.35);
-    background: var(--color-brand-red, #e53935);
+    height: 52px;
+    border-radius: 100px;
+    font-size: 15px;
+    font-weight: 800;
+    box-shadow: 0 8px 20px rgba(229, 57, 53, 0.3);
+    background: linear-gradient(135deg, var(--color-brand-red, #e53935) 0%, #c62828 100%);
     color: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
     text-decoration: none;
+    letter-spacing: 0.5px;
+    margin: 0;
   }
+  .mobile-action-bar .mab-phone {
+    display: flex;
+    width: 52px;
+    height: 52px;
+    background: #f1f3f5;
+    border-radius: 100px;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    color: #495057;
+  }
+  .mobile-action-bar .mab-phone svg { width: 22px; height: 22px; fill: currentColor; }
 
   /* Ajustes Mobile Cards: mantém o efeito de degrauzinho */
   .vd-main-card,
@@ -639,8 +661,25 @@ body {
   .wm-accordion-header { padding: 24px 20px; border-radius: 0;}
   .wm-accordion-body { padding: 0 20px 24px; }
 
-  .vd-price-inline { margin-bottom: 24px; padding-bottom: 24px;}
-  .vd-price-inline .main-price { font-size: 32px; }
+  .vd-price-inline { 
+    display: flex;
+    flex-direction: column; /* Empilhado para evitar choque visual */
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 24px; 
+    padding-bottom: 24px;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .vd-price-inline .main-price { 
+    font-size: 34px; 
+    letter-spacing: -1.5px;
+  }
+  .vd-price-inline .btn-ver-parcelas {
+    width: auto;
+    padding: 12px 24px;
+    font-size: 14px;
+    border-radius: 12px; /* Combina com os cards */
+  }
 
   .vd-specs-grid { grid-template-columns: 1fr 1fr; gap: 16px; }
   .spec-item { padding: 4px 0; }
