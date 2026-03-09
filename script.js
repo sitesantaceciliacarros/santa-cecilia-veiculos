@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         `📅 *Quando:* ${when}\n` +
                         `🔄 *Troca:* ${hasTrade}${hasTrade === 'Sim' ? ' (' + tradeTxt + ')' : ''}`;
 
-        const waCleanPhone = '5511999999999';
+        const waCleanPhone = '5594984419080';
         
         // Wait 2 seconds then open WhatsApp
         setTimeout(() => {
