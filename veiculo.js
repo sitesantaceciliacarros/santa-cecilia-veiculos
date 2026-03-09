@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.title = `${v.name} - Santa Cecília Veículos`;
 
     // WhatsApp links
-    const phone = '5511999999999';
+    const phone = '5594984419080';
     const msg = encodeURIComponent(`Olá! Tenho interesse no ${v.name} anunciado no site.`);
     const waUrl = `https://wa.me/${phone}?text=${msg}`;
     const btnWA = document.getElementById('btnWhatsapp');
@@ -187,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Open by triggers
       const triggerParcelas = document.getElementById('btnVerParcelas');
-      const triggerInteresse = document.getElementById('btnId'); 
       const triggerWhatsapp = document.getElementById('btnWhatsapp');
       const mabParcelas = document.querySelector('.mab-parcelas');
       const mabInterest = document.getElementById('mabInterest');
@@ -239,9 +238,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const waCleanPhone = '5594984419080'; 
         
-        // Wait 2 seconds then open WhatsApp
+        // Wait 1.5 seconds then redirect (Using location.assign is more mobile-friendly for auto-redirects)
         setTimeout(() => {
-          window.open(`https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`, '_blank');
+          const waFinalUrl = `https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`;
+          
+          if (window.innerWidth <= 768) {
+             window.location.assign(waFinalUrl);
+          } else {
+             window.open(waFinalUrl, '_blank');
+          }
           
           // Reset Modal after transition
           setTimeout(() => {
@@ -251,8 +256,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (formHeader) formHeader.style.display = 'block';
             if (successHeader) successHeader.style.display = 'none';
             leadForm.reset();
-          }, 500);
-        }, 2000);
+          }, 1000);
+        }, 1500);
       });
     }
 

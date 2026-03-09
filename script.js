@@ -229,9 +229,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const waCleanPhone = '5594984419080';
         
-        // Wait 2 seconds then open WhatsApp
+        // Wait 1.5 seconds then redirect (Using location.assign is more mobile-friendly for auto-redirects)
         setTimeout(() => {
-          window.open(`https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`, '_blank');
+          const waFinalUrl = `https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`;
+          
+          if (window.innerWidth <= 768) {
+             window.location.assign(waFinalUrl);
+          } else {
+             window.open(waFinalUrl, '_blank');
+          }
           
           // Reset Modal after transition
           setTimeout(() => {
@@ -241,8 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (formHeader) formHeader.style.display = 'block';
             if (successHeader) successHeader.style.display = 'none';
             leadForm.reset();
-          }, 500);
-        }, 2000);
+          }, 1000);
+        }, 1500);
       });
   }
 
