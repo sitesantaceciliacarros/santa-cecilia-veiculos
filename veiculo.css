@@ -593,28 +593,28 @@ body {
   .mobile-action-bar {
     display: flex !important;
     position: fixed !important;
-    bottom: 30px !important;
-    left: 15px !important;
-    right: 15px !important;
-    width: auto !important;
-    background: rgba(255, 255, 255, 0.8) !important;
+    bottom: 0 !important; /* Ancorado no fundo para maior estabilidade */
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    background: rgba(255, 255, 255, 0.9) !important;
     backdrop-filter: blur(25px) saturate(200%) !important;
     -webkit-backdrop-filter: blur(25px) saturate(200%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
-    padding: 8px !important;
-    border-radius: 100px !important;
-    box-shadow: 0 15px 45px rgba(0,0,0,0.3) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.05) !important;
+    padding: 12px 20px 30px !important; /* Padding extra embaixo para safe area mobile */
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.08) !important;
     pointer-events: auto !important;
     justify-content: space-between !important;
+    border-radius: 0 !important; /* Volta a ser barra fixa para garantir que o botão sempre apareça */
   }
   .mobile-action-bar .mab-interest {
     pointer-events: auto !important;
     flex: 1 !important;
-    height: 54px !important;
-    border-radius: 100px !important;
-    font-size: 15px !important;
+    height: 56px !important;
+    border-radius: 12px !important;
+    font-size: 16px !important;
     font-weight: 800 !important;
-    box-shadow: 0 8px 25px rgba(229, 57, 53, 0.4) !important;
+    box-shadow: 0 4px 15px rgba(229, 57, 53, 0.3) !important;
     background: linear-gradient(135deg, var(--color-brand-red, #e53935) 0%, #c62828 100%) !important;
     color: #fff !important;
     display: flex !important;
