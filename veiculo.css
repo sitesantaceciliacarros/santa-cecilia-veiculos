@@ -736,61 +736,57 @@ body {
    VITRINE DE RECOMENDADOS (Webmotors style)
    ============================================= */
 .vd-related-section {
-  padding: 60px 0;
+  padding: 40px 0;
   border-top: 1px solid rgba(18, 38, 63, 0.06);
   margin-top: 40px;
 }
 .vd-related-section .section-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 800;
   color: #12263f;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   letter-spacing: -0.5px;
 }
 
 .related-grid {
   display: flex;
   overflow-x: auto;
-  gap: 24px;
-  padding-bottom: 24px;
+  gap: 16px;
+  padding-bottom: 20px;
   scroll-snap-type: x mandatory;
   scrollbar-width: thin;
   scrollbar-color: rgba(18, 38, 63, 0.1) transparent;
 }
 
 .related-grid::-webkit-scrollbar {
-  height: 6px;
+  height: 4px;
 }
 .related-grid::-webkit-scrollbar-track {
   background: transparent;
 }
 .related-grid::-webkit-scrollbar-thumb {
-  background: rgba(18, 38, 63, 0.1);
+  background: rgba(18, 38, 63, 0.08);
   border-radius: 10px;
-}
-.related-grid::-webkit-scrollbar-thumb:hover {
-  background: rgba(18, 38, 63, 0.2);
 }
 
 /* Card Sugestão Style */
 .card-suggestion {
-  min-width: 280px;
+  min-width: 220px;
   flex: 0 0 auto;
   scroll-snap-align: start;
   background: #fff;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(18, 38, 63, 0.05);
-  box-shadow: 0 4px 12px rgba(18, 38, 63, 0.03);
+  box-shadow: 0 2px 8px rgba(18, 38, 63, 0.02);
   transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
   text-decoration: none;
   display: flex;
   flex-direction: column;
 }
 .card-suggestion:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(18, 38, 63, 0.08);
-  border-color: rgba(18, 38, 63, 0.1);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(18, 38, 63, 0.06);
 }
 
 .card-suggestion .cs-img {
@@ -803,47 +799,43 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
-}
-.card-suggestion:hover .cs-img img {
-  transform: scale(1.05);
 }
 
 .card-suggestion .cs-content {
-  padding: 20px;
+  padding: 16px;
   flex: 1;
   display: flex;
   flex-direction: column;
 }
 .card-suggestion .cs-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 800;
   color: #12263f;
   text-transform: uppercase;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   line-height: 1.2;
 }
 .card-suggestion .cs-trim {
-  font-size: 12px;
+  font-size: 11px;
   color: #6e84a3;
   font-weight: 600;
   text-transform: uppercase;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 .card-suggestion .cs-price {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 900;
   color: #12263f;
   margin-top: auto;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 .card-suggestion .cs-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 12px;
+  padding-top: 10px;
   border-top: 1px solid rgba(18, 38, 63, 0.04);
-  font-size: 11px;
+  font-size: 10px;
   color: #6e84a3;
   font-weight: 700;
 }
@@ -854,10 +846,12 @@ body {
 
 /* Responsivo Sugestões */
 @media (max-width: 768px) {
-  .vd-related-section { padding: 40px 20px; overflow: hidden; }
+  .vd-related-section { padding: 32px 20px; overflow: hidden; }
   .related-grid {
     margin: 0 -20px;
     padding-left: 20px;
     padding-right: 20px;
+    gap: 12px;
   }
+  .card-suggestion { min-width: 200px; }
 }
