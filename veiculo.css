@@ -577,6 +577,7 @@ body {
   font-family: inherit;
   white-space: nowrap;
   transition: all 0.2s;
+  padding: 0 12px;
 }
 .mab-parcelas {
   flex: 1;
@@ -725,11 +726,18 @@ body {
 
 /* Mobile pequeno */
 @media (max-width: 480px) {
-  .carousel { aspect-ratio: 4/3; }
-  .carousel-btn { display: none; }
-  .vd-title { font-size: 26px; }
-  .vd-price-inline .main-price { font-size: 28px; }
-  .vd-price-inline .btn-ver-parcelas { padding: 10px 16px; font-size: 13px; }
+  .carousel { aspect-ratio: 16/9; }
+  .carousel-btn { 
+    display: flex; 
+    width: 32px; 
+    height: 32px; 
+    font-size: 14px; 
+  }
+  .carousel-btn.prev { left: 10px; }
+  .carousel-btn.next { right: 10px; }
+  .vd-title { font-size: 24px; }
+  .vd-price-inline .main-price { font-size: 26px !important; }
+  .vd-price-inline .btn-ver-parcelas { padding: 10px !important; font-size: 13px !important; }
 }
 
 /* =============================================
@@ -843,7 +851,12 @@ body {
     scrollbar-width: none;
   }
   .related-grid::-webkit-scrollbar { display: none; }
-  .card-suggestion { min-width: 220px; scroll-snap-align: start; flex: 0 0 auto; }
+  .card-suggestion { 
+    width: 200px; 
+    min-width: 200px; 
+    flex: 0 0 200px; 
+    scroll-snap-align: start; 
+  }
 }
 
 /* =============================================
