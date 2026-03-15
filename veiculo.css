@@ -43,8 +43,8 @@ body {
    GALERIA / CAROUSEL
    ============================================= */
 .vd-gallery {
-  margin-bottom: 32px;
-  overflow: hidden;
+  margin-bottom: 0;
+  overflow: visible;
   background: #fff;
   position: relative;
   border-radius: 20px;
@@ -57,6 +57,7 @@ body {
   aspect-ratio: 16/9;
   overflow: hidden;
   touch-action: pan-y;
+  border-radius: 20px;
 }
 .carousel-track {
   display: flex;
@@ -161,6 +162,9 @@ body {
   grid-template-columns: 1fr 360px;
   gap: 24px;
   padding: 0 20px 40px;
+  position: relative;
+  z-index: 2;
+  margin-top: -48px; /* Sobreposição elegante sobre a galeria */
 }
 
 .vd-right-col {
@@ -677,9 +681,11 @@ body {
   
   .vd-gallery {
     border-radius: 0;
-    margin-bottom: 16px;
+    margin-bottom: 0;
     box-shadow: none;
   }
+  .carousel { border-radius: 0; }
+  .vd-content-grid { margin-top: -32px; }
 
   .vd-container {
     background-color: #f2f4f7;
