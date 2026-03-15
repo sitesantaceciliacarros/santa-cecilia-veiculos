@@ -82,18 +82,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch related vehicles
     fetchRelatedVehicles(v.id);
 
-    // ---- GALLERY BADGES ----
-    const badgesContainer = document.getElementById('galleryBadges');
-    if (badgesContainer) {
-      const badges = [];
-      const fuelLower = (v.fuel || '').toLowerCase();
-      if (fuelLower.includes('el') || fuelLower.includes('híbr')) {
-        badges.push('<span class="gallery-badge badge-eco">⚡ ' + (fuelLower.includes('híbr') ? 'Motor Híbrido' : 'Elétrico') + '</span>');
-      }
-      if (v.badge) badges.push('<span class="gallery-badge badge-highlight">' + v.badge + '</span>');
-      if (v.km === 0) badges.push('<span class="gallery-badge badge-new">0 KM</span>');
-      badgesContainer.innerHTML = badges.join('');
-    }
 
     // ---- FEATURE PILLS (com ícones) ----
     const featuresContainer = document.getElementById('vFeatures');
