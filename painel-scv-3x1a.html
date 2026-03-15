@@ -941,26 +941,55 @@
         .crm-kanban-container {
             margin-top: 20px;
             overflow-x: auto;
-            padding-bottom: 20px;
-            height: calc(100vh - 200px);
+            overflow-y: hidden;
+            padding-bottom: 24px; /* Space for scrollbar */
+            height: calc(100vh - 220px);
+            width: 100%;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+        }
+
+        .crm-kanban-container::-webkit-scrollbar {
+            height: 10px;
+        }
+
+        .crm-kanban-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        .crm-kanban-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+            background-clip: content-box;
         }
 
         .crm-board {
             display: flex;
             gap: 20px;
-            min-width: 1600px;
+            padding-bottom: 10px;
+            min-width: fit-content; /* Allow columns to set width */
             height: 100%;
         }
 
         .crm-column {
-            flex: 1;
+            flex: 0 0 280px; /* Force width, don't shrink */
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.06);
             border-radius: 12px;
             display: flex;
             flex-direction: column;
-            min-width: 250px;
-            max-width: 280px;
+            height: 100%;
+        }
+
+        /* Grab cursor for drag-to-scroll */
+        .crm-kanban-container {
+            cursor: grab;
+        }
+        .crm-kanban-container:active {
+            cursor: grabbing;
         }
 
         .crm-column-header {
@@ -1434,6 +1463,34 @@
 
     <div id="toastContainer" class="toast-container"></div>
     <script src="admin.js"></script>
+    <script>
+        // Drag-to-Scroll for CRM
+        const container = document.querySelector('.crm-kanban-container');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        container.addEventListener('mousedown', (e) => {
+            if (e.target.closest('.lead-card') || e.target.closest('select') || e.target.closest('a')) return;
+            isDown = true;
+            container.classList.add('active');
+            startX = e.pageX - container.offsetLeft;
+            scrollLeft = container.scrollLeft;
+        });
+        container.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+        container.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+        container.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - container.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll speed
+            container.scrollLeft = scrollLeft - walk;
+        });
+    </script>
 </body>
 
 </html>
