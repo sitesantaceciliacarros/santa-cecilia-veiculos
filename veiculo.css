@@ -733,60 +733,41 @@ body {
 }
 
 /* =============================================
-   VITRINE DE RECOMENDADOS (Webmotors style)
+   VITRINE DE RECOMENDADOS (Webmotors gabarito)
    ============================================= */
 .vd-related-section {
   padding: 40px 0;
-  border-top: 1px solid rgba(18, 38, 63, 0.06);
+  border-top: 1px solid rgba(18, 38, 63, 0.04);
   margin-top: 40px;
 }
 .vd-related-section .section-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
   color: #12263f;
-  margin-bottom: 24px;
-  letter-spacing: -0.5px;
+  margin-bottom: 20px;
 }
 
 .related-grid {
-  display: flex;
-  overflow-x: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
-  padding-bottom: 20px;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(18, 38, 63, 0.1) transparent;
 }
 
-.related-grid::-webkit-scrollbar {
-  height: 4px;
-}
-.related-grid::-webkit-scrollbar-track {
-  background: transparent;
-}
-.related-grid::-webkit-scrollbar-thumb {
-  background: rgba(18, 38, 63, 0.08);
-  border-radius: 10px;
-}
-
-/* Card Sugestão Style */
+/* Card Sugestão Compacto (style gabarito) */
 .card-suggestion {
-  min-width: 220px;
-  flex: 0 0 auto;
-  scroll-snap-align: start;
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid rgba(18, 38, 63, 0.05);
   box-shadow: 0 2px 8px rgba(18, 38, 63, 0.02);
-  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  transition: all 0.3s ease;
   text-decoration: none;
   display: flex;
   flex-direction: column;
 }
 .card-suggestion:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(18, 38, 63, 0.06);
+  box-shadow: 0 8px 20px rgba(18, 38, 63, 0.05);
 }
 
 .card-suggestion .cs-img {
@@ -802,56 +783,55 @@ body {
 }
 
 .card-suggestion .cs-content {
-  padding: 16px;
+  padding: 12px;
   flex: 1;
-  display: flex;
-  flex-direction: column;
 }
 .card-suggestion .cs-title {
-  font-size: 13px;
-  font-weight: 800;
+  font-size: 12px;
+  font-weight: 900;
   color: #12263f;
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
   line-height: 1.2;
 }
 .card-suggestion .cs-trim {
-  font-size: 11px;
+  font-size: 10px;
   color: #6e84a3;
-  font-weight: 600;
+  font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 12px;
 }
 .card-suggestion .cs-price {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 900;
   color: #12263f;
-  margin-top: auto;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 .card-suggestion .cs-footer {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding-top: 10px;
-  border-top: 1px solid rgba(18, 38, 63, 0.04);
+  padding-top: 8px;
+  border-top: 1px solid rgba(18, 38, 63, 0.03);
   font-size: 10px;
   color: #6e84a3;
   font-weight: 700;
 }
-.card-suggestion .cs-footer span:last-child {
-  color: #a0aec0;
-  font-weight: 500;
-}
 
 /* Responsivo Sugestões */
+@media (max-width: 1024px) {
+  .related-grid { grid-template-columns: repeat(3, 1fr); }
+}
 @media (max-width: 768px) {
   .vd-related-section { padding: 32px 20px; overflow: hidden; }
   .related-grid {
-    margin: 0 -20px;
-    padding-left: 20px;
-    padding-right: 20px;
+    display: flex;
+    overflow-x: auto;
     gap: 12px;
+    margin: 0 -20px;
+    padding: 0 20px 20px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
   }
-  .card-suggestion { min-width: 200px; }
+  .related-grid::-webkit-scrollbar { display: none; }
+  .card-suggestion { min-width: 220px; scroll-snap-align: start; }
 }
