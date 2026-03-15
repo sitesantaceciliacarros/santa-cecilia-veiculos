@@ -748,13 +748,32 @@ body {
 }
 
 .related-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  overflow-x: auto;
   gap: 16px;
+  padding-bottom: 24px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(18, 38, 63, 0.1) transparent;
+  flex-wrap: nowrap;
+}
+
+.related-grid::-webkit-scrollbar {
+  height: 6px;
+}
+.related-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+.related-grid::-webkit-scrollbar-thumb {
+  background: rgba(18, 38, 63, 0.08);
+  border-radius: 10px;
 }
 
 /* Card Sugestão Compacto (style gabarito) */
 .card-suggestion {
+  min-width: 210px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
