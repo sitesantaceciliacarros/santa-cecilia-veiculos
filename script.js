@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         }
 
-        // UI Feedback: Show Success State
+        // Show Success Header
         const formHeader = document.querySelector('.modal-header-form');
         const successHeader = document.querySelector('.modal-header-success');
         
@@ -240,36 +240,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (formHeader) formHeader.style.display = 'none';
         if (successHeader) successHeader.style.display = 'block';
 
-        const fullMsg = `📋 *Formulário de Interesse*\n\n` +
-                        `👤 *Nome:* ${leadData.name}\n` +
-                        `📱 *Zap:* ${leadData.phone}\n` +
-                        `🔹 *Tipo:* ${leadData.vehicle_type}\n` +
-                        `💰 *Pagamento:* ${leadData.payment_method}\n` +
-                        `📅 *Quando:* ${leadData.when_buy}\n` +
-                        `🔄 *Troca:* ${leadData.has_trade}${leadData.has_trade === 'Sim' ? ' (' + leadData.trade_details + ')' : ''}`;
-
         const waCleanPhone = '5594984419080';
         
-        // Wait 1.5 seconds then redirect
+        // Wait 4 seconds then close modal (instead of redirecting to WhatsApp)
         setTimeout(() => {
-          const waFinalUrl = `https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`;
-          
-          if (window.innerWidth <= 768) {
-             window.location.assign(waFinalUrl);
-          } else {
-             window.open(waFinalUrl, '_blank');
-          }
-          
-          // Reset Modal after transition
+          closeModal();
+          // Reset state for next opening
           setTimeout(() => {
-            closeModal();
-            // Reset state for next opening
             if (leadForm) leadForm.classList.remove('success-hidden');
             if (formHeader) formHeader.style.display = 'block';
             if (successHeader) successHeader.style.display = 'none';
             leadForm.reset();
-          }, 1000);
-        }, 1500);
+          }, 500);
+        }, 4000);
       });
   }
 
