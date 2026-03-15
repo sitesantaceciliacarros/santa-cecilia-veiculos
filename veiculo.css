@@ -587,7 +587,7 @@ body {
 .mab-whatsapp {
   flex: 1;
   background: var(--color-brand-red, #e53935);
-  color: #fff;
+  color: #ffffff !important;
   box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
   justify-content: center;
 }

@@ -193,12 +193,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Prev/Next
-    document.getElementById('nextBtn').addEventListener('click', () => {
-      goToSlide((currentIndex + 1) % images.length);
-    });
-    document.getElementById('prevBtn').addEventListener('click', () => {
-      goToSlide((currentIndex - 1 + images.length) % images.length);
-    });
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+    if (images.length <= 1) {
+      if (nextBtn) nextBtn.style.display = 'none';
+      if (prevBtn) prevBtn.style.display = 'none';
+      const counter = document.querySelector('.carousel-counter');
+      if (counter) counter.style.display = 'none';
+    } else {
+      if (nextBtn) {
+        nextBtn.style.display = 'flex';
+        nextBtn.addEventListener('click', () => goToSlide((currentIndex + 1) % images.length));
+      }
+      if (prevBtn) {
+        prevBtn.style.display = 'flex';
+        prevBtn.addEventListener('click', () => goToSlide((currentIndex - 1 + images.length) % images.length));
+      }
+    }
 
     // Touch/Swipe
     let startX = 0, startY = 0, isDragging = false;
