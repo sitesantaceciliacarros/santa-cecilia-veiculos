@@ -263,8 +263,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1500);
       });
     }
-    }
-
   }
 
   async function fetchRelatedVehicles(currentId) {
