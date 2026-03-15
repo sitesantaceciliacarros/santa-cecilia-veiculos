@@ -551,43 +551,55 @@ body {
    ============================================= */
 .mobile-action-bar {
   position: fixed;
-  bottom: 25px;
-  left: 20px;
-  right: 20px;
+  bottom: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   display: flex;
   align-items: center;
-  transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  background: #fff;
+  padding: 12px 16px;
+  gap: 8px;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.05);
 }
 /* No desktop ela some */
 @media (min-width: 901px) {
-  .mobile-action-bar { display: none; }
+  .mobile-action-bar { display: none !important; }
 }
 .mobile-action-bar .mab-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  height: 56px;
-  border-radius: 100px;
-  font-size: 16px;
-  font-weight: 800;
+  height: 48px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
   cursor: pointer;
   border: none;
   text-decoration: none;
   font-family: inherit;
   white-space: nowrap;
   transition: all 0.2s;
-  padding: 0 12px;
 }
-.mab-contact {
+
+.mab-dark {
+  background-color: #2b2b36 !important;
+  color: #fff !important;
+  padding: 0 16px;
   flex: 1;
-  width: 100%;
+}
+
+.mab-icon-dark {
+  background-color: #2b2b36 !important;
+  width: 48px;
+  flex-shrink: 0;
+}
+.mab-icon-dark svg { width: 20px; height: 20px; fill: #fff; }
+
+.mab-contact {
+  flex: 1.5;
   background-color: #e53935 !important;
   color: #ffffff !important;
-  border-radius: 100px !important;
-  box-shadow: 0 10px 30px rgba(229, 57, 53, 0.4) !important;
-  justify-content: center;
 }
 .mab-contact:hover { background-color: #c62828 !important; }
 
@@ -609,19 +621,16 @@ body {
   .mobile-action-bar {
     display: flex !important;
     position: fixed !important;
-    bottom: 24px !important;
-    left: 20px !important;
-    right: 20px !important;
-    width: calc(100% - 40px) !important;
-    background: rgba(255, 255, 255, 0.95) !important;
-    backdrop-filter: blur(20px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.5) !important;
-    padding: 12px 14px !important;
-    box-shadow: 0 12px 40px rgba(0,0,0,0.15) !important;
-    pointer-events: auto !important;
-    justify-content: space-between !important;
-    border-radius: 100px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    background: #fff !important;
+    padding: 12px 16px !important;
+    gap: 8px !important;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.05) !important;
+    border-radius: 0 !important; /* Reset border-radius */
+    justify-content: space-between !important; /* Ensure buttons spread */
   }
   .mobile-action-bar .mab-interest {
     pointer-events: auto !important;
