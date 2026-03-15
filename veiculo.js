@@ -77,7 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Breadcrumb
     document.getElementById('breadcrumbModel').textContent = v.name;
-    document.title = `${v.name} - Santa Cecília Veículos`;
+    document.title = `${v.name} - Santa Cecilia Veículos`;
+
+    // Fetch related vehicles
+    fetchRelatedVehicles(v.id);
 
     // WhatsApp links
     const phone = '5594984419080';
@@ -260,7 +263,51 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1500);
       });
     }
+    }
 
+  }
+
+  async function fetchRelatedVehicles(currentId) {
+    try {
+      const { data, error } = await _supabase
+        .from('vehicles')
+        .select('id, name, trim, price, year, km, img')
+        .neq('id', currentId)
+        .limit(8);
+
+      if (error) throw error;
+      if (data) renderRelatedGrid(data);
+    } catch (err) {
+      console.error("Error fetching related vehicles:", err);
+    }
+  }
+
+  function renderRelatedGrid(vehicles) {
+    const grid = document.getElementById('relatedGrid');
+    if (!grid) return;
+
+    grid.innerHTML = vehicles.map(v => `
+      <a href="veiculo.html?id=${v.id}" class="card-suggestion">
+        <div class="cs-img">
+          <img src="${v.img}" alt="${v.name}" loading="lazy">
+        </div>
+        <div class="cs-content">
+          <div class="cs-title">${v.name}</div>
+          <div class="cs-trim">${v.trim || ''}</div>
+          <div class="cs-price">R$ ${v.price ? v.price.toLocaleString('pt-BR') : '0'}</div>
+          <div class="cs-footer">
+            <span>${v.year || ''}</span>
+            <span>${v.km ? v.km.toLocaleString('pt-BR') + ' KM' : '0 KM'}</span>
+          </div>
+          <div class="cs-footer" style="margin-top: 8px; border-top:none; padding-top:0;">
+             <span style="display:flex; align-items:center; gap:4px;">
+                <svg viewBox="0 0 24 24" style="width:12px;height:12px;fill:currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>
+                São Paulo - SP
+             </span>
+          </div>
+        </div>
+      </a>
+    `).join('');
   }
 
   // ---- Mobile menu ----

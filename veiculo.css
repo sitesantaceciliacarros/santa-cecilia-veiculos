@@ -731,3 +731,125 @@ body {
   .vd-price-inline .main-price { font-size: 28px; }
   .vd-price-inline .btn-ver-parcelas { padding: 10px 16px; font-size: 13px; }
 }
+
+/* =============================================
+   VITRINE DE RECOMENDADOS (Webmotors style)
+   ============================================= */
+.vd-related-section {
+  padding: 60px 0;
+  border-top: 1px solid rgba(18, 38, 63, 0.06);
+  margin-top: 40px;
+}
+.vd-related-section .section-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #12263f;
+  margin-bottom: 32px;
+  letter-spacing: -0.5px;
+}
+
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+}
+
+/* Card Sugestão Style */
+.card-suggestion {
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(18, 38, 63, 0.05);
+  box-shadow: 0 4px 12px rgba(18, 38, 63, 0.03);
+  transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+}
+.card-suggestion:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(18, 38, 63, 0.08);
+  border-color: rgba(18, 38, 63, 0.1);
+}
+
+.card-suggestion .cs-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background: #f7f9fa;
+}
+.card-suggestion .cs-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.card-suggestion:hover .cs-img img {
+  transform: scale(1.05);
+}
+
+.card-suggestion .cs-content {
+  padding: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-suggestion .cs-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #12263f;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  line-height: 1.2;
+}
+.card-suggestion .cs-trim {
+  font-size: 12px;
+  color: #6e84a3;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.card-suggestion .cs-price {
+  font-size: 20px;
+  font-weight: 900;
+  color: #12263f;
+  margin-top: auto;
+  margin-bottom: 12px;
+}
+.card-suggestion .cs-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid rgba(18, 38, 63, 0.04);
+  font-size: 11px;
+  color: #6e84a3;
+  font-weight: 700;
+}
+.card-suggestion .cs-footer span:last-child {
+  color: #a0aec0;
+  font-weight: 500;
+}
+
+/* Responsivo Sugestões */
+@media (max-width: 1024px) {
+  .related-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 768px) {
+  .vd-related-section { padding: 40px 20px; overflow: hidden; }
+  .related-grid {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 20px;
+    margin: 0 -20px;
+    padding-left: 20px;
+    gap: 16px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .related-grid::-webkit-scrollbar { display: none; }
+  .card-suggestion {
+    min-width: 280px;
+    scroll-snap-align: start;
+  }
+}
