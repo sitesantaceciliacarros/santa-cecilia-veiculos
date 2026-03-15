@@ -608,6 +608,143 @@ body {
 .mab-contact:hover { background-color: #c62828 !important; }
 
 /* =============================================
+   MODAL DE CONTATO
+   ============================================= */
+.contact-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.contact-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+.contact-modal {
+  background: #fff;
+  width: 100%;
+  max-width: 480px;
+  border-radius: 24px 24px 0 0;
+  padding: 32px 24px 40px;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  position: relative;
+}
+.contact-modal-overlay.active .contact-modal {
+  transform: translateY(0);
+}
+.contact-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: #f0f2f5;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 22px;
+  line-height: 36px;
+  text-align: center;
+  cursor: pointer;
+  color: #333;
+  transition: background 0.2s;
+}
+.contact-modal-close:hover { background: #e0e3e8; }
+
+.contact-modal-header h3 {
+  font-size: 22px;
+  font-weight: 800;
+  color: #12263f;
+  margin: 0 0 4px;
+}
+.contact-modal-subtitle {
+  font-size: 14px;
+  color: #6e84a3;
+  margin: 0 0 24px;
+}
+
+.contact-modal-form .form-group {
+  margin-bottom: 16px;
+}
+.contact-modal-form .form-group label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #12263f;
+  margin-bottom: 6px;
+}
+.contact-modal-form .form-group input,
+.contact-modal-form .form-group textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid #dfe3e8;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  color: #12263f;
+  background: #f8fafc;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+  outline: none;
+}
+.contact-modal-form .form-group input:focus,
+.contact-modal-form .form-group textarea:focus {
+  border-color: #e53935;
+  box-shadow: 0 0 0 3px rgba(229,57,53,0.1);
+  background: #fff;
+}
+.contact-modal-form .form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.contact-modal-submit {
+  width: 100%;
+  height: 52px;
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: background 0.2s, transform 0.1s;
+}
+.contact-modal-submit:hover { background: #c62828; }
+.contact-modal-submit:active { transform: scale(0.98); }
+.contact-modal-submit.success {
+  background: #0b8043;
+  pointer-events: none;
+}
+
+/* Desktop: centralizar modal */
+@media (min-width: 601px) {
+  .contact-modal-overlay {
+    align-items: center;
+  }
+  .contact-modal {
+    border-radius: 24px;
+    max-width: 440px;
+    transform: translateY(40px) scale(0.95);
+    opacity: 0;
+  }
+  .contact-modal-overlay.active .contact-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* =============================================
    RESPONSIVO — MOBILE (max 900px)
    ============================================= */
 @media (max-width: 900px) {
