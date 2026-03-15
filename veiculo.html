@@ -7,8 +7,11 @@
   <meta name="description" content="Santa Cecília Veículos — carros novos e seminovos com financiamento rápido, consignação e troca com troco."/>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="vault.js"></script>
-  <link rel="stylesheet" href="styles.css?v=100"/>
-  <link rel="stylesheet" href="veiculo.css?v=100"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=101"/>
+  <link rel="stylesheet" href="veiculo.css?v=101"/>
   <script src="security.js"></script>
 </head>
 <body>
@@ -100,18 +103,42 @@
               </button>
             </div>
 
-            <!-- Specs Grid 2 colunas -->
-            <div class="vd-specs-grid">
-              <div class="spec-item"><label>Cidade</label><div class="spec-value">São Paulo - SP</div></div>
-              <div class="spec-item" style="grid-column: span 2;"></div>
-              <div class="spec-item"><label>Ano</label><div class="spec-value" id="vYear">...</div></div>
-              <div class="spec-item"><label>KM</label><div class="spec-value" id="vKm">...</div></div>
-              <div class="spec-item"><label>Câmbio</label><div class="spec-value" id="vTrans">...</div></div>
-              <div class="spec-item"><label>Carroceria</label><div class="spec-value" id="vType">...</div></div>
-              <div class="spec-item"><label>Combustível</label><div class="spec-value" id="vFuel">...</div></div>
-              <div class="spec-item"><label>Cor</label><div class="spec-value" id="vColor">--</div></div>
-              <div class="spec-item"><label>Aceita troca</label><div class="spec-value">Sim</div></div>
-              <div class="spec-item"><label>Final de placa</label><div class="spec-value" id="vPlate">--</div></div>
+            <!-- Specs Grid -->
+            <div class="vd-specs-container">
+              <div class="vd-specs-grid">
+                <div class="spec-item">
+                  <label>Ano</label>
+                  <div class="spec-value" id="vYear">...</div>
+                </div>
+                <div class="spec-item">
+                  <label>KM</label>
+                  <div class="spec-value" id="vKm">...</div>
+                </div>
+                <div class="spec-item">
+                  <label>Câmbio</label>
+                  <div class="spec-value" id="vTrans">...</div>
+                </div>
+                <div class="spec-item">
+                  <label>Cor</label>
+                  <div class="spec-value" id="vColor">...</div>
+                </div>
+                <div class="spec-item">
+                  <label>Carroceria</label>
+                  <div class="spec-value" id="vType">...</div>
+                </div>
+                <div class="spec-item">
+                  <label>Combustível</label>
+                  <div class="spec-value" id="vFuel">...</div>
+                </div>
+                <div class="spec-item">
+                  <label>Troca</label>
+                  <div class="spec-value">Sim</div>
+                </div>
+                <div class="spec-item">
+                  <label>Placa</label>
+                  <div class="spec-value" id="vPlate">...</div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -173,9 +200,13 @@
               </a>
             </div>
             <div class="simulation-box">
-              <p>Simular financiamento</p>
+              <div class="simulation-header">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/></svg>
+                <span>Simulação de financiamento</span>
+              </div>
+              <div class="installment-label">Parcelas a partir de</div>
               <div class="installment-value" id="vInstallment">...</div>
-              <a href="#" class="sim-link">Ver parcelas detalhadas</a>
+              <a href="#" class="sim-link">Ver todas as opções de parcelamento</a>
             </div>
           </div>
           <div class="dealer-info-card">
