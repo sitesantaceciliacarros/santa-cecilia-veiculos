@@ -10,8 +10,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=101"/>
-  <link rel="stylesheet" href="veiculo.css?v=103"/>
+  <link rel="stylesheet" href="styles.css?v=104"/>
+  <link rel="stylesheet" href="veiculo.css?v=104"/>
   <script src="security.js"></script>
 </head>
 <body>
@@ -67,8 +67,14 @@
           <button class="gallery-fav-btn" aria-label="Favoritar">
             <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
           </button>
-          <!-- Counter oculto -->
+          <!-- Badge flutuante na galeria -->
+          <div class="gallery-badges" id="galleryBadges"></div>
+          <!-- Counter -->
           <div class="carousel-counter"><span id="currentIdx">1</span>/<span id="totalIdx">1</span></div>
+        </div>
+        <!-- Thumbnails Strip -->
+        <div class="carousel-thumbs" id="carouselThumbs">
+          <!-- Thumbnails via JS -->
         </div>
       </section>
 
@@ -148,24 +154,18 @@
             <p class="vd-description" id="vDesc">Carregando descrição...</p>
           </div>
 
-          <!-- Itens do veículo -->
-          <div class="vd-items-section">
+          <!-- Itens do veículo (pill-style com ícones) -->
+          <div class="vd-items-section anim-fade">
             <div class="section-header">
               <span class="section-label">Itens de veículo</span>
-              <span class="see-all">›</span>
             </div>
-            <ul class="vd-features-list" id="vFeatures">
-              <li>Ar-condicionado</li>
-              <li>Direção Elétrica</li>
-              <li>Central Multimídia</li>
-              <li>Câmera de Ré</li>
-              <li>Sensor Estacionamento</li>
-              <li>Rodas de Liga Leve</li>
-            </ul>
+            <div class="vd-features-pills" id="vFeatures">
+              <!-- Renderizado via JS -->
+            </div>
           </div>
 
-          <!-- Sobre o vendedor -->
-          <div class="vd-seller-section">
+          <!-- Sobre o vendedor (com selo verificado) -->
+          <div class="vd-seller-section anim-fade">
             <div class="section-label">Sobre o vendedor</div>
             <div class="seller-card">
               <div class="seller-avatar">
@@ -179,11 +179,45 @@
                 </div>
               </div>
             </div>
+            <!-- Selo Verificado + Reputação -->
+            <div class="seller-verified">
+              <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+              <span>Loja Verificada</span>
+            </div>
+            <div class="seller-reputation">
+              <div class="rep-stars">
+                <span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star filled">★</span><span class="star half">★</span>
+                <span class="rep-score">4.8</span>
+              </div>
+              <div class="rep-details">
+                <span>Membro desde 2020</span>
+                <span>•</span>
+                <span>98% avaliações positivas</span>
+              </div>
+            </div>
             <div class="seller-status">
               <span class="status-dot"></span>
               Fechado agora
             </div>
+          </div>
 
+          <!-- Barra Comparativa FIPE -->
+          <div class="vd-fipe-section anim-fade">
+            <div class="section-label">Comparativo de preço</div>
+            <div class="fipe-bar-container">
+              <div class="fipe-bar">
+                <div class="fipe-fill" id="fipeFill" style="width:50%"></div>
+                <div class="fipe-marker" id="fipeMarker" style="left:50%">
+                  <span class="fipe-marker-label" id="fipeMarkerLabel">R$ 0</span>
+                </div>
+              </div>
+              <div class="fipe-labels">
+                <span class="fipe-label-good">Ótimo preço</span>
+                <span class="fipe-label-avg">Na média</span>
+                <span class="fipe-label-high">Acima</span>
+              </div>
+            </div>
+            <p class="fipe-note">Comparação com base na tabela FIPE e anúncios similares.</p>
           </div>
 
         </div>
@@ -199,14 +233,33 @@
                 Estou interessado
               </a>
             </div>
+            <!-- Simulador de Parcelas Real -->
             <div class="simulation-box">
               <div class="simulation-header">
                 <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/></svg>
-                <span>Simulação de financiamento</span>
+                <span>Simule seu financiamento</span>
               </div>
-              <div class="installment-label">Parcelas a partir de</div>
-              <div class="installment-value" id="vInstallment">...</div>
-              <a href="#" class="sim-link">Ver todas as opções de parcelamento</a>
+              <div class="sim-form">
+                <div class="sim-field">
+                  <label>Entrada</label>
+                  <input type="text" id="simEntrada" placeholder="R$ 0" class="sim-input">
+                </div>
+                <div class="sim-field">
+                  <label>Parcelas</label>
+                  <select id="simParcelas" class="sim-input">
+                    <option value="12">12x</option>
+                    <option value="24">24x</option>
+                    <option value="36">36x</option>
+                    <option value="48" selected>48x</option>
+                    <option value="60">60x</option>
+                  </select>
+                </div>
+              </div>
+              <div class="sim-result">
+                <div class="installment-label">Parcela estimada</div>
+                <div class="installment-value" id="vInstallment">...</div>
+              </div>
+              <button class="sim-calculate-btn" id="simCalcBtn">Calcular parcelas</button>
             </div>
           </div>
           <div class="dealer-info-card">
@@ -243,6 +296,34 @@
       <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
     </button>
   </div>
+
+  <!-- Faixa de Categorias (Webmotors style) -->
+  <section class="categories-strip">
+    <div class="container">
+      <div class="cat-grid">
+        <a href="#" class="cat-card" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">
+          <span class="cat-icon">⚡</span>
+          <span class="cat-name">Elétricos</span>
+        </a>
+        <a href="#" class="cat-card" style="background:linear-gradient(135deg,#2d3436,#636e72)">
+          <span class="cat-icon">🚗</span>
+          <span class="cat-name">Hatches</span>
+        </a>
+        <a href="#" class="cat-card" style="background:linear-gradient(135deg,#0c3547,#1a5276)">
+          <span class="cat-icon">🛻</span>
+          <span class="cat-name">Pickups</span>
+        </a>
+        <a href="#" class="cat-card" style="background:linear-gradient(135deg,#1e272e,#485460)">
+          <span class="cat-icon">🚙</span>
+          <span class="cat-name">Sedãs</span>
+        </a>
+        <a href="#" class="cat-card" style="background:linear-gradient(135deg,#2c2c54,#474787)">
+          <span class="cat-icon">🏔️</span>
+          <span class="cat-name">SUVs</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <footer class="site-footer">
     <div class="container">
@@ -359,6 +440,6 @@
     </div>
   </div>
 
-  <script src="veiculo.js?v=6"></script>
+  <script src="veiculo.js?v=7"></script>
 </body>
 </html>

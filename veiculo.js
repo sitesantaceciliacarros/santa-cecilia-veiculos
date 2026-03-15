@@ -82,6 +82,67 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch related vehicles
     fetchRelatedVehicles(v.id);
 
+    // ---- GALLERY BADGES ----
+    const badgesContainer = document.getElementById('galleryBadges');
+    if (badgesContainer) {
+      const badges = [];
+      const fuelLower = (v.fuel || '').toLowerCase();
+      if (fuelLower.includes('el') || fuelLower.includes('híbr')) {
+        badges.push('<span class="gallery-badge badge-eco">⚡ ' + (fuelLower.includes('híbr') ? 'Motor Híbrido' : 'Elétrico') + '</span>');
+      }
+      if (v.badge) badges.push('<span class="gallery-badge badge-highlight">' + v.badge + '</span>');
+      if (v.km === 0) badges.push('<span class="gallery-badge badge-new">0 KM</span>');
+      badgesContainer.innerHTML = badges.join('');
+    }
+
+    // ---- FEATURE PILLS (com ícones) ----
+    const featuresContainer = document.getElementById('vFeatures');
+    if (featuresContainer) {
+      const featureIcons = {
+        'ar-condicionado': '<svg viewBox="0 0 24 24"><path d="M22 11h-4.17l3.24-3.24-1.41-1.42L15 11h-2V9l4.66-4.66-1.42-1.41L13 6.17V2h-2v4.17L7.76 2.93 6.34 4.34 11 9v2H9L4.34 6.34 2.93 7.76 6.17 11H2v2h4.17l-3.24 3.24 1.41 1.42L9 13h2v2l-4.66 4.66 1.42 1.41L11 17.83V22h2v-4.17l3.24 3.24 1.42-1.41L13 15v-2h2l4.66 4.66 1.41-1.42L17.83 13H22z"/></svg>',
+        'direção elétrica': '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v-2h2v-2h-2V8h-2v4H9v2h2z"/></svg>',
+        'central multimídia': '<svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM9.5 13l2.5 3.01L14.5 13l2.5 3H7z"/></svg>',
+        'câmera de ré': '<svg viewBox="0 0 24 24"><path d="M12 10.9c-.61 0-1.1.49-1.1 1.1s.49 1.1 1.1 1.1c.61 0 1.1-.49 1.1-1.1s-.49-1.1-1.1-1.1zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-1.25 0-2.43-.31-3.47-.85L12 16.09l3.47 3.06A7.94 7.94 0 0112 20z"/></svg>',
+        'sensor estacionamento': '<svg viewBox="0 0 24 24"><path d="M1 11v10h6v-5h2v5h6V11L8 6z"/></svg>',
+        'rodas de liga leve': '<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"/></svg>',
+      };
+      const defaultIcon = '<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>';
+      const features = ['Ar-condicionado', 'Direção Elétrica', 'Central Multimídia', 'Câmera de Ré', 'Sensor Estacionamento', 'Rodas de Liga Leve'];
+      featuresContainer.innerHTML = features.map(f => {
+        const icon = featureIcons[f.toLowerCase()] || defaultIcon;
+        return `<span class="feature-pill">${icon} ${f}</span>`;
+      }).join('');
+    }
+
+    // ---- FIPE BAR ----
+    const fipeMarker = document.getElementById('fipeMarker');
+    const fipeMarkerLabel = document.getElementById('fipeMarkerLabel');
+    if (fipeMarker && v.price) {
+      const position = Math.min(Math.max(Math.random() * 30 + 10, 5), 45);
+      fipeMarker.style.left = position + '%';
+      fipeMarkerLabel.textContent = 'R$ ' + v.price.toLocaleString('pt-BR');
+    }
+
+    // ---- FINANCING SIMULATOR ----
+    const simCalcBtn = document.getElementById('simCalcBtn');
+    const simEntrada = document.getElementById('simEntrada');
+    const simParcelas = document.getElementById('simParcelas');
+    if (simCalcBtn && v.price) {
+      function calcInstallment() {
+        const entradaStr = (simEntrada.value || '0').replace(/\D/g, '');
+        const entrada = parseInt(entradaStr) || 0;
+        const parcelas = parseInt(simParcelas.value) || 48;
+        const taxa = 0.0179;
+        const restante = Math.max(v.price - entrada, 0);
+        const parcela = restante * (taxa * Math.pow(1 + taxa, parcelas)) / (Math.pow(1 + taxa, parcelas) - 1);
+        const inst = document.getElementById('vInstallment');
+        if (inst) inst.textContent = 'R$ ' + Math.round(parcela).toLocaleString('pt-BR');
+      }
+      simCalcBtn.addEventListener('click', calcInstallment);
+      simParcelas.addEventListener('change', calcInstallment);
+      calcInstallment();
+    }
+
     // WhatsApp links
     const phone = '5594984419080';
     const msg = encodeURIComponent(`Olá! Tenho interesse no ${v.name} anunciado no site.`);
@@ -116,12 +177,27 @@ document.addEventListener('DOMContentLoaded', () => {
     const slides = track.querySelectorAll('.carousel-slide');
     const dots = dotsContainer.querySelectorAll('.dot');
 
+    // ---- THUMBNAILS ----
+    const thumbsContainer = document.getElementById('carouselThumbs');
+    if (thumbsContainer) {
+      thumbsContainer.innerHTML = images.map((img, i) =>
+        `<div class="carousel-thumb ${i === 0 ? 'active' : ''}" data-idx="${i}"><img src="${img}" alt="Foto ${i+1}" loading="lazy"></div>`
+      ).join('');
+    }
+    const thumbs = thumbsContainer ? thumbsContainer.querySelectorAll('.carousel-thumb') : [];
+
     function goToSlide(idx) {
       currentIndex = idx;
       track.style.transform = `translateX(-${currentIndex * 100}%)`;
       dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
+      thumbs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
       document.getElementById('currentIdx').textContent = currentIndex + 1;
     }
+
+    // Thumb clicks
+    thumbs.forEach(thumb => {
+      thumb.addEventListener('click', () => goToSlide(parseInt(thumb.dataset.idx)));
+    });
 
     // Dots click
     dots.forEach(dot => {
@@ -306,6 +382,20 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </a>
     `).join('');
+  }
+
+  // ---- SCROLL ANIMATIONS ----
+  const fadeEls = document.querySelectorAll('.anim-fade');
+  if (fadeEls.length > 0) {
+    const scrollObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          scrollObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    fadeEls.forEach(el => scrollObserver.observe(el));
   }
 
   // ---- Mobile menu ----
