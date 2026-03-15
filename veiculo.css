@@ -733,107 +733,105 @@ body {
 }
 
 /* =============================================
-   VITRINE DE RECOMENDADOS (Webmotors gabarito)
+   VITRINE DE RECOMENDADOS (Style Premium Gabarito)
    ============================================= */
 .vd-related-section {
-  padding: 40px 0;
-  border-top: 1px solid rgba(18, 38, 63, 0.04);
-  margin-top: 40px;
+  padding: 80px 0;
+  background-color: #f7f9fb; /* Fundo cinza suave */
+  border-top: 1px solid rgba(0,0,0,0.03);
+  margin-top: 60px;
 }
 .vd-related-section .section-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
   color: #12263f;
-  margin-bottom: 20px;
+  margin-bottom: 32px;
+  text-align: left;
 }
 
 .related-grid {
   display: flex;
   overflow-x: auto;
-  gap: 16px;
-  padding-bottom: 24px;
+  gap: 20px;
+  padding: 10px 4px 40px; /* Padding extra para a sombra não cortar */
   scroll-snap-type: x mandatory;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(18, 38, 63, 0.1) transparent;
-  flex-wrap: nowrap;
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
 }
+.related-grid::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
 
-.related-grid::-webkit-scrollbar {
-  height: 6px;
-}
-.related-grid::-webkit-scrollbar-track {
-  background: transparent;
-}
-.related-grid::-webkit-scrollbar-thumb {
-  background: rgba(18, 38, 63, 0.08);
-  border-radius: 10px;
-}
-
-/* Card Sugestão Compacto (style gabarito) */
+/* Card Sugestão Branco Elevado */
 .card-suggestion {
-  min-width: 210px;
+  min-width: 215px;
   flex: 0 0 auto;
   scroll-snap-align: start;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 20px;
   overflow: hidden;
-  border: 1px solid rgba(18, 38, 63, 0.05);
-  box-shadow: 0 2px 8px rgba(18, 38, 63, 0.02);
-  transition: all 0.3s ease;
+  border: 1px solid rgba(18, 38, 63, 0.04);
+  box-shadow: 0 10px 25px rgba(18, 38, 63, 0.05); /* Sombra suave 'pra cima' */
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   text-decoration: none;
   display: flex;
   flex-direction: column;
 }
 .card-suggestion:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(18, 38, 63, 0.05);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(18, 38, 63, 0.1);
+  border-color: rgba(18, 38, 63, 0.08);
 }
 
 .card-suggestion .cs-img {
   width: 100%;
   aspect-ratio: 4/3;
   overflow: hidden;
-  background: #f7f9fa;
+  background: #fff;
 }
 .card-suggestion .cs-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* Mantém proporção do carro */
+  padding: 10px;
+  transition: transform 0.6s ease;
 }
+.card-suggestion:hover .cs-img img { transform: scale(1.08); }
 
 .card-suggestion .cs-content {
-  padding: 12px;
+  padding: 20px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .card-suggestion .cs-title {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 900;
   color: #12263f;
   text-transform: uppercase;
-  margin-bottom: 2px;
-  line-height: 1.2;
+  margin-bottom: 4px;
 }
 .card-suggestion .cs-trim {
-  font-size: 10px;
+  font-size: 11px;
   color: #6e84a3;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  opacity: 0.8;
 }
 .card-suggestion .cs-price {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 900;
   color: #12263f;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+  letter-spacing: -0.5px;
 }
 .card-suggestion .cs-footer {
   display: flex;
   justify-content: space-between;
-  padding-top: 8px;
-  border-top: 1px solid rgba(18, 38, 63, 0.03);
-  font-size: 10px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(18, 38, 63, 0.04);
+  font-size: 11px;
   color: #6e84a3;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 /* Responsivo Sugestões */
