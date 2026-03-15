@@ -795,6 +795,7 @@
             font-size: 24px;
             letter-spacing: -0.01em;
             background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -935,6 +936,167 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(255, 255, 255, 0.2);
         }
+
+        /* ---------- CRM Kanban ---------- */
+        .crm-kanban-container {
+            margin-top: 20px;
+            overflow-x: auto;
+            padding-bottom: 20px;
+            height: calc(100vh - 200px);
+        }
+
+        .crm-board {
+            display: flex;
+            gap: 20px;
+            min-width: 1600px;
+            height: 100%;
+        }
+
+        .crm-column {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            min-width: 250px;
+            max-width: 280px;
+        }
+
+        .crm-column-header {
+            padding: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .crm-column-header h3 {
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .crm-column-header .count {
+            margin-left: auto;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .crm-column-header .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .dot.blue { background: #0066ff; box-shadow: 0 0 8px #0066ff; }
+        .dot.gray { background: #6e84a3; box-shadow: 0 0 8px #6e84a3; }
+        .dot.yellow { background: #ffcc00; box-shadow: 0 0 8px #ffcc00; }
+        .dot.orange { background: #ff9900; box-shadow: 0 0 8px #ff9900; }
+        .dot.green { background: #00c853; box-shadow: 0 0 8px #00c853; }
+        .dot.red { background: #e53935; box-shadow: 0 0 8px #e53935; }
+
+        .crm-cards-list {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* Lead Card */
+        .lead-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+
+        .lead-card:hover {
+            border-color: rgba(0, 102, 255, 0.3);
+            background: rgba(0, 102, 255, 0.04);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .lead-card .lead-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .lead-card .lead-info {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .lead-card .lead-tag {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--color-brand-blue);
+            background: rgba(0, 102, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        .lead-card .lead-actions {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lead-card .stage-select {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 11px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .lead-card .btn-wa-lead {
+            width: 28px;
+            height: 28px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+        .lead-card .btn-wa-lead:hover { transform: scale(1.1); }
+
+        .lead-card .lead-date {
+            font-size: 10px;
+            color: rgba(255,255,255,0.2);
+            position: absolute;
+            top: 16px;
+            right: 16px;
+        }
     </style>
 </head>
 
@@ -957,6 +1119,10 @@
             <a data-target="tab-motos">
                 <span class="nav-icon">🏍️</span>
                 <span>Motos</span>
+            </a>
+            <a data-target="tab-crm">
+                <span class="nav-icon">📋</span>
+                <span>CRM</span>
             </a>
             <div class="nav-spacer"></div>
             <a id="btnSair" class="nav-logout">
@@ -1079,6 +1245,56 @@
         </div>
 
 
+
+        <div id="tab-crm" class="tab-content">
+            <div class="admin-header">
+                <h1>Pipeline de <span>Leads (CRM)</span></h1>
+                <button class="btn-admin" onclick="loadLeads()">
+                    🔄 Atualizar
+                </button>
+            </div>
+
+            <div class="crm-kanban-container">
+                <div class="crm-board">
+                    <div class="crm-column" data-stage="lead">
+                        <div class="crm-column-header">
+                            <span class="dot blue"></span> <h3>LEAD</h3> <span class="count" id="count-lead">0</span>
+                        </div>
+                        <div class="crm-cards-list" id="list-lead"></div>
+                    </div>
+                    <div class="crm-column" data-stage="nao-qualificado">
+                        <div class="crm-column-header">
+                            <span class="dot gray"></span> <h3>NÃO QUALIFICADO</h3> <span class="count" id="count-nao-qualificado">0</span>
+                        </div>
+                        <div class="crm-cards-list" id="list-nao-qualificado"></div>
+                    </div>
+                    <div class="crm-column" data-stage="qualificado">
+                        <div class="crm-column-header">
+                            <span class="dot yellow"></span> <h3>QUALIFICADO</h3> <span class="count" id="count-qualificado">0</span>
+                        </div>
+                        <div class="crm-cards-list" id="list-qualificado"></div>
+                    </div>
+                    <div class="crm-column" data-stage="contato">
+                        <div class="crm-column-header">
+                            <span class="dot orange"></span> <h3>ENTREI EM CONTATO</h3> <span class="count" id="count-contato">0</span>
+                        </div>
+                        <div class="crm-cards-list" id="list-contato"></div>
+                    </div>
+                    <div class="crm-column" data-stage="compro">
+                        <div class="crm-column-header">
+                            <span class="dot green"></span> <h3>COMPRO</h3> <span class="count" id="count-compro">0</span>
+                        </div>
+                        <div class="crm-cards-list" id="list-compro"></div>
+                    </div>
+                    <div class="crm-column" data-stage="nao-compro">
+                        <div class="crm-column-header">
+                            <span class="dot red"></span> <h3>NÃO COMPRO</h3> <span class="count" id="count-nao-compro">0</span>
+                        </div>
+                        <div class="crm-cards-list" id="list-nao-compro"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- AGENTE IA TAB -->
 

@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       // Form submission
-      leadForm.addEventListener('submit', (e) => {
+      leadForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const nameInput = document.getElementById('leadName');
@@ -317,6 +317,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!nameInput || !phoneInput ) return;
 
+        // Collect data
+        const leadData = {
+          name: nameInput.value,
+          phone: phoneInput.value,
+          vehicle_type: vTypeChecked?.value || '--',
+          payment_method: payChecked?.value || '--',
+          when_buy: whenChecked?.value || '--',
+          has_trade: tradeChecked?.value || 'Não',
+          trade_details: tradeChecked?.value === 'Sim' ? (tradeDetails?.value || '') : '',
+          vehicle_interest: v.name,
+          stage: 'lead'
+        };
+
+        // Save to Supabase (Background)
+        if (window.sb) {
+          window.sb.from('leads').insert([leadData]).then(({ error }) => {
+            if (error) console.error("❌ Erro ao salvar lead no Supabase:", error.message);
+            else console.log("✅ Lead salvo no CRM com sucesso.");
+          });
+        }
+        
         // UI Feedback: Show Success State
         const formHeader = document.querySelector('.modal-header-form');
         const successHeader = document.querySelector('.modal-header-success');
@@ -326,17 +347,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (successHeader) successHeader.style.display = 'block';
 
         const fullMsg = `📋 *Formulário de Interesse*\n\n` +
-                        `🚗 *Veículo:* ${v.name}\n` +
-                        `👤 *Nome:* ${nameInput.value}\n` +
-                        `📱 *Zap:* ${phoneInput.value}\n` +
-                        `🔹 *Tipo:* ${vTypeChecked?.value || '--'}\n` +
-                        `💰 *Pagamento:* ${payChecked?.value || '--'}\n` +
-                        `📅 *Quando:* ${whenChecked?.value || '--'}\n` +
-                        `🔄 *Troca:* ${tradeChecked?.value || 'Não'}${tradeChecked?.value === 'Sim' ? ' (' + tradeDetails.value + ')' : ''}`;
+                        `🚗 *Veículo:* ${leadData.vehicle_interest}\n` +
+                        `👤 *Nome:* ${leadData.name}\n` +
+                        `📱 *Zap:* ${leadData.phone}\n` +
+                        `🔹 *Tipo:* ${leadData.vehicle_type}\n` +
+                        `💰 *Pagamento:* ${leadData.payment_method}\n` +
+                        `📅 *Quando:* ${leadData.when_buy}\n` +
+                        `🔄 *Troca:* ${leadData.has_trade}${leadData.has_trade === 'Sim' ? ' (' + leadData.trade_details + ')' : ''}`;
 
         const waCleanPhone = '5594984419080'; 
         
-        // Wait 1.5 seconds then redirect (Using location.assign is more mobile-friendly for auto-redirects)
+        // Wait 1.5 seconds then redirect
         setTimeout(() => {
           const waFinalUrl = `https://wa.me/${waCleanPhone}?text=${encodeURIComponent(fullMsg)}`;
           

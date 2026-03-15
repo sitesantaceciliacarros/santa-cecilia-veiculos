@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   let motosList = [];
 
   async function loadInventories() {
-    // Loading states
+    // ... Carros/Motos loading logic (kept same as original)
     vehicleTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">Carregando...</td></tr>';
     motosTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; color: rgba(255,255,255,0.3); padding: 40px;">Carregando...</td></tr>';
 
@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
     
-    // Split the data. If category is 'moto' (case insensitive), goes to Motos tab.
     vehiclesList = allVehicles.filter(v => (v.type || '').toLowerCase() !== 'moto');
     motosList = allVehicles.filter(v => (v.type || '').toLowerCase() === 'moto');
 
@@ -82,6 +81,110 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateStats(vehiclesList, 'statTotal', 'statAvgPrice', 'statLastAdded');
     updateStats(motosList, 'statTotalMotos', 'statAvgPriceMotos', 'statLastAddedMotos');
   }
+
+  // ---- CRM LOGIC ----
+  const stageLists = {
+    'lead': document.getElementById('list-lead'),
+    'nao-qualificado': document.getElementById('list-nao-qualificado'),
+    'qualificado': document.getElementById('list-qualificado'),
+    'contato': document.getElementById('list-contato'),
+    'compro': document.getElementById('list-compro'),
+    'nao-compro': document.getElementById('list-nao-compro')
+  };
+
+  const stageCounts = {
+    'lead': document.getElementById('count-lead'),
+    'nao-qualificado': document.getElementById('count-nao-qualificado'),
+    'qualificado': document.getElementById('count-qualificado'),
+    'contato': document.getElementById('count-contato'),
+    'compro': document.getElementById('count-compro'),
+    'nao-compro': document.getElementById('count-nao-compro')
+  };
+
+  async function loadLeads() {
+    // Clear lists
+    Object.values(stageLists).forEach(list => { if(list) list.innerHTML = '<div style="text-align:center; padding:20px; color:rgba(255,255,255,0.1);">Carregando...</div>'; });
+
+    const { data: leads, error } = await supabase.from('leads').select('*').order('created_at', { ascending: false });
+
+    if (error) {
+      showToast("Erro ao carregar leads: " + error.message, 'error');
+      return;
+    }
+
+    // Clear loading states
+    Object.values(stageLists).forEach(list => { if(list) list.innerHTML = ''; });
+
+    const counts = { 'lead':0, 'nao-qualificado':0, 'qualificado':0, 'contato':0, 'compro':0, 'nao-compro':0 };
+
+    leads.forEach(lead => {
+      const stage = lead.stage || 'lead';
+      const listEl = stageLists[stage];
+      if (listEl) {
+        listEl.innerHTML += renderLeadCard(lead);
+        counts[stage]++;
+      }
+    });
+
+    // Update counts
+    Object.keys(stageCounts).forEach(s => { if(stageCounts[s]) stageCounts[s].textContent = counts[s]; });
+  }
+  window.loadLeads = loadLeads;
+
+  function renderLeadCard(lead) {
+    const date = new Date(lead.created_at).toLocaleDateString('pt-BR');
+    const waPhone = (lead.phone || '').replace(/\D/g, '');
+    const waLink = `https://wa.me/55${waPhone}`;
+
+    return `
+      <div class="lead-card">
+        <div class="lead-date">${date}</div>
+        <div class="lead-name">${lead.name}</div>
+        <div class="lead-info">
+          <span>📞 ${lead.phone}</span>
+          ${lead.vehicle_interest ? `<span class="lead-tag">🚗 ${lead.vehicle_interest}</span>` : ''}
+          <div style="margin-top:8px; opacity:0.8; font-style:italic;">"${lead.payment_method} · ${lead.when_buy}"</div>
+        </div>
+        <div class="lead-actions">
+          <select class="stage-select" onchange="updateLeadStage('${lead.id}', this.value)">
+            <option value="lead" ${lead.stage === 'lead' ? 'selected' : ''}>LEAD</option>
+            <option value="nao-qualificado" ${lead.stage === 'nao-qualificado' ? 'selected' : ''}>NÃO QUALIF.</option>
+            <option value="qualificado" ${lead.stage === 'qualificado' ? 'selected' : ''}>QUALIFICADO</option>
+            <option value="contato" ${lead.stage === 'contato' ? 'selected' : ''}>CONTATO</option>
+            <option value="compro" ${lead.stage === 'compro' ? 'selected' : ''}>COMPRO</option>
+            <option value="nao-compro" ${lead.stage === 'nao-compro' ? 'selected' : ''}>NÃO COMPRO</option>
+          </select>
+          <a href="${waLink}" target="_blank" class="btn-wa-lead" title="Abrir WhatsApp">
+             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.431 5.63 1.432h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  async function updateLeadStage(id, newStage) {
+    const { error } = await supabase.from('leads').update({ stage: newStage }).eq('id', id);
+    if (error) {
+      showToast("Erro ao mover lead: " + error.message, 'error');
+    } else {
+      showToast("Lead movido com sucesso!");
+      loadLeads(); // Refresh board
+    }
+  }
+  window.updateLeadStage = updateLeadStage;
+
+  // Modify Tab Click to support CRM loading
+  document.querySelectorAll('nav.admin-nav a[data-target]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const target = link.dataset.target;
+      document.querySelectorAll('nav.admin-nav a').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+      document.getElementById(target).classList.add('active');
+      
+      if (target === 'tab-crm') loadLeads();
+    });
+  });
 
   function renderTable(container, list, emptyMsg) {
     if (list.length === 0) {
@@ -126,6 +229,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   await loadInventories();
+
+  // Load leads if we start on CRM tab (unlikely but safe)
+  if (document.querySelector('nav.admin-nav a.active').dataset.target === 'tab-crm') {
+    loadLeads();
+  }
+
+  // .... (rest of existing modal logic kept the same) ....
 
   // ---- SEARCH LOGIC ----
   const setupSearch = (inputId, tableBody) => {
