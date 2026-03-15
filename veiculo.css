@@ -237,6 +237,11 @@ body {
   border-radius: 20px;
   border: 1px solid rgba(18, 38, 63, 0.04);
 }
+.vd-price-inline .price-wrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
 .vd-price-inline .main-price {
   font-size: 44px;
   font-weight: 900;
@@ -245,10 +250,9 @@ body {
   letter-spacing: -1.5px;
 }
 .vd-price-inline .price-label {
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 800;
   color: #6e84a3;
-  margin-right: 4px;
 }
 /* Pílula Azul */
 .vd-price-inline .btn-ver-parcelas {
