@@ -749,14 +749,20 @@ body {
 }
 
 .related-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  overflow-x: auto;
   gap: 16px;
   padding: 10px 0 30px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
+.related-grid::-webkit-scrollbar { display: none; }
 
 /* Card Sugestão - Tamanho Webmotors */
 .card-suggestion {
+  flex: 0 0 calc(20% - 13px); /* Exatamente 1/5 da largura, descontando o gap */
+  scroll-snap-align: start;
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
