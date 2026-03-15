@@ -749,21 +749,14 @@ body {
 }
 
 .related-grid {
-  display: flex;
-  overflow-x: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 16px;
-  padding: 10px 4px 30px;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding: 10px 0 30px;
 }
-.related-grid::-webkit-scrollbar { display: none; }
 
-/* Card Sugestão Branco Elevado - Ultra Compacto */
+/* Card Sugestão - Tamanho Webmotors */
 .card-suggestion {
-  min-width: 205px;
-  flex: 0 0 auto;
-  scroll-snap-align: start;
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
@@ -844,5 +837,5 @@ body {
     scrollbar-width: none;
   }
   .related-grid::-webkit-scrollbar { display: none; }
-  .card-suggestion { min-width: 220px; scroll-snap-align: start; }
+  .card-suggestion { min-width: 220px; scroll-snap-align: start; flex: 0 0 auto; }
 }
