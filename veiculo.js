@@ -137,8 +137,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const waUrl = `https://wa.me/${phone}?text=${msg}`;
     const btnWA = document.getElementById('btnWhatsapp');
     if (btnWA) btnWA.href = waUrl;
-    const mabWA = document.getElementById('mabWhatsapp');
-    if (mabWA) mabWA.href = waUrl;
+    const mabContact = document.getElementById('mabContact');
+    if (mabContact) mabContact.href = waUrl;
 
     // ---- CAROUSEL ----
     const track = document.getElementById('carouselTrack');
