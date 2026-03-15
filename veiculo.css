@@ -749,13 +749,34 @@ body {
 }
 
 .related-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  overflow-x: auto;
   gap: 24px;
+  padding-bottom: 24px;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(18, 38, 63, 0.1) transparent;
+}
+
+.related-grid::-webkit-scrollbar {
+  height: 6px;
+}
+.related-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+.related-grid::-webkit-scrollbar-thumb {
+  background: rgba(18, 38, 63, 0.1);
+  border-radius: 10px;
+}
+.related-grid::-webkit-scrollbar-thumb:hover {
+  background: rgba(18, 38, 63, 0.2);
 }
 
 /* Card Sugestão Style */
 .card-suggestion {
+  min-width: 280px;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
   background: #fff;
   border-radius: 16px;
   overflow: hidden;
@@ -832,24 +853,11 @@ body {
 }
 
 /* Responsivo Sugestões */
-@media (max-width: 1024px) {
-  .related-grid { grid-template-columns: repeat(3, 1fr); }
-}
 @media (max-width: 768px) {
   .vd-related-section { padding: 40px 20px; overflow: hidden; }
   .related-grid {
-    display: flex;
-    overflow-x: auto;
-    padding-bottom: 20px;
     margin: 0 -20px;
     padding-left: 20px;
-    gap: 16px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-  }
-  .related-grid::-webkit-scrollbar { display: none; }
-  .card-suggestion {
-    min-width: 280px;
-    scroll-snap-align: start;
+    padding-right: 20px;
   }
 }
