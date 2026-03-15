@@ -138,71 +138,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnWA = document.getElementById('btnWhatsapp');
     if (btnWA) btnWA.href = waUrl;
 
-    // ---- CONTACT MODAL ----
-    const modalOverlay = document.getElementById('contactModalOverlay');
-    const modalClose = document.getElementById('contactModalClose');
-    const contactForm = document.getElementById('contactForm');
-    const contactSubtitle = document.getElementById('contactModalSubtitle');
+    // ---- OPEN LEAD MODAL FROM BUTTONS ----
     const mabContact = document.getElementById('mabContact');
 
-    if (contactSubtitle) {
-      contactSubtitle.textContent = `sobre o ${v.name}`;
-    }
-    // Pre-fill message
-    const msgField = document.getElementById('contactMessage');
-    if (msgField) {
-      msgField.value = `Olá! Tenho interesse no ${v.name} anunciado no site.`;
-    }
-
-    function openModal(e) {
+    function openLeadModal(e) {
       if (e) e.preventDefault();
-      if (modalOverlay) modalOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModal() {
-      if (modalOverlay) modalOverlay.classList.remove('active');
-      document.body.style.overflow = '';
+      const lm = document.getElementById('leadModal');
+      if (lm) {
+        lm.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+      }
     }
 
+    // Mobile "Enviar mensagem" button
     if (mabContact) {
-      mabContact.addEventListener('click', openModal);
+      mabContact.addEventListener('click', openLeadModal);
     }
-    // Desktop "Estou interessado" button also opens the modal
+    // Desktop "Estou interessado" button
     if (btnWA) {
       btnWA.removeAttribute('href');
-      btnWA.addEventListener('click', openModal);
-    }
-    if (modalClose) modalClose.addEventListener('click', closeModal);
-    if (modalOverlay) {
-      modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) closeModal();
-      });
-    }
-
-    if (contactForm) {
-      contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('contactName').value.trim();
-        const userPhone = document.getElementById('contactPhone').value.trim();
-        const userMsg = document.getElementById('contactMessage').value.trim();
-
-        const fullMsg = encodeURIComponent(
-          `Olá! Meu nome é ${name}.` +
-          (userPhone ? ` Meu telefone: ${userPhone}.` : '') +
-          (userMsg ? `\n\n${userMsg}` : `\n\nTenho interesse no ${v.name} anunciado no site.`)
-        );
-        const submitBtn = document.getElementById('contactSubmitBtn');
-        submitBtn.textContent = '✓ Enviando...';
-        submitBtn.classList.add('success');
-
-        setTimeout(() => {
-          window.open(`https://wa.me/${phone}?text=${fullMsg}`, '_blank');
-          closeModal();
-          // Reset
-          submitBtn.textContent = 'Enviar mensagem';
-          submitBtn.classList.remove('success');
-        }, 600);
-      });
+      btnWA.addEventListener('click', openLeadModal);
     }
 
     // ---- CAROUSEL ----
