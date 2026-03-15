@@ -586,12 +586,14 @@ body {
 }
 .mab-whatsapp {
   flex: 1;
-  background: var(--color-brand-red, #e53935);
+  width: 100%;
+  background-color: #e53935 !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
+  border-radius: 100px !important;
+  box-shadow: 0 6px 16px rgba(229, 57, 53, 0.3) !important;
   justify-content: center;
 }
-.mab-whatsapp:hover { background: #c62828; }
+.mab-whatsapp:hover { background-color: #c62828 !important; }
 
 /* =============================================
    RESPONSIVO — MOBILE (max 900px)
