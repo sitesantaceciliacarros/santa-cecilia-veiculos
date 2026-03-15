@@ -65,11 +65,16 @@ body {
   gap: 0;
 }
 .carousel-slide {
+  position: relative;
   min-width: 100%;
+  width: 100%;
   height: 100%;
   flex-shrink: 0;
 }
 .carousel-slide img {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -579,25 +584,12 @@ body {
   transition: all 0.2s;
   padding: 0 12px;
 }
-.mab-parcelas {
-  flex: 1;
-  background: #fff;
-  color: #12263f;
-  border: 1px solid #edf1f5 !important;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-}
-.mab-phone {
-  width: 52px; height: 52px;
-  background: #f7f9fa;
-  flex-shrink: 0;
-  border: 1px solid #edf1f5;
-}
-.mab-phone svg { width: 22px; height: 22px; fill: #12263f; }
 .mab-whatsapp {
   flex: 1;
   background: var(--color-brand-red, #e53935);
   color: #fff;
   box-shadow: 0 4px 12px rgba(229, 57, 53, 0.2);
+  justify-content: center;
 }
 .mab-whatsapp:hover { background: #c62828; }
 
