@@ -193,15 +193,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     return `
       <div class="lead-card ${isNew ? 'new-pulse' : ''}" data-id="${lead.id}">
         <div class="lead-date">
-          <span>📅 ${new Date(lead.created_at).toLocaleDateString('pt-BR')}</span>
-          <span>${timeAgo}</span>
+          <span style="opacity: 0.6;">#${lead.id.toString().slice(-4)}</span>
+          <span style="color: var(--color-brand-blue); font-weight: 800;">${timeAgo}</span>
         </div>
         <div class="lead-name">${lead.name}</div>
         <div class="lead-info">
-          <a href="tel:${lead.phone}" style="color:inherit; text-decoration:none;">📞 ${lead.phone}</a>
-          ${lead.vehicle_interest ? `<div class="lead-tag">🚗 ${lead.vehicle_interest}</div>` : ''}
-          <div style="margin-top:8px; font-size:11px; color:rgba(255,255,255,0.4); border-top:1px solid rgba(255,255,255,0.05); padding-top:8px;">
-            ${lead.payment_method} • ${lead.when_buy}
+          <a href="tel:${lead.phone}" style="color:rgba(255,255,255,0.7); text-decoration:none; display:flex; align-items:center; gap:6px;">
+            <span style="opacity:0.5;">📞</span> ${lead.phone}
+          </a>
+          ${lead.vehicle_interest ? `<div class="lead-tag"><span>🚗</span> ${lead.vehicle_interest}</div>` : ''}
+          <div style="margin-top:10px; font-size:10px; font-weight:700; color:rgba(255,255,255,0.3); border-top:1px solid rgba(255,255,255,0.03); padding-top:10px; display:flex; justify-content:space-between;">
+             <div>${lead.payment_method.toUpperCase()}</div>
+             <div style="color:rgba(255,255,255,0.5);">${lead.when_buy.toUpperCase()}</div>
           </div>
         </div>
         <div class="lead-actions">
@@ -220,6 +223,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       </div>
     `;
   }
+
 
   async function updateLeadStage(id, newStage) {
     const { error } = await supabase.from('leads').update({ stage: newStage }).eq('id', id);
