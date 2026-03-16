@@ -131,6 +131,10 @@
             padding: 40px 48px;
             min-height: 100vh;
             background: #080816;
+            min-width: 0; /* CRITICAL: Allows flex child to shrink/overflow */
+            overflow-x: hidden; /* Prevent main page from scrolling horizontally */
+            display: flex;
+            flex-direction: column;
         }
 
         /* ---------- Header Bar ---------- */
@@ -940,39 +944,44 @@
         /* ---------- CRM Kanban ---------- */
         .crm-kanban-container {
             margin-top: 20px;
-            overflow-x: auto;
+            overflow-x: auto !important;
             overflow-y: hidden;
-            padding-bottom: 24px; /* Space for scrollbar */
-            height: calc(100vh - 220px);
+            padding-bottom: 30px; 
+            height: calc(100vh - 200px);
             width: 100%;
+            display: block;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+            scrollbar-width: auto; /* Make it more obvious */
+            scrollbar-color: rgba(255, 255, 255, 0.3) rgba(255, 255, 255, 0.05);
         }
 
         .crm-kanban-container::-webkit-scrollbar {
-            height: 10px;
+            height: 12px;
+            display: block !important;
+        }
+
+        .crm-kanban-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
         }
 
         .crm-kanban-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
-            border: 2px solid transparent;
-            background-clip: content-box;
+            border: 3px solid #080816;
         }
 
         .crm-kanban-container::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
-            background-clip: content-box;
+            background: var(--color-brand-blue);
         }
 
         .crm-board {
             display: flex;
             gap: 20px;
-            padding-bottom: 10px;
-            padding-right: 400px; /* SPACE FOR NEW STAGES & OVERSCROLL */
-            min-width: fit-content;
-            height: 100%;
+            padding: 10px 0 20px 0;
+            padding-right: 100px; /* Space for end */
+            width: max-content; /* Force board to be as wide as its columns */
+            min-height: 100%;
         }
 
         .crm-column {
@@ -1473,40 +1482,48 @@
     <div id="toastContainer" class="toast-container"></div>
     <script src="admin.js"></script>
     <script>
-        // Drag-to-Scroll for CRM (Enhanced)
+        // Drag-to-Scroll for CRM (Pro Version)
         const container = document.querySelector('.crm-kanban-container');
         let isDown = false;
         let startX;
         let scrollLeft;
 
-        // Use a more global approach to mouse move/up
         container.addEventListener('mousedown', (e) => {
-            // Only trigger if middle click or left click on the background/columns (not interactive elements)
-            if (e.target.closest('.lead-card') || e.target.closest('select') || e.target.closest('a') || e.target.closest('button')) return;
+            // Permitir arrastar clicando em qualquer lugar exceto links, selects ou botões
+            if (e.target.closest('select') || e.target.closest('a') || e.target.closest('button')) return;
             
             isDown = true;
             container.style.cursor = 'grabbing';
+            // Ajuste para pegar a posição correta mesmo com scroll
             startX = e.pageX - container.offsetLeft;
             scrollLeft = container.scrollLeft;
+            
+            // Previne seleção de texto chata durante o arraste
+            document.body.style.userSelect = 'none';
         });
 
         window.addEventListener('mouseup', () => {
             if (!isDown) return;
             isDown = false;
             container.style.cursor = 'grab';
+            document.body.style.userSelect = 'auto';
         });
 
         window.addEventListener('mousemove', (e) => {
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - container.offsetLeft;
-            const walk = (x - startX) * 1.5; // Adjusted sensitivity
+            // Velocidade 2x para um arraste mais ágil
+            const walk = (x - startX) * 2; 
             container.scrollLeft = scrollLeft - walk;
         });
 
-        // Prevent standard drag behavior on images/links within the container
-        container.addEventListener('dragstart', (e) => {
-            if (e.target.tagName === 'IMG' || e.target.tagName === 'A') e.preventDefault();
+        // Garantir que o scroll lateral funcione com a roda do mouse (Shift + Scroll)
+        container.addEventListener('wheel', (e) => {
+            if (e.deltaY !== 0 && !e.shiftKey) {
+                // Se o usuário tentar scroll vertical dentro do CRM, rola lateral
+                container.scrollLeft += e.deltaY;
+            }
         });
     </script>
 </body>
