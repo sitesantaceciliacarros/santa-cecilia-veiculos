@@ -1293,6 +1293,37 @@
                 </button>
             </div>
 
+            <div class="crm-header-tools">
+                <div class="crm-stats-row">
+                    <div class="crm-stat-card">
+                        <div class="crm-stat-icon">👥</div>
+                        <div class="crm-stat-info">
+                            <label>Total de Leads</label>
+                            <span id="crm-stat-total">0</span>
+                        </div>
+                    </div>
+                    <div class="crm-stat-card">
+                        <div class="crm-stat-icon">✨</div>
+                        <div class="crm-stat-info">
+                            <label>Novos Hoje</label>
+                            <span id="crm-stat-today">0</span>
+                        </div>
+                    </div>
+                    <div class="crm-stat-card">
+                        <div class="crm-stat-icon" style="background: rgba(255, 152, 0, 0.1); color: #ff9800;">⏳</div>
+                        <div class="crm-stat-info">
+                            <label>Aguardando</label>
+                            <span id="crm-stat-pending">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="crm-search-bar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="crmSearchInput" placeholder="Buscar por nome ou telefone..." oninput="handleCrmSearch(this.value)">
+                </div>
+            </div>
+
             <div class="crm-kanban-container">
                 <div class="crm-board">
                     <div class="crm-column" data-stage="lead">
