@@ -970,7 +970,8 @@
             display: flex;
             gap: 20px;
             padding-bottom: 10px;
-            min-width: fit-content; /* Allow columns to set width */
+            padding-right: 400px; /* SPACE FOR NEW STAGES & OVERSCROLL */
+            min-width: fit-content;
             height: 100%;
         }
 
@@ -1321,6 +1322,14 @@
                         </div>
                         <div class="crm-cards-list" id="list-nao-compro"></div>
                     </div>
+
+                    <!-- Placeholder: NOVA ETAPA -->
+                    <div class="crm-column placeholder" style="opacity: 0.3; border: 2px dashed rgba(255,255,255,0.1); background: transparent; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="showToast('Em breve: Personalização de Etapas', 'info')">
+                        <div style="text-align: center;">
+                            <span style="font-size: 24px; display: block; margin-bottom: 10px;">➕</span>
+                            <span style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;">Nova Etapa</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1464,31 +1473,40 @@
     <div id="toastContainer" class="toast-container"></div>
     <script src="admin.js"></script>
     <script>
-        // Drag-to-Scroll for CRM
+        // Drag-to-Scroll for CRM (Enhanced)
         const container = document.querySelector('.crm-kanban-container');
         let isDown = false;
         let startX;
         let scrollLeft;
 
+        // Use a more global approach to mouse move/up
         container.addEventListener('mousedown', (e) => {
-            if (e.target.closest('.lead-card') || e.target.closest('select') || e.target.closest('a')) return;
+            // Only trigger if middle click or left click on the background/columns (not interactive elements)
+            if (e.target.closest('.lead-card') || e.target.closest('select') || e.target.closest('a') || e.target.closest('button')) return;
+            
             isDown = true;
-            container.classList.add('active');
+            container.style.cursor = 'grabbing';
             startX = e.pageX - container.offsetLeft;
             scrollLeft = container.scrollLeft;
         });
-        container.addEventListener('mouseleave', () => {
+
+        window.addEventListener('mouseup', () => {
+            if (!isDown) return;
             isDown = false;
+            container.style.cursor = 'grab';
         });
-        container.addEventListener('mouseup', () => {
-            isDown = false;
-        });
-        container.addEventListener('mousemove', (e) => {
+
+        window.addEventListener('mousemove', (e) => {
             if (!isDown) return;
             e.preventDefault();
             const x = e.pageX - container.offsetLeft;
-            const walk = (x - startX) * 2; // Scroll speed
+            const walk = (x - startX) * 1.5; // Adjusted sensitivity
             container.scrollLeft = scrollLeft - walk;
+        });
+
+        // Prevent standard drag behavior on images/links within the container
+        container.addEventListener('dragstart', (e) => {
+            if (e.target.tagName === 'IMG' || e.target.tagName === 'A') e.preventDefault();
         });
     </script>
 </body>
